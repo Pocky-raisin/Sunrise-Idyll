@@ -38,14 +38,6 @@ namespace Sunrise
             if (self.TryGetLamp(out var data))
             {
                 //Warmth interactions
-                if (data.Warm)
-                {
-                    self.Hypothermia -= Mathf.Lerp(0.0003f, 0f, self.HypothermiaExposure);
-                    if (self.Hypothermia < 0f)
-                    {
-                        self.Hypothermia = 0f;
-                    }
-                }
 
                 if (self.firstChunk.submersion > 0.25f)
                 {
@@ -58,14 +50,7 @@ namespace Sunrise
                 {
                     data.Warm = false;
 
-                    if (self.HypothermiaGain > 0)
-                    {
-                        self.HypothermiaGain *= 1.2f;
-                    }
-                    else
-                    {
-                        self.HypothermiaGain *= 0.8f;
-                    }
+                    
 
                     float shiver = Mathf.Min(2f, data.SoakCounter / 5);
 
@@ -73,11 +58,6 @@ namespace Sunrise
                     {
                         (self.graphicsModule as PlayerGraphics).head.vel += Custom.RNV() * (shiver * 0.75f); // Head shivers
                         self.Blink(5);
-                    }
-
-                    if (self.Hypothermia > 1f)
-                    {
-                        self.Die();
                     }
 
                     data.SoakCounter--;
