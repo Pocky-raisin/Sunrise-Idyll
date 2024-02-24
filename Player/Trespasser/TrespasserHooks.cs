@@ -3,14 +3,14 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using BepInEx;
 using UnityEngine;
-using Sunrise;
+using SunriseIdyll;
 using RWCustom;
 using MonoMod.Cil;
 using MonoMod;
 using MoreSlugcats;
 
 
-namespace Sunrise
+namespace SunriseIdyll
 {
     public static class TrespasserHooks
     {
@@ -25,8 +25,10 @@ namespace Sunrise
         
         public static bool IsTrespasser(this Player pl)
         {
-            return pl.SlugCatClass.value == "GlideScug";
+            return pl.SlugCatClass.value == "IDYLL.GlideScug";
         }
+
+        public static readonly SlugcatStats.Name TrespasserName = new SlugcatStats.Name("IDYLL.GlideScug", false);
 
         public static void ThrowObject(On.Player.orig_ThrowObject orig, Player self, int g, bool e)
         {

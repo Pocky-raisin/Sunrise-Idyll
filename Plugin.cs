@@ -4,7 +4,7 @@ using UnityEngine;
 using SlugBase.Features;
 using static SlugBase.Features.FeatureTypes;
 
-namespace Sunrise
+namespace SunriseIdyll
 {
     [BepInPlugin(MOD_ID, "Sunrise Idyll", "0.1.0")]
     class Plugin : BaseUnityPlugin
@@ -18,7 +18,10 @@ namespace Sunrise
             TrespasserHooks.ApplyHooks();
             LampGraphics.ApplyHooks();
             LampHooks.ApplyHooks();
-
+            WorldStateHooks.ApplyHooks();
+            FireCatsHooks.ApplyHooks();
+            ChandlerHooks.ApplyHooks();
+            ImperishableHooks.ApplyHooks();
             WorldThings.ApplyHooks();
 
             // Put your custom hooks here!

@@ -3,12 +3,12 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using BepInEx;
 using UnityEngine;
-using Sunrise;
+using SunriseIdyll;
 using MonoMod.RuntimeDetour;
 using System.Reflection;
 
 
-namespace Sunrise
+namespace SunriseIdyll
 {
     public static class WorldThings
     {

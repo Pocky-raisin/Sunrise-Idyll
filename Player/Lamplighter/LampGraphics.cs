@@ -3,14 +3,14 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using BepInEx;
 using UnityEngine;
-using Sunrise;
+using SunriseIdyll;
 using MonoMod.Cil;
 using Mono.Cecil.Cil;
 using System.Linq;
 using IL.Menu.Remix;
 
 
-namespace Sunrise
+namespace SunriseIdyll
 {
     public static class LampGraphics
     {
