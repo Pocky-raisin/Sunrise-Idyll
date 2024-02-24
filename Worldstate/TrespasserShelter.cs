@@ -3,10 +3,10 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using BepInEx;
 using UnityEngine;
-using Sunrise;
+using SunriseIdyll;
 
 
-namespace Sunrise
+namespace SunriseIdyll
 {
     public static class TrespasserShelter
     {

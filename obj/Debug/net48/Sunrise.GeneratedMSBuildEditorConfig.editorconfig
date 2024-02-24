@@ -1,5 +1,3 @@
 is_global = true
 build_property.RootNamespace = Sunrise
-build_property.ProjectDir = C:\Program Files (x86)\Steam\steamapps\common\Rain World\RainWorld_Data\StreamingAssets\mods\sunriseidyll\src\
-build_property.EnableComHosting = 
-build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.ProjectDir = C:\Users\CalderJosephHilliard\Source\Repos\Sunrise-Idyll\

@@ -1,5 +1,5 @@
 {
-  "id": "LampScug",
+  "id": "IDYLL.LampScug",
   "name": "The Lamplighter",
   "description": "WIP",
   "features": {
@@ -36,7 +36,7 @@
     "food_max": 12,
     "select_menu_scene": "Select_Prototype",
     "select_menu_scene_ascended": "Ghost_Prototype",
-    "world_state": [ "LampScug", "Saint" ],
+    "world_state": [ "IDYLL.LampScug", "Saint" ],
     "expedition_description": "WIP"
   }
 }
