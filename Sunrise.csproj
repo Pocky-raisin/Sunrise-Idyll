@@ -11,6 +11,13 @@
         </Reference>
     </ItemGroup>
     
+    <ItemGroup>
+      <Compile Remove="Creatures-Objects\**" />
+      <EmbeddedResource Remove="Creatures-Objects\**" />
+      <None Remove="Creatures-Objects\**" />
+      <Reference Remove="Creatures-Objects\**" />
+    </ItemGroup>
+    
     <Target Name="GenerateMod" AfterTargets="PostBuildEvent">
 		<ItemGroup>
 			<RemovePlugins Include="../mod/plugins/*.dll" />

@@ -21,8 +21,7 @@ namespace Sunrise
             IL.Player.GrabUpdate += IL_GrabUpdate;
             On.Player.SpitUpCraftedObject += SpitUpCraftedObject;
 
-            On.Player.TerrainImpact += TerrainImpact;
-            On.Player.SlugSlamConditions += SlugSlamConditions;
+            On.Player.ThrownSpear += ThrownSpear;
             On.Player.Update += Update;
         }
 
@@ -36,23 +35,17 @@ namespace Sunrise
         {
             orig(self, e);
 
-            //add goolantern check
-
-
             if (self.TryGetLamp(out var data))
             {
                 //Warmth interactions
-                //implement soaking
-
                 if (data.Warm)
                 {
-                    self.Hypothermia -= 0.0003f;
+                    self.Hypothermia -= Mathf.Lerp(0.0003f, 0f, self.HypothermiaExposure);
                     if (self.Hypothermia < 0f)
                     {
                         self.Hypothermia = 0f;
                     }
                 }
-
 
                 if (self.firstChunk.submersion > 0.25f)
                 {
@@ -214,82 +207,16 @@ namespace Sunrise
             }
         }
 
-        public static void TerrainImpact(On.Player.orig_TerrainImpact orig, Player self, int chunk, IntVector2 direction, float speed, bool firstContact)
+        public static void ThrownSpear(On.Player.orig_ThrownSpear orig, Player self, Spear s)
         {
+            orig(self, s);
+            
             if (self.IsLampScug())
             {
-                if (speed > 33.5f)
-                {
-                    self.room.PlaySound(SoundID.Slugcat_Terrain_Impact_Death, self.mainBodyChunk);
-                    Debug.Log("Fall damage death");
-                    self.Die();
-                }
-                else if (speed > 16f)
-                {
-                    self.room.PlaySound(SoundID.Slugcat_Terrain_Impact_Hard, self.mainBodyChunk);
-                    //self.Stun((int)Custom.LerpMap(speed, 30f, 40f, 40f, 150f, 2.5f));
-                    self.Stun(Mathf.Max(60, Mathf.RoundToInt(speed * 2.5f)));
-                }
+                s.spearDamageBonus = Random.Range(0.1f, 0.5f);
+                s.doNotTumbleAtLowSpeed = true;
+                s.firstChunk.vel *= 0.5f;
             }
-            orig.Invoke(self, chunk, direction, speed, firstContact);
-        }
-
-        public static bool SlugSlamConditions(On.Player.orig_SlugSlamConditions orig, Player self, PhysicalObject slamming)
-        {
-            if (self.IsLampScug())
-            {
-                if ((slamming as Creature).abstractCreature.creatureTemplate.type == MoreSlugcatsEnums.CreatureTemplateType.SlugNPC)
-                {
-                    return false;
-                }
-                if (self.gourmandAttackNegateTime > 0)
-                {
-                    return false;
-                }
-                if (self.gravity == 0f)
-                {
-                    return false;
-                }
-                if (self.cantBeGrabbedCounter > 0)
-                {
-                    return false;
-                }
-                if (self.forceSleepCounter > 0)
-                {
-                    return false;
-                }
-                if (self.timeSinceInCorridorMode < 5)
-                {
-                    return false;
-                }
-                if (self.submerged)
-                {
-                    return false;
-                }
-                if (self.enteringShortCut != null || (self.animation != Player.AnimationIndex.BellySlide && self.canJump >= 5))
-                {
-                    return false;
-                }
-                if (self.animation == Player.AnimationIndex.CorridorTurn || self.animation == Player.AnimationIndex.CrawlTurn || self.animation == Player.AnimationIndex.ZeroGSwim || self.animation == Player.AnimationIndex.ZeroGPoleGrab || self.animation == Player.AnimationIndex.GetUpOnBeam || self.animation == Player.AnimationIndex.ClimbOnBeam || self.animation == Player.AnimationIndex.AntlerClimb || self.animation == Player.AnimationIndex.BeamTip)
-                {
-                    return false;
-                }
-                Vector2 vel = self.bodyChunks[0].vel;
-                if (self.bodyChunks[1].vel.magnitude < vel.magnitude)
-                {
-                    vel = self.bodyChunks[1].vel;
-                }
-                Creature creature = slamming as Creature;
-                foreach (Creature.Grasp grasp in self.grabbedBy)
-                {
-                    if (grasp.pacifying || grasp.grabber == creature)
-                    {
-                        return false;
-                    }
-                }
-                return !ModManager.CoopAvailable || !(slamming is Player) || Custom.rainWorld.options.friendlyFire;
-            }
-            else return orig(self, slamming);
         }
     }
 }

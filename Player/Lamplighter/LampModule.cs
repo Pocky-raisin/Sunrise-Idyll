@@ -51,6 +51,7 @@ namespace Sunrise
             public bool Warm;
             public float ChillTimer;
             public int SoakCounter;
+
             public int MaxSoak
             {
                 get
