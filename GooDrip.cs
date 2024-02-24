@@ -183,7 +183,7 @@ namespace Sunrise
         private int spriteIndex;
 
         // Token: 0x04000038 RID: 56
-        private float size;
+        public float size;
 
         // Token: 0x04000039 RID: 57
         private BodyChunk parentChunk;

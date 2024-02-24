@@ -48,7 +48,7 @@ namespace Sunrise
 
             if (self.player.TryGetLamp(out var data))
             {
-                data.drool = new SlimeDrip(sLeaser, rCam, sLeaser.sprites.Length, 0.75f, self.player.mainBodyChunk, 9);
+                data.drool = new SlimeDrip(sLeaser, rCam, sLeaser.sprites.Length, 2f, self.player.mainBodyChunk, 9);
                 data.DroolIndex = sLeaser.sprites.Length;
                 System.Array.Resize(ref sLeaser.sprites, sLeaser.sprites.Length + 1);
                 data.drool.GenerateMesh(sLeaser, rCam);

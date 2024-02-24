@@ -33,6 +33,8 @@ namespace Sunrise
             Futile.atlasManager.LoadAtlas("atlases/LampLegs");
 
             Futile.atlasManager.LoadAtlas("atlases/TresSprites");
+
+            Futile.atlasManager.LoadAtlas("atlases/SlimeSprites");
         }
 
 

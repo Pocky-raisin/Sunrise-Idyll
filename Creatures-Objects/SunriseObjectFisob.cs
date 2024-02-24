@@ -27,7 +27,7 @@ namespace Sunrise
 
             public override AbstractPhysicalObject Parse(World world, EntitySaveData entitySaveData, SandboxUnlock unlock)
             {
-                return new WarmSlimeAbstract(world, entitySaveData.Pos, entitySaveData.ID);
+                return new WarmSlimeAbstract(world, entitySaveData.Pos, entitySaveData.ID, Custom.hexToColor("FF4500"));
             }
         }
     }

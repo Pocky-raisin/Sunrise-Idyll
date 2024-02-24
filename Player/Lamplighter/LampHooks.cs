@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 using RWCustom;
 using AnimIndex = Player.AnimationIndex;
 using MoreSlugcats;
+using Sunrise.Objects;
 
 namespace Sunrise
 {
@@ -23,12 +24,33 @@ namespace Sunrise
 
             On.Player.ThrownSpear += ThrownSpear;
             On.Player.Update += Update;
+            On.Player.SwallowObject += SwallowObject;
         }
 
 
         public static bool IsLampScug(this Player self)
         {
             return self.SlugCatClass.value == "LampScug";
+        }
+
+        public static void SwallowObject(On.Player.orig_SwallowObject orig, Player self, int g)
+        {
+            orig(self, g);
+            if (self.IsLampScug() && self.FoodInStomach >= 1)
+            {
+                Color slimeCol = Color.red;
+
+                if (self.graphicsModule != null)
+                {
+                    slimeCol = SlugBase.DataTypes.PlayerColor.GetCustomColor(self.graphicsModule as PlayerGraphics, 2);
+                }
+                
+                if (self.objectInStomach.type == AbstractPhysicalObject.AbstractObjectType.Rock)
+                {
+                    self.objectInStomach = new WarmSlimeAbstract(self.room.world, self.room.GetWorldCoordinate(self.firstChunk.pos), self.room.game.GetNewID(), slimeCol);
+                    self.SubtractFood(1);
+                }
+            }
         }
 
         public static void Update(On.Player.orig_Update orig, Player self, bool e)

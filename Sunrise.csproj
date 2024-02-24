@@ -12,10 +12,30 @@
     </ItemGroup>
     
     <ItemGroup>
-      <Compile Remove="Creatures-Objects\**" />
-      <EmbeddedResource Remove="Creatures-Objects\**" />
-      <None Remove="Creatures-Objects\**" />
-      <Reference Remove="Creatures-Objects\**" />
+      <Compile Include="obj\Debug\net48\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+      <Compile Include="obj\Debug\net48\Sunrise.AssemblyInfo.cs" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Content Include="obj\Debug\net48\Sunrise.csproj.FileListAbsolute.txt" />
+      <Content Include="obj\Debug\net48\Sunrise.sourcelink.json" />
+      <Content Include="obj\project.assets.json" />
+      <Content Include="obj\Sunrise.csproj.nuget.dgspec.json" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <None Include="bin\Debug\net48\Sunrise.dll" />
+      <None Include="bin\Debug\net48\Sunrise.pdb" />
+      <None Include="obj\Debug\net48\Sunrise.AssemblyInfoInputs.cache" />
+      <None Include="obj\Debug\net48\Sunrise.assets.cache" />
+      <None Include="obj\Debug\net48\Sunrise.csproj.AssemblyReference.cache" />
+      <None Include="obj\Debug\net48\Sunrise.csproj.CoreCompileInputs.cache" />
+      <None Include="obj\Debug\net48\Sunrise.dll" />
+      <None Include="obj\Debug\net48\Sunrise.GeneratedMSBuildEditorConfig.editorconfig" />
+      <None Include="obj\Debug\net48\Sunrise.pdb" />
+      <None Include="obj\project.nuget.cache" />
+      <None Include="obj\Sunrise.csproj.nuget.g.props" />
+      <None Include="obj\Sunrise.csproj.nuget.g.targets" />
     </ItemGroup>
     
     <Target Name="GenerateMod" AfterTargets="PostBuildEvent">
