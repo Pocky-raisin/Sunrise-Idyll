@@ -1,0 +1,51 @@
+{
+  "id": "GlideScug",
+  "name": "The Trespasser",
+  "description": "WIP",
+  "features": {
+    "color": "9ee2eb",
+    "auto_grab_batflies": false,
+    "weight": 0.9,
+    "tunnel_speed": 0.7,
+    "throw_skill": 0,
+    "diet": {
+      "base": "Saint",
+      "meat": 0.25
+    },
+    "custom_colors": [
+      {
+        "name": "Body",
+        "story": "9ee2eb",
+        "arena": [ "9ee2eb", "ffe581", "fc6694", "2b2940" ]
+      },
+      {
+        "name": "Eyes",
+        "story": "0e0e0f",
+        "arena": [ "0e0e0f", "0e0e0f", "0e0e0f", "f2fffb" ]
+      },
+      {
+        "name": "Whiskers A",
+        "story": "4173bc",
+        "arena": [ "4173bc", "2e690f", "a1113a", "f2fffb" ]
+      },
+      {
+        "name": "Whiskers B",
+        "story": "adf7bc",
+        "arena": [ "adf7bc", "2e690f", "a1113a", "f2fffb" ]
+      },
+      {
+        "name": "Whiskers C",
+        "story": "e567a6",
+        "arena": [ "e567a6", "2e690f", "a1113a", "f2fffb" ]
+      }
+    ],
+
+    "start_room": "SU_S01",
+    "food_min": 5,
+    "food_max": 6,
+    "select_menu_scene": "Select_Prototype",
+    "select_menu_scene_ascended": "Ghost_Prototype",
+    "world_state": [ "GlideScug", "Saint" ],
+    "expedition_description": "WIP"
+  }
+}

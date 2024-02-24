@@ -1,0 +1,10 @@
+﻿{
+	"id": "idyllTeam.SunriseIdyll",
+	"name": "Sunrise Idyll",
+	"version": "0.1.0",
+	"authors": "Pocky-raisin, Propane",
+	"description": "Add desc here",
+	"requirements": [ "slime-cubed.slugbase", "moreslugcats", "fisobs" ],
+	"requirements_names": [ "SlugBase", "More Slugcats Expansion", "Fisobs" ],
+	"tags": [ "Custom Slugcat" ]
+}
