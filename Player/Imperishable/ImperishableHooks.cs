@@ -242,117 +242,15 @@ namespace SunriseIdyll
         public static void damageGrabber(On.Player.orig_Update orig, Player self, bool eu)
         {
             imperishableSaveData.TryGet<int>("minKarma", out int check);
-            Creature grabber;
             if (self.grabbedBy.Count > 0 && self.slugcatStats.name == ImperishableName && check >= 7)
             {
-                
-                
                 for (int i = self.grabbedBy.Count - 1; i >= 0; i--)
                 {
-                    grabber = self.grabbedBy[i].grabber;
-                    PhysicalObject.Appendage app = new PhysicalObject.Appendage(grabber, 999, grabber.bodyChunks.Length);
-                    PhysicalObject.Appendage.Pos pos = new PhysicalObject.Appendage.Pos(app, 0, 0.5f);
-                    try
-                    {
-                        if(grabber is Vulture vulture)
-                        {
-                            vulture.Violence(self.mainBodyChunk, new Vector2(0, 0), null, null, MoreSlugcatsEnums.DamageType.None, 0.3f, 1f);
-                        }
-                        else
-                        {
-                            grabber.Violence(self.mainBodyChunk, new Vector2(0, 0), grabber.mainBodyChunk, pos, MoreSlugcatsEnums.DamageType.None, 0.3f, 1f);
-                        }
-                        
-                        grabber.Stun(80);
-                    }
-                    catch(Exception e)
-                    {
-                        Debug.Log("G" + e);
-                    }
-                    self.cantBeGrabbedCounter += 30;
-                    grabber.LoseAllGrasps();
-
+                    self.grabbedBy[i].grabber.Violence(self.firstChunk, null, null, null, MoreSlugcatsEnums.DamageType.None, 0.3f, 1f);
+                    self.grabbedBy[i].grabber.Stun(80);
                 }
             }
             orig(self, eu);
-        }
-
-        public static PhysicalObject.Appendage grabbingApp(PhysicalObject self)
-        {
-            
-            int appendage = -1;
-            if (self.appendages.Count >= 0)
-            {
-                for (int i = 0; i < self.appendages.Count; i++)
-                {
-                    if (self is DaddyLongLegs dll)
-                    {
-                        if (dll.tentacles[i].grabChunk != null)
-                        {
-                            appendage = i; break;
-                        }
-                    }
-                    else if (self is Inspector insp)
-                    {
-                        for (int j = 0; j < insp.grasps.Length; j++)
-                        {
-                            if (insp.grasps[j] != null)
-                            {
-                                appendage = i; break;
-                            }
-                        }
-                    }
-                    else if (self is PoleMimic mimic)
-                    {
-                        for(int j = 0; j < mimic.grasps.Length; j++)
-                        {
-                            if (mimic.grasps[j] != null)
-                            {
-                                appendage = i; break;
-                            }
-                        }
-                    }
-                    else if (self is TentaclePlant kelp)
-                    {
-                        for (int j = 0; j < kelp.grasps.Length; j++)
-                        {
-                            if (kelp.grasps[j] != null)
-                            {
-                                appendage = i; break;
-                            }
-                        }
-                    }
-                    else if (self is Vulture vulture)
-                    {
-                        for (int j = 0; j < vulture.grasps.Length; j++)
-                        {
-                            if (vulture.grasps[j] != null)
-                            {
-                                appendage = i; break;
-                            }
-                        }
-                    }
-                    else if (self is StowawayBug bug)
-                    {
-                        for (int j = 0; j < bug.grasps.Length; j++)
-                        {
-                            if (bug.grasps[j] != null)
-                            {
-                                appendage = i; break;
-                            }
-                        }
-                    }
-                }
-            }
-            if(appendage >= 0)
-            {
-                return self.appendages[appendage];
-            }
-            else
-            {
-                return null;
-            }
-            
         }
     }
 }

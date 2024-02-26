@@ -22,49 +22,34 @@ namespace SunriseIdyll
             On.SlugcatStats.SpearSpawnExplosiveRandomChance += explosiveSpearsNaturalSpawn;
         }
 
-        public static DeathPersistentSaveData data1 = new(ImperishableHooks.ImperishableName);
-
         public static void doInitialSaveStuff(On.DeathPersistentSaveData.orig_ctor orig, DeathPersistentSaveData self, SlugcatStats.Name slugcatName) //sets up several savestate flags
         {
-            try
+            ImperishableHooks.imperishableSaveData.TryGet<bool>("alreadyDidSaveSetup", out bool val1);
+            ChandlerHooks.chandlerSaveData.TryGet<bool>("alreadyDidSaveSetup", out bool val2);
+            if (!val1)
             {
-                var result = ImperishableHooks.imperishableSaveData.TryGet<bool>("alreadyDidSaveSetup", out bool val1);
-                if (!val1)
-                {
-                    ImperishableHooks.imperishableSaveData.Set<int>("minKarma", 9);
-                    ImperishableHooks.imperishableSaveData.Set<int>("maxKarma", 9);
-                    ImperishableHooks.imperishableSaveData.Set<bool>("didK9Miracle", false);
-                    ImperishableHooks.imperishableSaveData.Set<bool>("didK8Miracle", false);
-                    ImperishableHooks.imperishableSaveData.Set<bool>("didK7Miracle", false);
-                    ImperishableHooks.imperishableSaveData.Set<bool>("didK6Miracle", false);
-                    ImperishableHooks.imperishableSaveData.Set<bool>("didK5Miracle", false);
-                    ImperishableHooks.imperishableSaveData.Set<bool>("didK4Miracle", false);
-                    ImperishableHooks.imperishableSaveData.Set<bool>("didK3Miracle", false);
-                    ImperishableHooks.imperishableSaveData.Set<bool>("didK2Miracle", false);
-                    ImperishableHooks.imperishableSaveData.Set<bool>("didK1Miracle", false);
-                    ImperishableHooks.imperishableSaveData.Set<bool>("alreadyDidSaveSetup", true);
-                }
+                ImperishableHooks.imperishableSaveData.Set<int>("minKarma", 9);
+                ImperishableHooks.imperishableSaveData.Set<int>("maxKarma", 9);
+                ImperishableHooks.imperishableSaveData.Set<bool>("didK9Miracle", false);
+                ImperishableHooks.imperishableSaveData.Set<bool>("didK8Miracle", false);
+                ImperishableHooks.imperishableSaveData.Set<bool>("didK7Miracle", false);
+                ImperishableHooks.imperishableSaveData.Set<bool>("didK6Miracle", false);
+                ImperishableHooks.imperishableSaveData.Set<bool>("didK5Miracle", false);
+                ImperishableHooks.imperishableSaveData.Set<bool>("didK4Miracle", false);
+                ImperishableHooks.imperishableSaveData.Set<bool>("didK3Miracle", false);
+                ImperishableHooks.imperishableSaveData.Set<bool>("didK2Miracle", false);
+                ImperishableHooks.imperishableSaveData.Set<bool>("didK1Miracle", false);
+                ImperishableHooks.imperishableSaveData.Set<bool>("alreadyDidSaveSetup", true);
             }
-            catch (Exception e)
+            if (!val2)
             {
-                Debug.Log(e + "WorldStateHooks Error 1");
-            }
-            try {
-                var result = ChandlerHooks.chandlerSaveData.TryGet<bool>("alreadyDidSaveSetup", out bool val2);
-                if (!val2)
-                {
-                    ChandlerHooks.chandlerSaveData.Set<bool>("didK4Miracle", false);
-                    ChandlerHooks.chandlerSaveData.Set<bool>("didK5Miracle", false);
-                    ChandlerHooks.chandlerSaveData.Set<bool>("didK6Miracle", false);
-                    ChandlerHooks.chandlerSaveData.Set<bool>("didK7Miracle", false);
-                    ChandlerHooks.chandlerSaveData.Set<bool>("didK8Miracle", false);
-                    ChandlerHooks.chandlerSaveData.Set<bool>("didK9Miracle", false);
-                    ChandlerHooks.chandlerSaveData.Set<bool>("alreadyDidSaveSetup", true);
-                }
-            }
-            catch (Exception e2)
-            {
-                Debug.Log(e2 + "WorldStateHooks Error 2");
+                ChandlerHooks.chandlerSaveData.Set<bool>("didK4Miracle", false);
+                ChandlerHooks.chandlerSaveData.Set<bool>("didK5Miracle", false);
+                ChandlerHooks.chandlerSaveData.Set<bool>("didK6Miracle", false);
+                ChandlerHooks.chandlerSaveData.Set<bool>("didK7Miracle", false);
+                ChandlerHooks.chandlerSaveData.Set<bool>("didK8Miracle", false);
+                ChandlerHooks.chandlerSaveData.Set<bool>("didK9Miracle", false);
+                ChandlerHooks.chandlerSaveData.Set<bool>("alreadyDidSaveSetup", true);
             }
             orig(self, slugcatName);
         }
@@ -132,7 +117,6 @@ namespace SunriseIdyll
                     creature.Die();
                 }
             }
-            
         }
     }
 }
