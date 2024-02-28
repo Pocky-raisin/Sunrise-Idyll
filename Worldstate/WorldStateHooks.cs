@@ -97,26 +97,17 @@ namespace SunriseIdyll
             {
                 creature.HypothermiaGain *= 0.75f;
             }
-            if (creature is Player player1 && player1.slugcatStats.name == LampHooks.LampName)
-            {
-                player1.TryGetLamp(out var data);
-                if(data.Warm){
-                    creature.HypothermiaGain *= 0.6f;
-                } else{
-                    creature.HypothermiaGain *= 1.5f;
-                }
-            }
             if (creature.abstractCreature.world.game.IsStorySession && (creature.abstractCreature.world.game.StoryCharacter == ChandlerHooks.ChandlerName || creature.abstractCreature.world.game.StoryCharacter == ImperishableHooks.ImperishableName || creature.abstractCreature.world.game.StoryCharacter == LampHooks.LampName 
             || creature.abstractCreature.world.game.StoryCharacter == TrespasserHooks.TrespasserName))
             {
                 creature.Hypothermia += creature.HypothermiaGain * (creature.HypothermiaGain - 1f);
             }
-            if(creature is Player player2 && player2.slugcatStats.name == LampHooks.LampName && creature.Hypothermia > 1f){
-                player2.TryGetLamp(out var data1);
-                if(!data1.Warm){
-                    creature.Die();
-                }
+            if (creature is Player pl && pl.TryGetLamp(out var data))
+            {
+                data.HypothermiaUpdate();
             }
         }
+
+
     }
 }

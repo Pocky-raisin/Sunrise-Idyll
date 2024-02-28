@@ -22,7 +22,6 @@ namespace SunriseIdyll
             IL.Player.GrabUpdate += IL_GrabUpdate;
             On.Player.SpitUpCraftedObject += SpitUpCraftedObject;
             On.Player.ThrownSpear += ThrownSpear;
-            On.Player.Update += Update;
             On.Player.SwallowObject += SwallowObject;
         }
 
@@ -53,46 +52,6 @@ namespace SunriseIdyll
         }
 
         public static readonly SlugcatStats.Name LampName = new SlugcatStats.Name("IDYLL.LampScug", false);
-        public static void Update(On.Player.orig_Update orig, Player self, bool e)
-        {
-            orig(self, e);
-
-            if (self.TryGetLamp(out var data))
-            {
-                //Warmth interactions
-
-                if (self.firstChunk.submersion > 0.25f)
-                {
-                    data.SoakCounter += 7;
-                }
-
-                data.DroolMeltCounter = Mathf.Min(100, data.SoakCounter);
-
-                if (data.SoakCounter > 0)
-                {
-                    data.Warm = false;
-
-                    
-
-                    float shiver = Mathf.Min(2f, data.SoakCounter / 5);
-
-                    if (!self.dead && self.graphicsModule != null)
-                    {
-                        (self.graphicsModule as PlayerGraphics).head.vel += Custom.RNV() * (shiver * 0.75f); // Head shivers
-                        self.Blink(5);
-                    }
-
-                    data.SoakCounter--;
-
-                }
-
-                if (data.SoakCounter <= 0)
-                {
-                    data.Warm = true;
-                }
-
-            }
-        }
 
         public static bool GraspsCanBeCrafted(On.Player.orig_GraspsCanBeCrafted orig, Player self)
         {
