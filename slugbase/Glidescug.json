@@ -1,5 +1,5 @@
 {
-  "id": "GlideScug",
+  "id": "IDYLL.GlideScug",
   "name": "The Trespasser",
   "description": "WIP",
   "features": {
@@ -45,7 +45,7 @@
     "food_max": 6,
     "select_menu_scene": "Select_Prototype",
     "select_menu_scene_ascended": "Ghost_Prototype",
-    "world_state": [ "GlideScug", "Saint" ],
+    "world_state": [ "IDYLL.GlideScug", "Saint" ],
     "expedition_description": "WIP"
   }
 }

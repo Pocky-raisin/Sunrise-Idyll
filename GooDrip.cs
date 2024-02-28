@@ -5,7 +5,7 @@ using SlugBase.Features;
 using static SlugBase.Features.FeatureTypes;
 using RWCustom;
 
-namespace Sunrise
+namespace SunriseIdyll
 {
     // Token: 0x0200001F RID: 31
     public class SlimeDrip

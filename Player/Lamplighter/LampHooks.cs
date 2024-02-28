@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using BepInEx;
 using UnityEngine;
-using Sunrise;
+using SunriseIdyll;
 using MonoMod.Cil;
 using Mono.Cecil.Cil;
 using Random = UnityEngine.Random;
@@ -12,7 +12,7 @@ using AnimIndex = Player.AnimationIndex;
 using MoreSlugcats;
 using Sunrise.Objects;
 
-namespace Sunrise
+namespace SunriseIdyll
 {
     public static class LampHooks
     {
@@ -21,7 +21,6 @@ namespace Sunrise
             On.Player.GraspsCanBeCrafted += GraspsCanBeCrafted;
             IL.Player.GrabUpdate += IL_GrabUpdate;
             On.Player.SpitUpCraftedObject += SpitUpCraftedObject;
-
             On.Player.ThrownSpear += ThrownSpear;
             On.Player.Update += Update;
             On.Player.SwallowObject += SwallowObject;
@@ -30,7 +29,7 @@ namespace Sunrise
 
         public static bool IsLampScug(this Player self)
         {
-            return self.SlugCatClass.value == "LampScug";
+            return self.SlugCatClass.value == "IDYLL.LampScug";
         }
 
         public static void SwallowObject(On.Player.orig_SwallowObject orig, Player self, int g)
@@ -53,6 +52,7 @@ namespace Sunrise
             }
         }
 
+        public static readonly SlugcatStats.Name LampName = new SlugcatStats.Name("IDYLL.LampScug", false);
         public static void Update(On.Player.orig_Update orig, Player self, bool e)
         {
             orig(self, e);

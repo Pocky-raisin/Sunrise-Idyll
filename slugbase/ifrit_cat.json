@@ -1,0 +1,22 @@
+{
+	"id": "IDYLL.Candle",
+	"name": "The Chandler",
+	"description": "TBA.",
+	"features": {
+		"color": "FFA327",
+		"select_menu_scene": "Slugcat_IDYLL.Candle",
+		"select_menu_scene_ascended": "Ghost_IDYLL.Candle",
+		"karma": 0,
+		"karma_cap": 2,
+		"world_state": [ "IDYLL.Candle", "Saint" ],
+		"weight": 1.1,
+		"throw_skill": [ 1, 0 ],
+		"lung_capacity": 0.9,
+		"diet": {
+			"base": "White"
+		},
+		"food_min": 4,
+		"food_max": 6,
+		"start_room": "UG_RIVSTART"
+	}
+}

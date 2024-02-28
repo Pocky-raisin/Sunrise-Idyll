@@ -3,11 +3,11 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using BepInEx;
 using UnityEngine;
-using Sunrise;
-using static Sunrise.TrespasserModule;
+using SunriseIdyll;
+using static SunriseIdyll.TrespasserModule;
 
 
-namespace Sunrise
+namespace SunriseIdyll
 {
     public static class LampModule
     {
