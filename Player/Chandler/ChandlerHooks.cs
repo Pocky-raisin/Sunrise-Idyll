@@ -25,18 +25,18 @@ namespace SunriseIdyll
 
         public static bool spearResist(On.Spear.orig_HitSomething orig, Spear self, SharedPhysics.CollisionResult result, bool eu)
         {
-            if (result.obj is Player && (result.obj as Player).slugcatStats.name == ChandlerName && (result.obj as Player).KarmaCap >= 4 && (result.obj as Player).KarmaCap <= 7 && UnityEngine.Random.value <= 0.15)
+            if (result.obj is Player && (result.obj as Player).slugcatStats.name == ChandlerName && (result.obj as Player).KarmaCap >= 4 && (result.obj as Player).KarmaCap <= 7 && UnityEngine.Random.value <= 0.15) //15% chance to work
             {
-                self.spearDamageBonus *= 0.01f;
+                self.spearDamageBonus *= 0.01f; //effectively nullifies, but lets the spear stick in the player.
             }
             return orig(self, result, eu);
         }
 
-        public static void increaseKarmaSingleStep(On.SaveState.orig_IncreaseKarmaCapOneStep orig, SaveState self)
+        public static void increaseKarmaSingleStep(On.SaveState.orig_IncreaseKarmaCapOneStep orig, SaveState self) //increases karma by one step each time, instead of 4->6 like the vanilla method does
         {
             if (self.saveStateNumber == ChandlerName)
             {
-                if (self.deathPersistentSaveData.karmaCap < 8)
+                if (self.deathPersistentSaveData.karmaCap < 6) //karma 10 will be when the campaign ends, so it isn't required
                 {
                     self.deathPersistentSaveData.karmaCap++;
                 }
@@ -47,7 +47,7 @@ namespace SunriseIdyll
             }
         }
 
-        public static bool tempEdible(On.Player.orig_CanEatMeat orig, Player self, Creature crit)
+        public static bool tempEdible(On.Player.orig_CanEatMeat orig, Player self, Creature crit) //does not work at present
         {
             if (self.slugcatStats.name == ChandlerName && self.KarmaCap >= 5)
             {

@@ -87,7 +87,7 @@ namespace SunriseIdyll
             imperishableSaveData.TryGet<int>("minKarma", out int check);
             if(self.slugcatStats.name == ImperishableName && check >= 9)
             {
-                if ((self.Consious || self.dead))
+                if (self.Consious || self.dead)
                 {
                     if (self.wantToJump > 0 && self.input[0].pckp && !self.pyroJumpped && self.canJump <= 0 && self.eatMeat < 20 && (self.input[0].y >= 0 || (self.input[0].y < 0 && (self.bodyMode == Player.BodyModeIndex.ZeroG || self.gravity <= 0.1f))) && self.bodyMode != Player.BodyModeIndex.Crawl && self.bodyMode != Player.BodyModeIndex.CorridorClimb
                         && self.bodyMode != Player.BodyModeIndex.ClimbIntoShortCut && self.bodyMode != Player.BodyModeIndex.Swimming && self.bodyMode != Player.BodyModeIndex.WallClimb && self.animation != Player.AnimationIndex.AntlerClimb && self.animation != Player.AnimationIndex.VineGrab && self.animation != Player.AnimationIndex.ZeroGPoleGrab
