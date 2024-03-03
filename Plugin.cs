@@ -33,7 +33,6 @@ namespace SunriseIdyll
             Futile.atlasManager.LoadAtlas("atlases/LampArm");
             Futile.atlasManager.LoadAtlas("atlases/LampHead");
             Futile.atlasManager.LoadAtlas("atlases/LampLegs");
-
             Futile.atlasManager.LoadAtlas("atlases/TresSprites");
         }
 

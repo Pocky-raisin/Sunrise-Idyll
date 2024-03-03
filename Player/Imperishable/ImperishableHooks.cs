@@ -153,7 +153,7 @@ namespace SunriseIdyll
 
                         }
                     }
-                    else if (self.input[0].pckp && self.eatMeat < 20 && (self.input[0].y < 0 || self.bodyMode == Player.BodyModeIndex.Crawl) && (self.canJump > 0 || self.input[0].y < 0) && self.Consious && !self.pyroJumpped && !self.submerged)
+                    else if (self.input[0].pckp && self.eatMeat < 20 && (self.input[0].y < 0 || self.bodyMode == Player.BodyModeIndex.Crawl) && (self.canJump > 0 || self.input[0].y < 0) && self.Consious && !self.pyroJumpped && !self.submerged && self.input[0].jmp)
                     {
                         if (self.canJump <= 0)
                         {
@@ -261,11 +261,15 @@ namespace SunriseIdyll
                     {
                         if(grabber is Vulture || grabber is TentaclePlant || grabber is Inspector || grabber is PoleMimic || grabber is DaddyLongLegs)
                         {
-                            grabber.Violence(self.mainBodyChunk, new Vector2(0, 0), null, null, MoreSlugcatsEnums.DamageType.None, 0.3f, 1f);
+                            grabber.Violence(self.mainBodyChunk, new Vector2(0, 0), null, null, WorldThings.Fire, 0.33f, 1f);
+                        }
+                        else if(grabber is Lizard liz)
+                        {
+                            grabber.Violence(self.mainBodyChunk, new Vector2(0, 0), grabber.mainBodyChunk, pos, WorldThings.Fire, 5f, 1f); //nullifies the effect of head shields
                         }
                         else
                         {
-                            grabber.Violence(self.mainBodyChunk, new Vector2(0, 0), grabber.mainBodyChunk, pos, MoreSlugcatsEnums.DamageType.None, 0.3f, 1f);
+                            grabber.Violence(self.mainBodyChunk, new Vector2(0, 0), grabber.mainBodyChunk, pos, WorldThings.Fire, 0.33f, 1f);
                         }
                         grabber.Stun(80);
                     }
