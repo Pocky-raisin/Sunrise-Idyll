@@ -27,6 +27,11 @@ namespace SunriseIdyll
             On.RainWorld.PostModsInit += doHookPostModsInit;
             On.Menu.SlugcatSelectMenu.ctor += checkBeaten;
         }
+        public static void doHookPostModsInit(On.RainWorld.orig_PostModsInit orig, RainWorld self) //guarantees that these hooks are called after slugbase's
+        {
+            On.Menu.SlugcatSelectMenu.SlugcatPageNewGame.ctor += giveUnlockStatus;
+            On.Menu.SlugcatSelectMenu.SlugcatUnlocked += idyllChecker;
+        }
 
         public static bool ChandTressWorld(this RainWorldGame game)
         {
@@ -355,7 +360,7 @@ namespace SunriseIdyll
         {
             orig(creature);
 
-            if (!creature.room.game.IsStorySession) return;
+            if (!creature.room.game.IsStorySession || creature.abstractCreature.HypothermiaImmune) return;
             
             if (creature.room.world.game.ChandTressWorld())
             {
