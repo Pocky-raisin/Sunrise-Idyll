@@ -104,7 +104,7 @@ namespace SunriseIdyll
         public static void damageImmune(On.Creature.orig_Violence orig, Creature self, BodyChunk source, Vector2? directionAndMomentum, BodyChunk hitChunk, PhysicalObject.Appendage.Pos hitAppendage, Creature.DamageType type, float damage, float stunBonus)
         {
             ImperishableHooks.imperishableSaveData.TryGet<int>("minKarma", out int check);
-            if (self is Player player && type == Creature.DamageType.Explosion && ((player.slugcatStats.name == ChandlerHooks.ChandlerName && player.KarmaCap >= 4) || (player.slugcatStats.name == ImperishableHooks.ImperishableName && check >= 3)))
+            if (self is Player player && (type == Creature.DamageType.Explosion || type == WorldThings.Fire) && ((player.slugcatStats.name == ChandlerHooks.ChandlerName && player.KarmaCap >= 4) || (player.slugcatStats.name == ImperishableHooks.ImperishableName && check >= 3)))
             {
                 return;
             }

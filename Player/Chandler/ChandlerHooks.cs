@@ -30,7 +30,7 @@ namespace SunriseIdyll
 
         public static bool spearResist(On.Spear.orig_HitSomething orig, Spear self, SharedPhysics.CollisionResult result, bool eu)
         {
-            if (result.obj is Player && (result.obj as Player).slugcatStats.name == ChandlerName && (result.obj as Player).KarmaCap >= 4 && (result.obj as Player).KarmaCap <= 7 && UnityEngine.Random.value <= 0.15) //15% chance to work
+            if (result.obj is Player player && player.slugcatStats.name == ChandlerName && player.KarmaCap >= 4 && player.KarmaCap <= 7 && UnityEngine.Random.value <= 0.15) //15% chance to work
             {
                 self.spearDamageBonus *= 0.01f; //effectively nullifies, but lets the spear stick in the player.
             }
@@ -41,10 +41,7 @@ namespace SunriseIdyll
         {
             if (self.saveStateNumber == ChandlerName)
             {
-                if (self.deathPersistentSaveData.karmaCap < 6) //karma 10 will be when the campaign ends, so it isn't required
-                {
                     self.deathPersistentSaveData.karmaCap++;
-                }
             }
             else
             {
