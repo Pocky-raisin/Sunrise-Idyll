@@ -64,3 +64,11 @@ C:\Users\Public\source\repos\Sunrise-Idyll\obj\Debug\net48\Sunrise.csproj.CoreCo
 C:\Users\Public\source\repos\Sunrise-Idyll\obj\Debug\net48\Sunrise.csproj.CopyComplete
 C:\Users\Public\source\repos\Sunrise-Idyll\obj\Debug\net48\Sunrise.dll
 C:\Users\Public\source\repos\Sunrise-Idyll\obj\Debug\net48\Sunrise.pdb
+C:\Users\thefo\Source\Repos\Sunrise-Idyll\obj\Debug\net48\Sunrise.csproj.AssemblyReference.cache
+C:\Users\thefo\Source\Repos\Sunrise-Idyll\obj\Debug\net48\Sunrise.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\thefo\Source\Repos\Sunrise-Idyll\obj\Debug\net48\Sunrise.AssemblyInfoInputs.cache
+C:\Users\thefo\Source\Repos\Sunrise-Idyll\obj\Debug\net48\Sunrise.AssemblyInfo.cs
+C:\Users\thefo\Source\Repos\Sunrise-Idyll\obj\Debug\net48\Sunrise.csproj.CoreCompileInputs.cache
+C:\Users\thefo\Source\Repos\Sunrise-Idyll\obj\Debug\net48\Sunrise.sourcelink.json
+C:\Users\thefo\Source\Repos\Sunrise-Idyll\obj\Debug\net48\Sunrise.dll
+C:\Users\thefo\Source\Repos\Sunrise-Idyll\obj\Debug\net48\Sunrise.pdb
