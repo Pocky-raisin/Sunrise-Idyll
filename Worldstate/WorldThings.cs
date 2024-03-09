@@ -61,7 +61,7 @@ namespace SunriseIdyll
             if(result.obj == null || !( self.abstractPhysicalObject.world.game.StoryCharacter == ImperishableHooks.ImperishableName) || (self.abstractPhysicalObject.world.game.StoryCharacter == ChandlerHooks.ChandlerName) || (self.abstractPhysicalObject.world.game.StoryCharacter == TrespasserHooks.TrespasserName)
                 || (self.abstractPhysicalObject.world.game.StoryCharacter == LampHooks.LampName)) //only works in the above campaigns
             {
-                return false;
+                return orig(self, result, eu);
             }
             if(result.obj is Creature creature && self.bugSpear) //runs the usual code that's run with a bug spear
             {
