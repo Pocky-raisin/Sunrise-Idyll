@@ -23,6 +23,11 @@ namespace SunriseIdyll
         public static SlugBaseSaveData chandlerSaveData = SlugBase.SaveData.SaveDataExtension.GetSlugBaseData(new DeathPersistentSaveData(ChandlerName));
         public static readonly SlugcatStats.Name ChandlerName = new SlugcatStats.Name("IDYLL.Candle", false);
 
+        public static bool isChandler(this Player pl)
+        {
+            return pl.SlugCatClass == ChandlerName;
+        }
+
         public static bool spearResist(On.Spear.orig_HitSomething orig, Spear self, SharedPhysics.CollisionResult result, bool eu)
         {
             if (result.obj is Player && (result.obj as Player).slugcatStats.name == ChandlerName && (result.obj as Player).KarmaCap >= 4 && (result.obj as Player).KarmaCap <= 7 && UnityEngine.Random.value <= 0.15) //15% chance to work

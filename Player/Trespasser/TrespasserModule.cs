@@ -66,8 +66,12 @@ namespace SunriseIdyll
             public int WallClimbDir;
             public int CeilingClimbDir;
 
-            public float FakeDeadConvincing;
+            public int NoFakeDeadCounter;
             public bool FakeDead;
+            public int FakeDeadDelay;
+            public int FakeDeadCounter;
+
+            public int earsprite;
 
             public bool holdingGlide
             {
@@ -89,16 +93,16 @@ namespace SunriseIdyll
             {
                 get
                 {
-                                    string[] bodyModes = { "Stand", "CorridorClimb", "WallClimb", "Swimming", "ClimbingOnBeam" };
-                for (int i = 0; i < bodyModes.Length; i++)
-                {
-                    Player.BodyModeIndex bodyRef = new Player.BodyModeIndex(bodyModes[i]);
-                    if (self.bodyMode == bodyRef)
+                    string[] bodyModes = { "Stand", "CorridorClimb", "WallClimb", "Swimming", "ClimbingOnBeam" };
+                    for (int i = 0; i < bodyModes.Length; i++)
                     {
-                        return true;
+                        Player.BodyModeIndex bodyRef = new Player.BodyModeIndex(bodyModes[i]);
+                        if (self.bodyMode == bodyRef)
+                        {
+                            return true;
+                        }
                     }
-                }
-                return false;
+                    return false;
                 }
             }
             public bool touchingTerrain

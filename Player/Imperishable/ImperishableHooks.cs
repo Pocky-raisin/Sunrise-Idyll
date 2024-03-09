@@ -24,6 +24,10 @@ namespace SunriseIdyll
         public static SlugBaseSaveData imperishableSaveData = SlugBase.SaveData.SaveDataExtension.GetSlugBaseData(new DeathPersistentSaveData(ImperishableName));
         public static readonly SlugcatStats.Name ImperishableName = new SlugcatStats.Name("IDYLL.Wildfire", false);
 
+        public static bool isPerish(this Player pl)
+        {
+            return pl.SlugCatClass == ImperishableName;
+        }
 
         public static void dBreakerMinKarma(On.Player.orig_Update orig, Player self, bool eu)
         {

@@ -8,6 +8,7 @@ using RWCustom;
 using MonoMod.Cil;
 using MonoMod;
 using MoreSlugcats;
+using System.Linq;
 
 
 namespace SunriseIdyll
@@ -19,10 +20,9 @@ namespace SunriseIdyll
             On.Player.MovementUpdate += MovementUpdate;
             On.Player.UpdateBodyMode += UpdateBodyMode;
             On.Player.ThrowObject += ThrowObject;
-            //On.Player.Update += Update;
-
+            On.Player.Update += Update;
         }
-        
+
         public static bool IsTrespasser(this Player pl)
         {
             return pl.SlugCatClass.value == "IDYLL.GlideScug";
@@ -34,7 +34,6 @@ namespace SunriseIdyll
         {
             if (self.IsTrespasser())
             {
-                self.ReleaseGrasp(g);
                 return;
             }
             orig(self, g, e);
@@ -66,6 +65,19 @@ namespace SunriseIdyll
         {
             ILCursor c = new ILCursor(il);
 
+        }
+
+        private static void Update(On.Player.orig_Update orig, Player self, bool e)
+        {
+            orig(self, e);
+
+            if (self.TryGetTrespasser(out var data))
+            {
+                if (!self.Consious || self.lungsExhausted || self.dead || self.exhausted || self.room == null)
+                {
+                    data.NoFakeDeadCounter = 80;
+                }
+            }
         }
 
         private static void MovementUpdate(On.Player.orig_MovementUpdate orig, Player self, bool eu)
@@ -112,7 +124,7 @@ namespace SunriseIdyll
                 self.standing = false;
                 self.WANTTOSTAND = false;
 
-                
+
 
                 if (self.slugOnBack != null && self.slugOnBack.slugcat != null && self.slugOnBack.HasASlug)
                 {
@@ -204,6 +216,60 @@ namespace SunriseIdyll
             //Logs
             //Debug.Log("Glide Cooldown" + data.glideCooldown);
             orig(self, eu);
+
+
+            if (data.NoFakeDeadCounter > 0) data.NoFakeDeadCounter--;
+
+            if (!self.input[0].AnyDirectionalInput && self.input[0].thrw && data.NoFakeDeadCounter <= 0 && (!self.standing || self.bodyMode == Player.BodyModeIndex.CorridorClimb) && self.bodyChunks[0].ContactPoint.y < 0)
+            {
+                data.FakeDeadDelay++;
+                self.Blink(5);
+
+                if (data.FakeDeadDelay > 40)
+                {
+                    data.FakeDead = true;
+                }
+            }
+            else
+            {
+                data.FakeDead = false;
+                data.FakeDeadDelay = 0;
+            }
+
+            if (data.FakeDead)
+            {
+                data.FakeDeadCounter++;
+                self.animation = Player.AnimationIndex.None;
+                self.bodyMode = Player.BodyModeIndex.Stunned;
+                self.LoseAllGrasps();
+                self.noGrabCounter = 5;
+                self.swallowAndRegurgitateCounter = 0;
+                self.standing = false;
+                self.feetStuckPos = null;
+
+                //creature AI modification
+
+                var AIlist = self.room.updateList.OfType<Creature>().Select(x => x.abstractCreature.abstractAI?.RealAI).Where(x => x is not null);
+
+                foreach (var AI in AIlist)
+                {
+                    AI.discomfortTracker?.tracker?.ForgetCreature(self.abstractCreature);
+                    AI.threatTracker?.RemoveThreatCreature(self.abstractCreature);
+                    AI.preyTracker?.ForgetPrey(self.abstractCreature);
+                    AI.agressionTracker?.ForgetCreature(self.abstractCreature);
+                }
+
+                if (data.FakeDeadCounter > 300)
+                {
+                    data.FakeDead = false;
+                    data.NoFakeDeadCounter = 180;
+                    data.FakeDeadDelay = 0;
+                    data.FakeDeadCounter = 0;
+                    self.airInLungs = 0f;
+
+                    self.lungsExhausted = true;
+                }
+            }
         }
 
     }

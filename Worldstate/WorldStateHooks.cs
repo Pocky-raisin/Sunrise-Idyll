@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using SlugBase.SaveData;
 using System.Collections.Generic;
 using SunriseIdyll;
+using System.Reflection;
 
 namespace SunriseIdyll
 {
@@ -20,6 +21,21 @@ namespace SunriseIdyll
             On.SlugcatStats.SpearSpawnModifier += extraSpears;
             On.Creature.HypothermiaUpdate += hypothermiaModify;
             On.SlugcatStats.SpearSpawnExplosiveRandomChance += explosiveSpearsNaturalSpawn;
+        }
+
+        public static bool ChandTressWorld(this RainWorldGame game)
+        {
+            return game.IsStorySession && (game.StoryCharacter == ChandlerHooks.ChandlerName || game.StoryCharacter == TrespasserHooks.TrespasserName);
+        }
+
+        public static bool LampPerishWorld(this RainWorldGame game)
+        {
+            return game.IsStorySession && (game.StoryCharacter == LampHooks.LampName || game.StoryCharacter == ImperishableHooks.ImperishableName);
+        }
+
+        public static bool SunriseWorld(this RainWorldGame game)
+        {
+            return game.IsStorySession && (game.StoryCharacter == LampHooks.LampName || game.StoryCharacter == ImperishableHooks.ImperishableName || game.StoryCharacter == ChandlerHooks.ChandlerName || game.StoryCharacter == TrespasserHooks.TrespasserName);
         }
 
         public static DeathPersistentSaveData data1 = new(ImperishableHooks.ImperishableName);
@@ -69,6 +85,11 @@ namespace SunriseIdyll
             orig(self, slugcatName);
         }
 
+        //player.slugcatStats.name == LampHooks.LampName <--less efficient for slugcatname checks, but use for storycharacter checks(if not already checking Chandler as well)
+        //player.isLampScug() <------inbuilt function for checking if a scug is lamplighter
+        //player.TryGetLamp(out var data) <-----functions as both a slugcat check and returns data
+        //btw this goes for Trespasser as well
+
         public static float extraSpears(On.SlugcatStats.orig_SpearSpawnModifier orig, SlugcatStats.Name index, float originalChance)
         {
             if (index == ChandlerHooks.ChandlerName || index == TrespasserHooks.TrespasserName)
@@ -89,7 +110,7 @@ namespace SunriseIdyll
             {
                 return 0.01f;
             }
-            if (index == ImperishableHooks.ImperishableName || index == TrespasserHooks.TrespasserName)
+            if (index == ImperishableHooks.ImperishableName || index == LampHooks.LampName)
             {
                 return 0.015f;
             }
@@ -99,40 +120,43 @@ namespace SunriseIdyll
         public static void hypothermiaModify(On.Creature.orig_HypothermiaUpdate orig, Creature creature)
         {
             orig(creature);
+
+            if (!creature.room.game.IsStorySession) return;
             
-            if (creature.abstractCreature.world.game.IsStorySession && (creature.abstractCreature.world.game.StoryCharacter == ChandlerHooks.ChandlerName || creature.abstractCreature.world.game.StoryCharacter == TrespasserHooks.TrespasserName))
+            if (creature.room.world.game.ChandTressWorld())
             {
                 creature.HypothermiaGain *= 1.1f;
             }
-            else if (creature.abstractCreature.world.game.IsStorySession && (creature.abstractCreature.world.game.StoryCharacter == ImperishableHooks.ImperishableName || creature.abstractCreature.world.game.StoryCharacter == LampHooks.LampName))
+            else if (creature.room.world.game.LampPerishWorld())
             {
                 creature.HypothermiaGain *= 1.2f;
             }
-            if (creature is Player player && (player.slugcatStats.name == ChandlerHooks.ChandlerName && player.KarmaCap >= 3 && player.KarmaCap <= 6))
-            {
-                creature.HypothermiaGain *= 0.75f;
-            }
-            if (creature is Player player1 && player1.slugcatStats.name == LampHooks.LampName)
-            {
-                player1.TryGetLamp(out var data);
-                if(data.Warm){
-                    creature.HypothermiaGain *= 0.6f;
-                } else{
-                    creature.HypothermiaGain *= 1.5f;
-                }
-            }
-            if (creature.abstractCreature.world.game.IsStorySession && (creature.abstractCreature.world.game.StoryCharacter == ChandlerHooks.ChandlerName || creature.abstractCreature.world.game.StoryCharacter == ImperishableHooks.ImperishableName || creature.abstractCreature.world.game.StoryCharacter == LampHooks.LampName 
-            || creature.abstractCreature.world.game.StoryCharacter == TrespasserHooks.TrespasserName))
+
+            if (creature.room.world.game.SunriseWorld())
             {
                 creature.Hypothermia += creature.HypothermiaGain * (creature.HypothermiaGain - 1f);
             }
-            if(creature is Player player2 && player2.slugcatStats.name == LampHooks.LampName && creature.Hypothermia > 1f){
-                player2.TryGetLamp(out var data1);
-                if(!data1.Warm){
-                    creature.Die();
-                }
+
+            if (creature is not Player) return;
+
+            Player pl = creature as Player;
+
+            if ((pl.isChandler() && pl.KarmaCap >= 3 && pl.KarmaCap <= 6))
+            {
+                creature.HypothermiaGain *= 0.75f;
             }
-            
+            if (pl.TryGetLamp(out var data))
+            {
+                if(data.Warm){
+                    creature.HypothermiaGain *= 0.8f;
+                } else{
+                    creature.HypothermiaGain *= 1.35f;
+                    if (pl.Hypothermia > 1f)
+                    {
+                        pl.Die();
+                    }
+                }
+            }            
         }
     }
 }
