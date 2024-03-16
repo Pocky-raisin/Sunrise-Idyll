@@ -30,18 +30,28 @@ namespace SunriseIdyll
 
         public static bool spearResist(On.Spear.orig_HitSomething orig, Spear self, SharedPhysics.CollisionResult result, bool eu)
         {
-            if (result.obj is Player player && player.slugcatStats.name == ChandlerName && player.KarmaCap >= 4 && player.KarmaCap <= 7 && UnityEngine.Random.value <= 0.15) //15% chance to work
+            if (self.room.world.game.IsStorySession)
             {
-                self.spearDamageBonus *= 0.01f; //effectively nullifies, but lets the spear stick in the player.
+                if (result.obj is Player player && player.slugcatStats.name == ChandlerName && player.KarmaCap >= 4 && player.KarmaCap <= 7 && UnityEngine.Random.value <= 0.15) //15% chance to work
+                {
+                    self.spearDamageBonus *= 0.01f; //effectively nullifies, but lets the spear stick in the player.
+                }
             }
             return orig(self, result, eu);
         }
 
         public static void increaseKarmaSingleStep(On.SaveState.orig_IncreaseKarmaCapOneStep orig, SaveState self) //increases karma by one step each time, instead of 4->6 like the vanilla method does
         {
-            if (self.saveStateNumber == ChandlerName)
+            if(self.saveStateNumber != null)
             {
+                if (self.saveStateNumber == ChandlerName)
+                {
                     self.deathPersistentSaveData.karmaCap++;
+                }
+                else
+                {
+                    orig(self);
+                }
             }
             else
             {
@@ -51,9 +61,16 @@ namespace SunriseIdyll
 
         public static bool tempEdible(On.Player.orig_CanEatMeat orig, Player self, Creature crit) //does not work at present
         {
-            if (self.slugcatStats.name == ChandlerName && self.KarmaCap >= 5)
+            if (self.room.world.game.IsStorySession)
             {
-                return crit.dead;
+                if (self.slugcatStats.name == ChandlerName && self.KarmaCap >= 5)
+                {
+                    return crit.dead;
+                }
+                else
+                {
+                    return orig(self, crit);
+                }
             }
             else
             {

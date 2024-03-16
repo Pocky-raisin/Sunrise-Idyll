@@ -32,6 +32,10 @@ namespace SunriseIdyll
         public static void dBreakerMinKarma(On.Player.orig_Update orig, Player self, bool eu)
         {
             orig(self, eu);
+            if (!self.room.game.IsStorySession)
+            {
+                return;
+            }
             imperishableSaveData.TryGet<int>("minKarma", out int minKarma);
             imperishableSaveData.TryGet<int>("maxKarma", out int maxKarma);
             if (self.slugcatStats.name == ImperishableName)
@@ -74,12 +78,15 @@ namespace SunriseIdyll
 
         public static void dBreakerMinKarmaOnDeath(On.Player.orig_Die orig, Player self)
         {
-            if (self.slugcatStats.name == ImperishableName)
+            if (self.room.game.IsStorySession)
             {
-                imperishableSaveData.TryGet<int>("minKarma", out int minKarma);
-                if (self.Karma == minKarma)
+                if (self.slugcatStats.name == ImperishableName)
                 {
-                    (self.room.game.session as StoryGameSession).saveState.deathPersistentSaveData.reinforcedKarma = true;
+                    imperishableSaveData.TryGet<int>("minKarma", out int minKarma);
+                    if (self.Karma == minKarma)
+                    {
+                        (self.room.game.session as StoryGameSession).saveState.deathPersistentSaveData.reinforcedKarma = true;
+                    }
                 }
             }
             orig(self);
@@ -88,6 +95,10 @@ namespace SunriseIdyll
         public static void explodeJumpImperishable(On.Player.orig_Update orig, Player self, bool eu)
         {
             orig(self, eu);
+            if (!self.room.game.IsStorySession)
+            {
+                return;
+            }
             imperishableSaveData.TryGet<int>("minKarma", out int check);
             if(self.slugcatStats.name == ImperishableName && check >= 9)
             {
@@ -250,121 +261,46 @@ namespace SunriseIdyll
 
         public static void damageGrabber(On.Player.orig_Update orig, Player self, bool eu)
         {
-            imperishableSaveData.TryGet<int>("minKarma", out int check);
-            Creature grabber;
-            if (self.grabbedBy.Count > 0 && self.slugcatStats.name == ImperishableName && check >= 7)
+            if (self.room.game.IsStorySession)
             {
-                
-                
-                for (int i = self.grabbedBy.Count - 1; i >= 0; i--)
+                imperishableSaveData.TryGet<int>("minKarma", out int check);
+                Creature grabber;
+                if (self.grabbedBy.Count > 0 && self.slugcatStats.name == ImperishableName && check >= 7)
                 {
-                    grabber = self.grabbedBy[i].grabber;
-                    PhysicalObject.Appendage app = new PhysicalObject.Appendage(grabber, 999, grabber.bodyChunks.Length);
-                    PhysicalObject.Appendage.Pos pos = new PhysicalObject.Appendage.Pos(app, 0, 0.5f);
-                    try
-                    {
-                        if(grabber is Vulture || grabber is TentaclePlant || grabber is Inspector || grabber is PoleMimic || grabber is DaddyLongLegs)
-                        {
-                            grabber.Violence(self.mainBodyChunk, new Vector2(0, 0), null, null, WorldThings.Fire, 0.33f, 1f);
-                        }
-                        else if(grabber is Lizard liz)
-                        {
-                            grabber.Violence(self.mainBodyChunk, new Vector2(0, 0), grabber.mainBodyChunk, pos, WorldThings.Fire, 5f, 1f); //nullifies the effect of head shields
-                        }
-                        else
-                        {
-                            grabber.Violence(self.mainBodyChunk, new Vector2(0, 0), grabber.mainBodyChunk, pos, WorldThings.Fire, 0.33f, 1f);
-                        }
-                        grabber.Stun(80);
-                    }
-                    catch(Exception e)
-                    {
-                        Debug.Log("G" + e);
-                    }
-                    self.cantBeGrabbedCounter += 30;
-                    grabber.LoseAllGrasps();
 
+
+                    for (int i = self.grabbedBy.Count - 1; i >= 0; i--)
+                    {
+                        grabber = self.grabbedBy[i].grabber;
+                        PhysicalObject.Appendage app = new PhysicalObject.Appendage(grabber, 999, grabber.bodyChunks.Length);
+                        PhysicalObject.Appendage.Pos pos = new PhysicalObject.Appendage.Pos(app, 0, 0.5f);
+                        try
+                        {
+                            if (grabber is Vulture || grabber is TentaclePlant || grabber is Inspector || grabber is PoleMimic || grabber is DaddyLongLegs)
+                            {
+                                grabber.Violence(self.mainBodyChunk, new Vector2(0, 0), null, null, WorldThings.Fire, 0.33f, 1f);
+                            }
+                            else if (grabber is Lizard liz)
+                            {
+                                grabber.Violence(self.mainBodyChunk, new Vector2(0, 0), grabber.mainBodyChunk, pos, WorldThings.Fire, 5f, 1f); //nullifies the effect of head shields
+                            }
+                            else
+                            {
+                                grabber.Violence(self.mainBodyChunk, new Vector2(0, 0), grabber.mainBodyChunk, pos, WorldThings.Fire, 0.33f, 1f);
+                            }
+                            grabber.Stun(80);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Log("G" + e);
+                        }
+                        self.cantBeGrabbedCounter += 30;
+                        grabber.LoseAllGrasps();
+
+                    }
                 }
             }
             orig(self, eu);
-        }
-
-        public static PhysicalObject.Appendage grabbingApp(PhysicalObject self)
-        {
-            
-            int appendage = -1;
-            if (self.appendages.Count >= 0)
-            {
-                for (int i = 0; i < self.appendages.Count; i++)
-                {
-                    if (self is DaddyLongLegs dll)
-                    {
-                        if (dll.tentacles[i].grabChunk != null)
-                        {
-                            appendage = i; break;
-                        }
-                    }
-                    else if (self is Inspector insp)
-                    {
-                        for (int j = 0; j < insp.grasps.Length; j++)
-                        {
-                            if (insp.grasps[j] != null)
-                            {
-                                appendage = i; break;
-                            }
-                        }
-                    }
-                    else if (self is PoleMimic mimic)
-                    {
-                        for(int j = 0; j < mimic.grasps.Length; j++)
-                        {
-                            if (mimic.grasps[j] != null)
-                            {
-                                appendage = i; break;
-                            }
-                        }
-                    }
-                    else if (self is TentaclePlant kelp)
-                    {
-                        for (int j = 0; j < kelp.grasps.Length; j++)
-                        {
-                            if (kelp.grasps[j] != null)
-                            {
-                                appendage = i; break;
-                            }
-                        }
-                    }
-                    else if (self is Vulture vulture)
-                    {
-                        for (int j = 0; j < vulture.grasps.Length; j++)
-                        {
-                            if (vulture.grasps[j] != null)
-                            {
-                                appendage = i; break;
-                            }
-                        }
-                    }
-                    else if (self is StowawayBug bug)
-                    {
-                        for (int j = 0; j < bug.grasps.Length; j++)
-                        {
-                            if (bug.grasps[j] != null)
-                            {
-                                appendage = i; break;
-                            }
-                        }
-                    }
-                }
-            }
-            if(appendage >= 0)
-            {
-                return self.appendages[appendage];
-            }
-            else
-            {
-                return null;
-            }
-            
         }
     }
 }
