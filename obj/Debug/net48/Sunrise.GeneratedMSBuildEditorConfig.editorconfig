@@ -1,3 +1,5 @@
 is_global = true
 build_property.RootNamespace = Sunrise
 build_property.ProjectDir = C:\Users\Public\source\repos\Sunrise-Idyll\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

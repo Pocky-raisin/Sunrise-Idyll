@@ -52,6 +52,9 @@
       <Reference Include="SlugBase">
         <HintPath>lib\SlugBase.dll</HintPath>
       </Reference>
+      <Reference Include="Unity.Mathematics">
+        <HintPath>lib\Unity.Mathematics.dll</HintPath>
+      </Reference>
       <Reference Include="UnityEngine">
         <HintPath>lib\UnityEngine.dll</HintPath>
       </Reference>
