@@ -8,24 +8,19 @@
     ".NETFramework,Version=v4.8": []
   },
   "packageFolders": {
-    "C:\\Users\\CalderJosephHilliard\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\thefo\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Sunrise.csproj",
+      "projectUniqueName": "C:\\Users\\thefo\\Source\\Repos\\Sunrise-Idyll\\Sunrise.csproj",
       "projectName": "Sunrise",
-      "projectPath": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Sunrise.csproj",
-      "packagesPath": "C:\\Users\\CalderJosephHilliard\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\obj\\",
+      "projectPath": "C:\\Users\\thefo\\Source\\Repos\\Sunrise-Idyll\\Sunrise.csproj",
+      "packagesPath": "C:\\Users\\thefo\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\thefo\\Source\\Repos\\Sunrise-Idyll\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\CalderJosephHilliard\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\thefo\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -33,7 +28,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net48": {
@@ -50,7 +45,7 @@
     "frameworks": {
       "net48": {
         "targetAlias": "net48",
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

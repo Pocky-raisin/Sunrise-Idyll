@@ -66,6 +66,11 @@ namespace SunriseIdyll
             }
         }
 
+        public static SlugcatStats.Name TresWorld = TrespasserHooks.TrespasserName;
+        public static SlugcatStats.Name LampWorld = LampHooks.LampName;
+        public static SlugcatStats.Name ChandWorld = ChandlerHooks.ChandlerName;
+        public static SlugcatStats.Name PerishWorld = ImperishableHooks.ImperishableName;
+
         public static bool idyllChecker(On.Menu.SlugcatSelectMenu.orig_SlugcatUnlocked orig, Menu.SlugcatSelectMenu self, SlugcatStats.Name i) //checks if the slugcat is unlocked
         {
             bool val4 = self.manager.rainWorld.progression.miscProgressionData.beaten_Saint;
@@ -345,11 +350,11 @@ namespace SunriseIdyll
 
         static float explosiveSpearsNaturalSpawn(On.SlugcatStats.orig_SpearSpawnExplosiveRandomChance orig, SlugcatStats.Name index)
         {
-            if (index == ChandlerHooks.ChandlerName || index == TrespasserHooks.TrespasserName)
+            if (index == ChandWorld || index == TresWorld)
             {
                 return 0.01f;
             }
-            if (index == ImperishableHooks.ImperishableName || index == LampHooks.LampName)
+            if (index == PerishWorld || index == LampWorld)
             {
                 return 0.015f;
             }
@@ -397,5 +402,11 @@ namespace SunriseIdyll
                 }
             }            
         }
+
+        public static void RainCycle_ctor(On.RainCycle.orig_ctor orig, RainCycle self)
+        {
+            orig(self);
+        }
+
     }
 }

@@ -18,9 +18,9 @@ namespace SunriseIdyll
     {
         public static void ApplyHooks()
         {
-            On.Player.GraspsCanBeCrafted += GraspsCanBeCrafted;
-            IL.Player.GrabUpdate += IL_GrabUpdate;
-            On.Player.SpitUpCraftedObject += SpitUpCraftedObject;
+            //On.Player.GraspsCanBeCrafted += GraspsCanBeCrafted;
+            //IL.Player.GrabUpdate += IL_GrabUpdate;
+            //On.Player.SpitUpCraftedObject += SpitUpCraftedObject;
             On.Player.ThrownSpear += ThrownSpear;
             On.Player.Update += Update;
         }

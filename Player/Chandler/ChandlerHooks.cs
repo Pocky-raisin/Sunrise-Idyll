@@ -51,9 +51,9 @@ namespace SunriseIdyll
 
         public static bool tempEdible(On.Player.orig_CanEatMeat orig, Player self, Creature crit) //does not work at present
         {
-            if (self.slugcatStats.name == ChandlerName && self.KarmaCap >= 5)
+            if (self.isChandler() && self.KarmaCap < 5 && self.room.game.IsStorySession)
             {
-                return crit.dead;
+                return false;
             }
             else
             {

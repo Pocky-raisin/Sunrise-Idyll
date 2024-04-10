@@ -17,7 +17,6 @@ namespace SunriseIdyll
     {
         public static void ApplyHooks()
         {
-            On.Lantern.ApplyPalette += Lantern_ApplyPalette;
             On.Spear.HitSomething += SpearsFireDamage;
             On.Creature.Violence += CreatureFireResist;
             /*
@@ -34,38 +33,18 @@ namespace SunriseIdyll
             */
             
         }
-        public static Creature.DamageType Fire = new Creature.DamageType("Fire", false); //new damage type
+        public static Creature.DamageType Fire = new Creature.DamageType("Fire", true); //new damage type
 
-        public static bool LampWorldState(this RainWorldGame game)
-        {
-            return game.IsStorySession && game.StoryCharacter.value == "LampScug";
-        }
-
-
-        //Lantern cosmetic differences for Lamplighter
-        public static void Lantern_ApplyPalette(On.Lantern.orig_ApplyPalette orig, Lantern self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette)
-        {
-            orig(self, sLeaser, rCam, palette);
-            if (self.room.game.LampWorldState())
-            {
-                sLeaser.sprites[1].color = Color.Lerp(sLeaser.sprites[0].color, Color.black, 0.4f);
-                sLeaser.sprites[0].color = palette.blackColor;
-                sLeaser.sprites[2].color = Color.Lerp(sLeaser.sprites[2].color, Color.gray, 0.4f);
-                sLeaser.sprites[3].color = Color.Lerp(sLeaser.sprites[3].color, Color.gray, 04f);
-            }
-        }
-            
         public static bool SpearsFireDamage(On.Spear.orig_HitSomething orig, Spear self, SharedPhysics.CollisionResult result, bool eu) //makes bug spears do fire damage
         {
             float num = self.spearDamageBonus;
-            if(result.obj == null || !( self.abstractPhysicalObject.world.game.StoryCharacter == ImperishableHooks.ImperishableName) || (self.abstractPhysicalObject.world.game.StoryCharacter == ChandlerHooks.ChandlerName) || (self.abstractPhysicalObject.world.game.StoryCharacter == TrespasserHooks.TrespasserName)
-                || (self.abstractPhysicalObject.world.game.StoryCharacter == LampHooks.LampName)) //only works in the above campaigns
+            if(result.obj == null || !self.abstractPhysicalObject.world.game.SunriseWorld()) //only works in the above campaigns
             {
                 return orig(self, result, eu);
             }
             if(result.obj is Creature creature && self.bugSpear) //runs the usual code that's run with a bug spear
             {
-                if (ModManager.MSC && result.obj is Player && (result.obj as Player).SlugCatClass == MoreSlugcatsEnums.SlugcatStatsName.Gourmand && UnityEngine.Random.value < 0.15f)
+                if (ModManager.MSC && result.obj is Player pl && pl.isGourmand && UnityEngine.Random.value < 0.15f)
                 {
                     num /= 10f;
                     if (RainWorld.ShowLogs)
@@ -109,8 +88,7 @@ namespace SunriseIdyll
 
         public static void CreatureFireResist(On.Creature.orig_Violence orig, Creature self, BodyChunk source, UnityEngine.Vector2? directionAndMomentum, BodyChunk hitChunk, PhysicalObject.Appendage.Pos hitAppendage, Creature.DamageType type, float damage, float stunBonus) //sets the fire resistance for all creatures
         {
-            if(type == Fire && (self.abstractPhysicalObject.world.game.StoryCharacter == ImperishableHooks.ImperishableName) || (self.abstractPhysicalObject.world.game.StoryCharacter == ChandlerHooks.ChandlerName) || //makes this method only affect the relevant campaigns
-                (self.abstractPhysicalObject.world.game.StoryCharacter == TrespasserHooks.TrespasserName) || (self.abstractPhysicalObject.world.game.StoryCharacter == LampHooks.LampName))
+            if(type == Fire && self.abstractPhysicalObject.world.game.SunriseWorld())
             {
                 //if-elif-else below determines how much damage is dealt
                 if (self.abstractCreature.lavaImmune || (self is EggBug && (self as EggBug).FireBug)) //affects creatures that don't take damage from acid water
@@ -139,7 +117,7 @@ namespace SunriseIdyll
                     self.room.PlaySound(MoreSlugcatsEnums.MSCSoundID.Volt_Shock, self.firstChunk.pos, 2f, UnityEngine.Random.Range(0.8f, 1.2f)); //plays the volt_shock sound at double volume on hit 
                     damage *= 9f;
                     stunBonus *= 2f;
-                    if(hitAppendage != null && hitAppendage.appendage.appIndex > 0 && (self is Vulture && (self as Vulture).IsMiros))
+                    if(hitAppendage != null && hitAppendage.appendage.appIndex > 0 && self is Vulture vul && vul.IsMiros)
                     {
                         damage *= 10f;
                     }
