@@ -1,0 +1,16 @@
+Template: CC_SettingsTemplate_Inside
+DangerType: Blizzard
+RainIntensity: 0
+WaveSpeed: 0.5
+WaveLength: 1
+WaveAmplitude: 5.605194E-45
+SecondWaveLength: 0.1666667
+SecondWaveAmplitude: 0
+Palette: 0
+EffectColorA: 21
+EffectColorB: 21
+PlacedObjects: ClimbableRope><681.5165><311.6154><-0.5335693^-78.93335, LanternOnStick><130.7259><261.0909><-50.15784~70.13333, LanternOnStick><762.8087><219.3018><13.33984~-84.88889, CustomDecal><384.2811><134.3784><-3.735168~119.6444~77.35156~123.9111~75.75079~-2.133331~271.0656~-35.55554~0~1~1~blackcloud~0.4084061~1~0.1416082~1~0.3330078~1~0~1, 
+AmbientSounds: OMNI><MSC-Subtundra.ogg><702.5664><219.5662><0.5521997><0.6763631, OMNI><MSC-StructureStrain.ogg><728.6205><335.4881><0.09980509><1.9, SPOT><MSC-LowGroans.ogg><530.9852><520.2462><0.2042031><0.759883><387.9492><406.6018><-91.38269><-94.37756><0><0.2681984, 
+FadePalette: 15, 0.2609969
+MorePalette0: 40, 0.6117865
+MorePalette1: 51, 0.735733

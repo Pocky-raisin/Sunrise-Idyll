@@ -1,0 +1,23 @@
+Template: CC_SettingsTemplate_Inside
+DangerType: Blizzard
+CeilingDrips: 0.5
+RainIntensity: 0.1956522
+RumbleIntensity: 0.2282609
+WaveSpeed: 0.5008104
+WaveLength: 0.9995948
+WaveAmplitude: 0.00351383
+SecondWaveLength: 0.1666667
+SecondWaveAmplitude: 0
+Clouds: 0.2173913
+Grime: 0.2608696
+BkgDroneVolume: 0.2869565
+Palette: 0
+EffectColorA: 21
+EffectColorB: 21
+Effects: Fog-0.2717391-75-133, Coldness-1-20-20, Dustpuffs-0.1847826-110-91, 
+PlacedObjects: CustomDecal><244.4467><873.7044><-32~-827~436~-824~437~22~541~-552~0.07608695~1~1~RustB3~0.25~1~0.3695652~1~0.2173913~1~0~1, CustomDecal><334.6268><112.9047><-1~480~363~172~241~-20~475~296~0~1~1~GummiWorms~0~1~0.3695652~1~0~1~0~1, CustomDecal><334.819><215.6651><3~185~279~304~283~-3~-321~-83~0.5760869~0.9565217~1~GreySnoopy~0.3369565~1~0.2282609~1~0~1~0.6195652~1, CustomDecal><386.1981><74.27774><-10~370~184~375~169~-21~-194~82~0.1956522~1~1~RunningWhite~0.3695652~1~0.3695652~1~0.3695652~1~0.3695652~1, CustomDecal><396.6518><214.6742><9~166~174~172~167~-8~248~60.00002~0.2282609~1~1~Tall B&W~0.1304347~1~0.3260874~1~0.1413043~1~0.4239134~1, SnowSource><471.3645><1134.103><Radial~14~126~50~86.60254~0.7282609~0, LanternOnStick><431.1459><981.8884><-85~-76, LanternOnStick><468.1008><156.6917><1~-44, LanternOnStick><515.1864><1135.678><21~-79, 
+AmbientSounds: OMNI><AM_ENV-LightWind.ogg><751.1393><523.5834><0.150798><1, OMNI><AM_ENV-NatWind.ogg><750.553><437.2846><0.5124153><1, OMNI><MSC-Subtundra.ogg><794.8784><605.387><0.3782017><1, SPOT><MSC-HeavyCreaking.ogg><711.1604><328.8938><0.06500509><1.219237><461.2714><141.0938><-41.75842><-99.35535><0><0.02460115, SPOT><MSC-ShadowAlley.ogg><697.6996><84.88947><0.2680027><1.334076><471.2216><1072.089><27.07513><-114.2887><0><0.2507988, SPOT><MSC-HeavyCreaking.ogg><711.673><205.5301><0.1636041><0.8747212><453.2465><661.9968><-25.21704><-102.9109><0><0.1463995, 
+Triggers: Spot<tA>event<tB>MusicEvent<eA>songName<eB>RW_48 - Wind Chimes<eA>vol<eB>0.2565215<eA>prio<eB>0.5<eA>mxThrt<eB>1<eA>loop<eB>0<eA>droneTol<eB>0<eA>rooms<eB>6<eA>rest<eB>5<eA>fadeIn<eB>163.0435<eA>oneSongPerCycle<eB>0<eA>stopAtDeath<eB>0<eA>stopAtGate<eB>0<tA>multiUse<tB>0<tA>toCycle<tB>-1<tA>fromCycle<tB>0<tA>delay<tB>0<tA>panPos<tB>1069.306<tB>567.942<tA>fireChance<tB>1<tA>entrance<tB>-1<tA>karma<tB>0<tA>slugcats<tB><tA>pos<tB>502.3058<tB>1220.942<tA>handlePos<tB>-153.3553<tB>-160.3553, 
+FadePalette: 8, 0.6086956, 0.6195652
+MorePalette0: 51, 0.4971214, 0.676919
+MorePalette1: 40, 0.2463485, 0.3449475

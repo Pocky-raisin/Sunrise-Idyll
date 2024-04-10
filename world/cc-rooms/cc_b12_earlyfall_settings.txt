@@ -1,0 +1,15 @@
+DangerType: Blizzard
+WaveSpeed: 0.5995764
+WaveLength: 0.9502118
+WaveAmplitude: 0.01716741
+SecondWaveLength: 0.1666667
+SecondWaveAmplitude: 0
+Palette: 0
+EffectColorA: 21
+EffectColorB: 21
+Effects: Coldness-1-20-20, Flies-0-30-30, Dustpuffs-1-40-40, 
+PlacedObjects: SnowSource><458.1011><1152.173><Radial~1271~-741~50~86.60254~0.7282609~1, LanternOnStick><711.4861><1197.051><15~-83, CustomDecal><888.3491><1130.869><-5~142~31~139~33~1~-897.9156~-53.71112~0~1~1~holechicken~0.5~1~0.8260869~1~0.6304348~1~0.8695652~1, 
+AmbientSounds: OMNI><AM_ENV-WinterHum.ogg><728.2691><395.7311><0.2042037><1.323637, OMNI><AM_ENV-WinterTrees.ogg><740.3257><231.1327><0.7087973><0.3527273, SPOT><MSC-HeavyCreaking.ogg><451.8133><46.02261><0.320203><1.198357><423.2985><1023.445><148.7345><-31.08868><0><0.2217984, OMNI><MSC-ShadowGully.ogg><717.1187><70.06631><0.355001><1.480235, 
+FadePalette: 15, 0.6304348, 0.6304348
+MorePalette0: 40, 0.3769956, 0.3711953
+MorePalette1: 51, 0.3769956, 0.3769956

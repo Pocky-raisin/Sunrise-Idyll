@@ -1,0 +1,21 @@
+Template: CC_SettingsTemplate_Inside
+DangerType: Blizzard
+CeilingDrips: 0
+RainIntensity: 0
+RumbleIntensity: 0.1847826
+WaveSpeed: 0.5
+WaveLength: 1
+WaveAmplitude: 5.605194E-45
+SecondWaveLength: 1
+SecondWaveAmplitude: 0.0001
+Clouds: 0.3586957
+Grime: 0.3586957
+BkgDroneVolume: 0.2869565
+Palette: 0
+Effects: Fog-0.2282609-20-20, 
+PlacedObjects: DangleFruit><529.5568><2875.551><0~0~2~5, DangleFruit><456.0904><2831.38><0~0~2~6, LanternOnStick><473.5725><2623.658><21~-81, CustomDecal><358.213><1900.697><4~262~229~278~239~11~9~-332~0~1~1~scavmark stonehead~0.3913043~1~0.3369565~1~0.7065217~1~0.5108696~1, ClimbableWire><593.4006><1453.368><-227~103~38.3205~-103~Black~23, 
+AmbientSounds: SPOT><AM_WIN-StrongWnd2.ogg><750.5905><407.9283><0.5508237><1.273913><479.5905><10.92834><46.64465><306.6447><0><1, OMNI><AM_ENV-LightWind.ogg><820.1393><601.5834><0.1913983><1, OMNI><AM_ENV-NatWind.ogg><817.0517><522.5259><0.3582609><1, SPOT><AM_WIN-HowlingWnd.ogg><809.0124><137.1285><0.1636041><1><551.0522><2561.662><-64.16937><-63.08867><0><0.03620115, OMNI><MSC-ShadowAlley.ogg><836.6176><319.541><0.2216027><1.9, OMNI><MSC-StructureStrain.ogg><617.0153><532.8123><0.2796027><0.7494425, OMNI><MSC-Subtundra.ogg><696.3817><219.0134><0.3608014><1, 
+FadePalette: 8, 0.4565217, 0.5, 0.5434783, 0.5760869
+WetTerrain: OFF
+MorePalette0: 40, 0.3695652, 0.3695652, 0.3695652, 0.3695652
+MorePalette1: 51, 0.3913043, 0.4891304, 0.5652174, 0.6739131

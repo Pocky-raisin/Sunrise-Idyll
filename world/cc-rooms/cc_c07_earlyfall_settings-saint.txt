@@ -1,0 +1,18 @@
+DangerType: Blizzard
+WaveSpeed: 0.7093797
+WaveLength: 0.8953102
+WaveAmplitude: 2.732751E-08
+SecondWaveLength: 0.1666667
+SecondWaveAmplitude: 0
+Clouds: 0.4021739
+Grime: 0.4673913
+BkgDroneVolume: 0.2869565
+Palette: 0
+EffectColorA: 21
+EffectColorB: 21
+Effects: Fog-0.3804348-26-34, Flies-0-20-20, Coldness-1-40-40, Dustpuffs-1-45-90, 
+PlacedObjects: DataPearl><303.8014><1749.992><0~0~0~0~Misc~0, SnowSource><536.9203><912.8953><None~1203~-761~14~-271.3975~0.6521739~1, SnowSource><623.3243><2405.654><None~1279~-619~48~-190.3975~0.4286957~1, LanternOnStick><881.44><1329.863><16~-96, LanternOnStick><800.2827><518.9473><73~-37, LanternOnStick><450.1603><405.5712><-43~-85, LanternOnStick><330.28><1090.948><-23~-88, DangleFruit><888.1604><706.3694><-170~-165~3~5, DangleFruit><914.8386><718.1321><-244~-160~2~3, DangleFruit><297.1217><1090.847><-328~-56~2~3, CustomDecal><285.5576><379.0545><3~88~67~90~64~-2~147~-122~0.3152174~1~1~lc_groupgraffiti3~0.3586957~1~0~1~0.5~1~0.3695652~1, 
+AmbientSounds: SPOT><AM_WIN-HowlingWnd.ogg><761.9498><260.5088><0.4639097><0.8434783><570.9498><2201.509><-321.3553><54.64465><0><0.7348168, OMNI><AM_ENV-LightWind.ogg><711.424><492.3486><0.1449983><1, OMNI><AM_ENV-WinterHum.ogg><717.8917><419.6412><0.4529552><1, SPOT><MSC-LowGroans.ogg><753.8843><123.2313><0.5201933><0.7482041><-12.88672><614.8313><391.5197><-284.2443><0><0.2333991, 
+FadePalette: 15, 0.7826087, 0.7391304
+MorePalette0: 51, 0.4891304, 0.5
+MorePalette1: 40, 0.4456522, 0.4347826

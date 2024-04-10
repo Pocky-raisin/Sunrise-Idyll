@@ -1,0 +1,12 @@
+WaveSpeed: 0.2300692
+WaveLength: 0.8650346
+WaveAmplitude: 6.141172E-05
+SecondWaveLength: 0.1666667
+SecondWaveAmplitude: 0
+Palette: 0
+EffectColorA: 21
+EffectColorB: 21
+AmbientSounds: OMNI><MSC-Subtundra.ogg><750.5104><223.9497><0.3152174><1, 
+FadePalette: 8, 0.1304348
+MorePalette0: 51, 0.5625935
+MorePalette1: 40, 0.1043986

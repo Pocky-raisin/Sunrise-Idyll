@@ -1,0 +1,16 @@
+DangerType: Blizzard
+RainIntensity: 0
+WaveSpeed: 0.5
+WaveLength: 1
+WaveAmplitude: 5.605194E-45
+SecondWaveLength: 0.1666667
+SecondWaveAmplitude: 0
+Palette: 0
+EffectColorA: 21
+EffectColorB: 21
+Effects: Fog-0.6195652-22-90, Dustpuffs-0.09782609-299-32, Coldness-1-286-92, Flies-0-30-30, 
+PlacedObjects: ClimbableRope><315.9147><620.8635><0^-298, ClimbableWire><601.3257><459.4019><-79~-166~17.32051~-10~Black~18, LanternOnStick><146.8405><917.1206><45~-23, LanternOnStick><508.9675><382.1973><-10~-90, LanternOnStick><468.6705><1158.566><-16~99, LanternOnStick><666.2775><871.6981><39~-46, CustomDecal><-190.0943><41.39099><-1~1429~1355~1429~1338~10~66~605~0~1~0~blackrust1~0.5~1~0.5~1~0.5~1~0.5~1, CustomDecal><187.5156><945.9494><0~72~137~69~135~-1~366~-53~0~1~1~sadcat~0.6956522~1~1~1~0.02173913~1~1~1, 
+AmbientSounds: OMNI><AM_ENV-WinterHum.ogg><764.2989><395.8017><0.6159986><0.739003, OMNI><AM_IND-SuperStructure.ogg><754.0433><272.1023><1><0.5114965, OMNI><Deep Weird Wind.wav><793.3802><138.6608><0.1172041><1.9, OMNI><MSC-Subtundra.ogg><591.2123><395.5775><0.6043987><0.4780061, SPOT><AM_WIN-HowlingWnd.ogg><542.9805><238.7811><0.2622024><0.7703224><322.3719><1319.826><-55.6319><-201.7554><0><0.2565984, SPOT><MSC-ShadowAlley.ogg><547.1734><85.48871><0.2680027><0.7703224><486.6429><333.4221><-95.11786><-151.2664><0><0.2507981, SPOT><MSC-LowGroans.ogg><507.4932><509.1309><0.2970024><0.4258067><736.7042><753.8129><-216.2437><-2.644226><0><0.2101991, 
+FadePalette: 8, 0.326087, 0.2826087
+MorePalette0: 40, 0.326087, 0.3695652
+MorePalette1: 51, 0.5434783, 0.6413044
