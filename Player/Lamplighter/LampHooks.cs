@@ -25,7 +25,7 @@ namespace SunriseIdyll
             On.Player.Update += Update;
         }
 
-
+        
         public static bool IsLampScug(this Player self)
         {
             return self.SlugCatClass.value == "IDYLL.LampScug";

@@ -29,6 +29,7 @@ namespace SunriseIdyll
         }
         public static void doHookPostModsInit(On.RainWorld.orig_PostModsInit orig, RainWorld self) //guarantees that these hooks are called after slugbase's
         {
+            orig(self);
             On.Menu.SlugcatSelectMenu.SlugcatPageNewGame.ctor += giveUnlockStatus;
             On.Menu.SlugcatSelectMenu.SlugcatUnlocked += idyllChecker;
         }
@@ -360,23 +361,7 @@ namespace SunriseIdyll
         {
             orig(creature);
 
-            if (!creature.room.game.IsStorySession || creature.abstractCreature.HypothermiaImmune) return;
-            
-            if (creature.room.world.game.ChandTressWorld())
-            {
-                creature.HypothermiaGain *= 1.1f;
-            }
-            else if (creature.room.world.game.LampPerishWorld())
-            {
-                creature.HypothermiaGain *= 1.2f;
-            }
-
-            if (creature.room.world.game.SunriseWorld())
-            {
-                creature.Hypothermia += creature.HypothermiaGain * (creature.HypothermiaGain - 1f);
-            }
-
-            if (creature is not Player) return;
+            if (!creature.room.game.IsStorySession || creature.abstractCreature.HypothermiaImmune || !(creature is Player)) return;
 
             Player pl = creature as Player;
 
@@ -388,12 +373,9 @@ namespace SunriseIdyll
             {
                 if(data.Warm){
                     creature.HypothermiaGain *= 0.8f;
-                } else{
+                }
+                else{
                     creature.HypothermiaGain *= 1.35f;
-                    if (pl.Hypothermia > 1f)
-                    {
-                        pl.Die();
-                    }
                 }
             }            
         }
