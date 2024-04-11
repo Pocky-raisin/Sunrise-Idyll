@@ -1,0 +1,20 @@
+{"frames": {
+
+"WarmSlimeSprite.png":
+{
+	"frame": {"x":0,"y":0,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "SlimeSprites.png",
+	"format": "RGBA8888",
+	"size": {"w":16,"h":16},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:3ee358670e196d22595278225138275d:171ff3d0dcef78ef7536d06c1769e2da:3c6400c29ff955dce94b177799873b03$"
+}
+}

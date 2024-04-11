@@ -12,13 +12,6 @@
     </ItemGroup>
     
     <ItemGroup>
-      <Compile Remove="Creatures-Objects\**" />
-      <EmbeddedResource Remove="Creatures-Objects\**" />
-      <None Remove="Creatures-Objects\**" />
-      <Reference Remove="Creatures-Objects\**" />
-    </ItemGroup>
-    
-    <ItemGroup>
       <Reference Include="Assembly-CSharp-firstpass">
         <HintPath>lib\Assembly-CSharp-firstpass.dll</HintPath>
       </Reference>
@@ -65,14 +58,14 @@
     
     <Target Name="GenerateMod" AfterTargets="PostBuildEvent">
 		<ItemGroup>
-			<RemovePlugins Include="../mod/plugins/*.dll" />
+			<RemovePlugins Include="../newest/plugins/*.dll" />
 		</ItemGroup>
 		<ItemGroup>
 			<CopyPlugins Include="$(TargetPath)" />
 		</ItemGroup>
 		
         <Delete Files="@(RemovePlugins)" />
-        <Copy SourceFiles="@(CopyPlugins)" DestinationFolder="../mod/plugins/" />
+        <Copy SourceFiles="@(CopyPlugins)" DestinationFolder="../newest/plugins/" />
     </Target>
 	
 

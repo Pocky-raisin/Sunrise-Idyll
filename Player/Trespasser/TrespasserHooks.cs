@@ -1,19 +1,15 @@
 using System;
+using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 using BepInEx;
 using UnityEngine;
-using SlugBase.Features;
-using static SlugBase.Features.FeatureTypes;
-using MoreSlugcats;
-using System.Runtime.CompilerServices;
-using SlugBase.SaveData;
-using System.Collections.Generic;
 using SunriseIdyll;
 using RWCustom;
-using Menu;
-using System.Linq;
-using static System.Net.Mime.MediaTypeNames;
-using System.Reflection;
 using MonoMod.Cil;
+using MonoMod;
+using MoreSlugcats;
+using System.Linq;
+
 
 namespace SunriseIdyll
 {
@@ -26,14 +22,13 @@ namespace SunriseIdyll
             On.Player.ThrowObject += ThrowObject;
             On.Player.Update += Update;
         }
-
+        
         public static bool IsTrespasser(this Player pl)
         {
             return pl.SlugCatClass.value == "IDYLL.GlideScug";
         }
 
         public static readonly SlugcatStats.Name TrespasserName = new SlugcatStats.Name("IDYLL.GlideScug", false);
-        public static SlugBaseSaveData trespasserSaveData = SlugBase.SaveData.SaveDataExtension.GetSlugBaseData(new DeathPersistentSaveData(TrespasserName));
 
         public static void ThrowObject(On.Player.orig_ThrowObject orig, Player self, int g, bool e)
         {
@@ -129,7 +124,7 @@ namespace SunriseIdyll
                 self.standing = false;
                 self.WANTTOSTAND = false;
 
-
+                
 
                 if (self.slugOnBack != null && self.slugOnBack.slugcat != null && self.slugOnBack.HasASlug)
                 {
@@ -276,6 +271,5 @@ namespace SunriseIdyll
                 }
             }
         }
-
     }
 }

@@ -13,7 +13,8 @@
 		"throw_skill": [ 1, 0 ],
 		"lung_capacity": 0.9,
 		"diet": {
-			"base": "White"
+			"base": "White",
+			"corpses": 1.0
 		},
 		"food_min": 4,
 		"food_max": 6,

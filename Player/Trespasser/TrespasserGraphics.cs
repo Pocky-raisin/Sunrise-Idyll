@@ -1,20 +1,3 @@
-using System;
-using BepInEx;
-using UnityEngine;
-using SlugBase.Features;
-using static SlugBase.Features.FeatureTypes;
-using MoreSlugcats;
-using System.Runtime.CompilerServices;
-using SlugBase.SaveData;
-using System.Collections.Generic;
-using SunriseIdyll;
-using RWCustom;
-using Menu;
-using System.Linq;
-using static System.Net.Mime.MediaTypeNames;
-using System.Reflection;
-
-
 namespace SunriseIdyll
 {
     public static class TrespasserGraphics
@@ -29,7 +12,7 @@ namespace SunriseIdyll
 
         private static void PG_Ctor(On.PlayerGraphics.orig_ctor orig, PlayerGraphics self, PhysicalObject ow)
         {
-            orig(self, ow);
+            orig(self, ow);//thicker + longer + floatier tail to compensate for texture
             if (!self.player.IsTrespasser()) return;
 
             self.tail[0] = new TailSegment(self, 10f, 8.5f, null, 0.85f, 0.66f, 1f, true);
@@ -74,6 +57,7 @@ namespace SunriseIdyll
                 }
 
 
+                //actual earsprie code
                 data.earsprite = sLeaser.sprites.Length;
                 System.Array.Resize(ref sLeaser.sprites, sLeaser.sprites.Length + 1);
 
@@ -97,7 +81,7 @@ namespace SunriseIdyll
                     }
 
                     newContatiner.AddChild(sLeaser.sprites[data.earsprite]);
-                    sLeaser.sprites[data.earsprite].MoveBehindOtherNode(sLeaser.sprites[4]);
+                    sLeaser.sprites[data.earsprite].MoveBehindOtherNode(sLeaser.sprites[4]);//move it just in front of head
                 }
             }
         }
@@ -138,15 +122,15 @@ namespace SunriseIdyll
                     }
                     catch (Exception e)
                     {
-                        Debug.LogError(e);
+                        Debug.LogError(e.ToString());
                     }
                 }
 
-                UpdateReplacement(3, "HeadA");
-                UpdateReplacement(9, "FaceA");
-                UpdateCustom(3, "HeadA", "EarsA", data.earsprite);
+                UpdateReplacement(3, "HeadA");//floof head
+                UpdateReplacement(9, "FaceA");//sad face
+                UpdateCustom(3, "HeadA", "EarsA", data.earsprite);//earsprite
 
-                if (data.FakeDead)
+                if (data.FakeDead)//play dead graphics changes
                 {
                     sLeaser.sprites[9].element = Futile.atlasManager.GetElementWithName("TresFakeFace");
 
@@ -163,18 +147,10 @@ namespace SunriseIdyll
 
                 if (data.Gliding)
                 {
-                    sLeaser.sprites[4].isVisible = false;
                     self.tail[self.tail.Length - 1].vel.x += 0.9f * -self.player.flipDirection;
                 }
 
-                sLeaser.sprites[data.earsprite].color = SlugBase.DataTypes.PlayerColor.GetCustomColor(self, 2);
-
-
-                //float num = 0.5f + 0.5f * Mathf.Sin(Mathf.Lerp(self.lastBreath, self.breath, timeStacker) * 3.1415927f * 2f);
-
-                //sLeaser.sprites[0].scaleX = 1.25f + self.player.sleepCurlUp * 0.2f + 0.05f * num - 0.05f * self.malnourished;
-                //sLeaser.sprites[1].scaleY = 1.1125f;
-                //sLeaser.sprites[1].scaleX = 1.325f + self.player.sleepCurlUp * 0.2f + 0.05f * num - 0.05f * self.malnourished;
+                sLeaser.sprites[data.earsprite].color = SlugBase.DataTypes.PlayerColor.GetCustomColor(self, 2);//gets custom col of index 2, aka the third col
             }
         }
 

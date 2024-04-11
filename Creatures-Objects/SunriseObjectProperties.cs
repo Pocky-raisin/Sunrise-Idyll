@@ -1,17 +1,17 @@
 using Fisobs.Properties;
 using System.Linq;
 
-namespace Sunrise
+namespace SunriseIdyll
 {
     namespace Objects
     {
         public class WarmSlimeProperties : ItemProperties
         {
             public override void ScavCollectScore(Scavenger scavenger, ref int score)
-                => score = 3;
+                => score = 5;
 
             public override void ScavWeaponPickupScore(Scavenger scav, ref int score)
-                => score = 7;
+                => score = 3;
 
             public override void ScavWeaponUseScore(Scavenger scav, ref int score)
                 => score = 0;

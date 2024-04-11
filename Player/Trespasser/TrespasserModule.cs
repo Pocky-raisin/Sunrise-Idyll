@@ -93,16 +93,16 @@ namespace SunriseIdyll
             {
                 get
                 {
-                    string[] bodyModes = { "Stand", "CorridorClimb", "WallClimb", "Swimming", "ClimbingOnBeam" };
-                    for (int i = 0; i < bodyModes.Length; i++)
+                                    string[] bodyModes = { "Stand", "CorridorClimb", "WallClimb", "Swimming", "ClimbingOnBeam" };
+                for (int i = 0; i < bodyModes.Length; i++)
+                {
+                    Player.BodyModeIndex bodyRef = new Player.BodyModeIndex(bodyModes[i]);
+                    if (self.bodyMode == bodyRef)
                     {
-                        Player.BodyModeIndex bodyRef = new Player.BodyModeIndex(bodyModes[i]);
-                        if (self.bodyMode == bodyRef)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
-                    return false;
+                }
+                return false;
                 }
             }
             public bool touchingTerrain

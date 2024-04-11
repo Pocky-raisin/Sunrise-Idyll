@@ -5,6 +5,7 @@ using BepInEx;
 using UnityEngine;
 using SunriseIdyll;
 using static SunriseIdyll.TrespasserModule;
+using Steamworks;
 
 
 namespace SunriseIdyll
@@ -62,11 +63,17 @@ namespace SunriseIdyll
 
             public Player self;
             public int DroolIndex;
+            public int startsprite;
+            public int endsprite;
+            public int pawsprite1;
+            public int pawsprite2;
+            public int socksprite;
+            public int masksprite;
+            public bool GraphicsInit;
             public SlimeDrip drool;
             public int DroolMeltCounter;
-            public Color LampCol;
-            public Color Tailcol;
-            public Color DroolCol;
+
+            public Color Markingcol;
             public Color BrightCol;
             public Color BodyCol;
         }

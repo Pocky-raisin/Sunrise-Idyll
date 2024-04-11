@@ -1,39 +1,50 @@
-using System;
-using System.Runtime.CompilerServices;
-using System.Collections.Generic;
-using BepInEx;
-using UnityEngine;
-using SunriseIdyll;
-using MonoMod.Cil;
-using Mono.Cecil.Cil;
-using Random = UnityEngine.Random;
-using RWCustom;
-using AnimIndex = Player.AnimationIndex;
-using MoreSlugcats;
-using SlugBase.SaveData;
-
 namespace SunriseIdyll
 {
     public static class LampHooks
     {
         public static void ApplyHooks()
         {
-            //On.Player.GraspsCanBeCrafted += GraspsCanBeCrafted;
-            //IL.Player.GrabUpdate += IL_GrabUpdate;
-            //On.Player.SpitUpCraftedObject += SpitUpCraftedObject;
-            On.Player.ThrownSpear += ThrownSpear;
+            On.Player.GraspsCanBeCrafted += GraspsCanBeCrafted;
+            IL.Player.GrabUpdate += IL_GrabUpdate;
+            On.Player.SpitUpCraftedObject += SpitUpCraftedObject;
             On.Player.Update += Update;
+            On.Player.SwallowObject += Player_SwallowObject;
+            On.Player.CanBeSwallowed += Player_CanBeSwallowed;
+            On.Player.Grabability += Player_Grabability;
         }
 
-        
+        //wawawawawawawawawawawawwaw
+        private static Player.ObjectGrabability Player_Grabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
+        {
+            if (obj is WarmSlime) return Player.ObjectGrabability.OneHand;
+            return orig(self, obj);
+        }
+        //ha
+        private static bool Player_CanBeSwallowed(On.Player.orig_CanBeSwallowed orig, Player self, PhysicalObject testObj)
+        {
+            return orig(self, testObj) || testObj is WarmSlime;
+        }
+
+        private static void Player_SwallowObject(On.Player.orig_SwallowObject orig, Player self, int grasp)
+        {
+            orig(self, grasp);
+            
+            if (self.IsLampScug() && self.FoodInStomach >= 1 && self.objectInStomach != null && self.objectInStomach.type == AbstractPhysicalObject.AbstractObjectType.Rock)
+            {
+                Color col = Color.red;
+
+                if (self.graphicsModule != null) col = PlayerColor.GetCustomColor(self.graphicsModule as PlayerGraphics, 2);
+                
+                self.objectInStomach = new WarmSlimeAbstract(self.room.world, self.room.GetWorldCoordinate(self.firstChunk.pos), self.room.game.GetNewID(), col);
+            }
+        }
+
         public static bool IsLampScug(this Player self)
         {
             return self.SlugCatClass.value == "IDYLL.LampScug";
         }
 
         public static readonly SlugcatStats.Name LampName = new SlugcatStats.Name("IDYLL.LampScug", false);
-        public static SlugBaseSaveData lampSaveData = SlugBase.SaveData.SaveDataExtension.GetSlugBaseData(new DeathPersistentSaveData(LampName));
-
 
         public static void Update(On.Player.orig_Update orig, Player self, bool e)
         {
@@ -188,18 +199,6 @@ namespace SunriseIdyll
             catch (Exception e)
             {
                 Debug.LogException(e);
-            }
-        }
-
-        public static void ThrownSpear(On.Player.orig_ThrownSpear orig, Player self, Spear s)
-        {
-            orig(self, s);
-            
-            if (self.IsLampScug())
-            {
-                s.spearDamageBonus = Random.Range(0.1f, 0.5f);
-                s.doNotTumbleAtLowSpeed = true;
-                s.firstChunk.vel *= 0.5f;
             }
         }
     }
