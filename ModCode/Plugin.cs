@@ -41,6 +41,7 @@ namespace SunriseIdyll
             On.RainWorld.OnModsInit += Extras.WrapInit(LoadResources);
 
             TrespasserHooks.ApplyHooks();
+            TrespasserGraphics.ApplyHooks();
             LampGraphics.ApplyHooks();
             LampHooks.ApplyHooks();
             WorldStateHooks.ApplyHooks();
