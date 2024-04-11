@@ -1,0 +1,43 @@
+{
+  "id": "IDYLL.LampScug",
+  "name": "The Lamplighter",
+  "description": "WIP",
+  "features": {
+    "color": "0e0e0f",
+    "auto_grab_batflies": true,
+    "throw_skill": 1,
+    "diet": {
+      "base": "Gourmand"
+    },
+    "custom_colors": [
+      {
+        "name": "Body",
+        "story": "170b17",
+        "arena": [ "170b17", "ffe581", "fc6694", "2b2940" ]
+      },
+      {
+        "name": "Eyes",
+        "story": "ea905e",
+        "arena": [ "f7c2a6", "f7c2a6", "0e0e0f", "f2fffb" ]
+      },
+      {
+        "name": "Drool",
+        "story": "f55c02",
+        "arena": [ "f55c02", "2e690f", "a1113a", "f2fffb" ]
+      },
+      {
+        "name": "Markings",
+        "story": "6a2320",
+        "arena": [ "6a2320", "2e690f", "a1113a", "f2fffb" ]
+      }
+    ],
+
+    "start_room": "SU_S01",
+    "food_min": 6,
+    "food_max": 8,
+    "select_menu_scene": "Select_Prototype",
+    "select_menu_scene_ascended": "Ghost_Prototype",
+    "world_state": [ "IDYLL.LampScug", "Saint" ],
+    "expedition_description": "WIP"
+  }
+}
