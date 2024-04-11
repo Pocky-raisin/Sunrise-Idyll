@@ -16,7 +16,7 @@
       {
         "name": "Body",
         "story": "9ee2eb",
-        "arena": [ "9ee2eb", "ffe581", "fc6694", "2b2940" ]
+        "arena": [ "9ee2eb", "9ee2eb", "fc6694", "2b2940" ]
       },
       {
         "name": "Eyes",
@@ -24,19 +24,9 @@
         "arena": [ "0e0e0f", "0e0e0f", "0e0e0f", "f2fffb" ]
       },
       {
-        "name": "Whiskers A",
-        "story": "4173bc",
-        "arena": [ "4173bc", "2e690f", "a1113a", "f2fffb" ]
-      },
-      {
-        "name": "Whiskers B",
-        "story": "adf7bc",
-        "arena": [ "adf7bc", "2e690f", "a1113a", "f2fffb" ]
-      },
-      {
-        "name": "Whiskers C",
-        "story": "e567a6",
-        "arena": [ "e567a6", "2e690f", "a1113a", "f2fffb" ]
+        "name": "Ears",
+        "story": "f97dde",
+        "arena": [ "f97dde", "f97dde", "a1113a", "f2fffb" ]
       }
     ],
 
