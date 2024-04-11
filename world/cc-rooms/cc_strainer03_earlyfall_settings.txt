@@ -1,0 +1,18 @@
+Template: CC_SettingsTemplate_Gutter
+DangerType: Blizzard
+CeilingDrips: 0
+RainIntensity: 0
+RumbleIntensity: 0
+WaveSpeed: 0.5
+WaveLength: 1
+WaveAmplitude: 5.605194E-45
+SecondWaveLength: 1
+SecondWaveAmplitude: 0.0001
+EffectColorB: 21
+Effects: WaterViscosity-0.1086956-272-19, DirtyWater-1-271-76, 
+PlacedObjects: ClimbableRope><918.8916><370.1088><-5^-174, LanternOnStick><184.0441><335.9451><-52~33, LanternOnStick><644.8154><213.8271><8~-67, LanternOnStick><419.9254><136.9355><-9~-94, LanternOnStick><1202.553><267.9664><11~-79, 
+AmbientSounds: OMNI><MSC-Subtundra.ogg><634.1204><465.4411><0.2738024><0.3736073, OMNI><Deep Weird Wind.wav><649.5506><556.1946><0.1694044><1.292316, OMNI><MSC-ShadowAlley.ogg><709.065><266.1777><0.5347993><0.6868036, SPOT><MSC-LowGroans.ogg><735.7677><310.0428><0.3492014><0.9582412><642.3365><453.6428><-118.0624><-146.2887><0><0.3203981, 
+FadePalette: 21, 0.9021739, 0.9239131
+WetTerrain: OFF
+MorePalette0: 40, 0.423913, 0.423913
+MorePalette1: 51, 0.6413044, 0.6413044

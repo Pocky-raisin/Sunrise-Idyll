@@ -1,0 +1,47 @@
+OFFSCREEN : 0-MirosVulture-{Night}-2, 0-MirosVulture-{IgnoreCycle}-3, 0-Vulture-2, 0-Scavenger-20, 0-EliteScavenger-4
+
+CC_A07_EARLYFALL : 1-RedLizard-{Winter}-1
+CC_A12_EARLYFALL : 3-SmallCentipede-1
+CC_A15_EARLYFALL : 3-Centiwing-1
+
+CC_B01_EARLYFALL : 2-CyanLizard-{Winter}-1, 2-Centiwing-2
+CC_B04_EARLYFALL : 2-Centiwing-1
+CC_B05_EARLYFALL : 2-Centiwing-1, 3-WhiteLizard-{Winter}-1, 3-CyanLizard-{Winter}-2
+CC_B11_EARLYFALL : 3-BigSpider-{Winter}-1
+CC_B14_EARLYFALL : 1-CyanLizard-{Winter}-1
+
+CC_C04_EARLYFALL : 2-Centiwing-2, 3-Centiwing-1, 3-SmallCentipede-{AlternateForm}-1
+CC_C07_EARLYFALL : 1-WhiteLizard-{Winter}-1
+CC_C08_EARLYFALL : 4-Centiwing-2, 5-YellowLizard-{Winter}-4
+
+CC_F01_EARLYFALL : 3-Centiwing-2, 4-WhiteLizard-{Winter}-1, 5-ZoopLizard-{Winter}-1
+
+CC_SHAFT01x_EARLYFALL : 4-RedCentipede-1, 5-Centipede-{0.52}-1, 5-SmallCentipede-1, 6-BigSpider-{Winter}-1
+CC_STRAINER01_EARLYFALL : 3-Centipede-2, 3-SmallCentipede-1
+CC_STRAINER02_EARLYFALL : 2-Centipede-1, 2-SmallCentipede-1, 3-PoleMimic-{10}-1
+LINEAGE : CC_SUMP01_EARLYFALL : 3 : WhiteLizard-{Winter}-0.2, SpitterSpider-{Winter}-0.1, Centipede-{0.77}-0
+LINEAGE : CC_SUMP01_EARLYFALL : 4 : ZoopLizard-{Winter}-0.8, BigSpider-{Winter}-0.3, WhiteLizard-{Winter}-0
+CC_SUMP03_EARLYFALL : 4-PoleMimic-{7}-1, 5-PoleMimic-{17}-1, 6-BigSpider-{Winter}, 7-Snail-1, 7-SmallCentipede-1, 8-SpitterSpider-{Winter}
+LINEAGE : CC_SUMP03_EARLYFALL : 8 : BigSpider-{Winter}-0.3, SpitterSpider-{Winter}-0
+LINEAGE : CC_SUMP04_EARLYFALL : 3 : EelLizard-{Winter}-0.1, EelLizard-{Winter}-0.4, BigSpider-{Winter}-0.2, RedCentipede-0
+CC_SUMP05_EARLYFALL : 2-Centipede-2, 2-Centiwing-1, 3-Centipede-2
+LINEAGE : CC_OUTPUT_EARLYFALL : 4 : BigSpider-{Winter}-0.5, EliteScavenger-0
+LINEAGE : CC_OUTPUT_EARLYFALL : 4 : NONE-0.2, EliteScavenger-0
+CC_OUTPUT_EARLYFALL : 5-Centiwing-2
+
+CC_L01 : 3-SmallCentipede-2, 4-Centipede-{0.33}-1
+CC_L02 : 8-Centipede-1, 9-SmallCentipede-2
+CC_L04 : 10-WhiteLizard-{Winter}-2
+CC_L05 : 3-BigSpider-{Winter}-1
+
+CC_M01 : 6-Centiwing-1, 6-SmallCentipede-{AlternateForm}-1
+CC_M02 : 5-SmallCentipede-4, 6-Scavenger-1, 6-EliteScavenger-1
+CC_M03 : 3-Centiwing-2
+LINEAGE : CC_M03 : 4 : Centiwing-0.1, SmallCentipede-{AlternateForm}-0.1, Centiwing-0
+
+CC_U01 : 3-OrangeLizard-{Winter}-2, 4-OrangeLizard-{Winter}-1
+CC_U02 : 3-CyanLizard-{Winter}-1
+CC_U03 : 4-WhiteLizard-{Winter}-1
+LINEAGE : CC_U03 : 4 : WhiteLizard-{Winter}-0.2, CyanLizard-{Winter}-0
+CC_U04 : 7-Centiwing-3
+CC_U05 : 3-SmallCentipede-{AlternateForm}-1, 4-ZoopLizard-{Winter}-1

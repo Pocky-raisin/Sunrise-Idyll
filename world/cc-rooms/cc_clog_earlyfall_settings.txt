@@ -1,0 +1,15 @@
+Template: CC_SettingsTemplate_Gutter
+DangerType: Rain
+RainIntensity: 0
+RumbleIntensity: 0
+WaveSpeed: 0.5
+WaveLength: 1
+WaveAmplitude: 0
+SecondWaveLength: 0.1666667
+SecondWaveAmplitude: 0
+Grime: 0.6739131
+Effects: SilenceWater-1-267-70, 
+AmbientSounds: OMNI><SO_IND-Humm.ogg><830.658><489.1274><0><0.1, OMNI><AM_SUB-CaveTone.ogg><829.8311><562.6072><0.5463993><0.300528, OMNI><MSC-Subtundra.ogg><731.5181><215.8709><0.2448027><1, OMNI><MSC-UnrelentingBreakage.ogg><733.5663><393.0464><0.2390031><0.6450449, 
+FadePalette: 21, 0.6956522
+MorePalette0: 40, 0.3152174
+MorePalette1: 51, 0.6413044

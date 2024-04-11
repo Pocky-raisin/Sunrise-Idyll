@@ -1,0 +1,19 @@
+Template: CC_SettingsTemplate_Gutter
+DangerType: Rain
+CeilingDrips: 0
+RainIntensity: 0
+RumbleIntensity: 0
+WaveSpeed: 0.5
+WaveLength: 1
+WaveAmplitude: 2.058911E-05
+SecondWaveLength: 1
+SecondWaveAmplitude: 0.0001
+Clouds: 0.5824047
+EffectColorA: 21
+Effects: WaterViscosity-0.05434782-288-18, WaterDepth-0.06521739-279-73, Fog-0.907201-21-123, DirtyWater-1-270-132, Coldness-1-352.2906-313.7333, 
+PlacedObjects: ReliableSpear><601.3122><991.9401><, WaterNut><731.4357><1202.719><76~92~3~7, WaterNut><751.667><1204.007><83.5296~-17.77777~6~10, LanternOnStick><350.917><1867.932><-14~-80, LanternOnStick><783.4114><199.3207><37~-71, LanternOnStick><327.3011><258.5213><33~-95, LanternOnStick><753.249><602.45><32~41, ClimbableRope><244.4943><530.4498><1^-196, ClimbableWire><433.8202><833.4121><190~214~-315.6795~-52~Black~31, ClimbableRope><468.1921><920.6943><12^-336, LanternOnStick><472.4554><1232.805><-69~25, LanternOnStick><657.5556><1192.808><34~-72, LanternOnStick><639.0637><1377.561><36~-69, ClimbableWire><387.2675><1352.051><310~54~-135.6821~-234~Black~57, ClimbableWire><669.3879><1260.916><-262~21~124.3205~139~Black~40, ClimbableWire><347.4322><1791.812><164~188~14.3205~175~Black~27, ClimbableWire><756.4491><1749.232><-244~231~17.32051~-10~Black~30, ClimbableRope><402.8729><1961.343><-4^-304, 
+AmbientSounds: SPOT><AM_WIN-HowlingWnd.ogg><827.9409><128.9873><0.5434783><1.117391><579.4417><2194.943><-166.3553><-219.3553><0><1, OMNI><MSC-LowGroans.ogg><638.9578><458.1057><0.2158037><1.375836, OMNI><MSC-Subtundra.ogg><826.5145><393.0445><0.3724014><1, OMNI><MSC-ShadowAlley.ogg><639.2698><374.5951><0.1868034><1.615953, OMNI><SO_SFX-ColdNight.ogg><652.1907><278.0349><0.1706092><0.6241649, OMNI><SO_SFX-DataStream.ogg><655.5398><555.1818><0.6578037><0.1, SPOT><MSC-StructureStrain.ogg><821.4437><272.5661><0.2390031><0.759883><206.5093><562.7883><127.9244><-169.0442><0><0.708993, 
+FadePalette: 21, 0.8586956, 0.8804348, 0.9456522
+WetTerrain: OFF
+MorePalette0: 51, 0.7784815, 0.8915591, 1
+MorePalette1: 40, 0.1464167, 0.1630859, 0.1848251

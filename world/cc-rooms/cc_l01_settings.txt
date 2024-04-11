@@ -1,0 +1,17 @@
+Template: CC_SettingsTemplate_Inside
+DangerType: Blizzard
+RainIntensity: 0
+WaveSpeed: 0.5
+WaveLength: 1
+WaveAmplitude: 5.605194E-45
+SecondWaveLength: 0.1666667
+SecondWaveAmplitude: 0
+Palette: 40
+EffectColorA: 21
+EffectColorB: 21
+Effects: Fog-0.4673913-188-133, Coldness-1-25-72, Dustpuffs-0.1195652-20-20, 
+PlacedObjects: SnowSource><433.2378><1314.95><Radial~175~147~-110~-199.3975~0.7608696~0, LanternOnStick><498.8339><917.8611><-15~-79, LanternOnStick><534.2094><709.554><42~59, LanternOnStick><366.5662><430.1888><-66~10, LanternOnStick><375.3798><289.1598><-77~-30, ClimbableWire><307.616><285.1629><123~123~-119.6795~169~Black~22, ClimbableRope><516.3597><766.1672><0^-101, CustomDecal><324.9109><218.321><4~354~375~350~379~-7~434~-24~0.6521739~1~0~candytag~0.2065217~1~0.6304348~1~0.25~1~0.3913043~1, 
+AmbientSounds: OMNI><AM_ENV-LightWind.ogg><751.1393><523.5834><0.413001><1, OMNI><MSC-Subtundra.ogg><772.817><434.9687><0.3028027><1.240118, SPOT><MSC-LowGroans.ogg><731.0424><309.231><0.291202><0.5615249><446.9361><690.1868><22.80634><-107.8887><0><0.1985984, SPOT><Deep Weird Wind.wav><508.7042><434.7865><0.4884><0.5615249><423.6283><742.4754><-63.10223><-153.3998><0><0.2333984, 
+FadePalette: 51, 0.8931896, 0.8381112
+MorePalette0: 0, 0.2608696, 0.173913
+MorePalette1: 8, 0.1956522, 0.1304348

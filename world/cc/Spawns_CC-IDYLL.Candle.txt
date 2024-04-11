@@ -1,0 +1,1 @@
+OFFSCREEN : 0-MirosVulture-{Night}-1, 0-MirosVulture-{IgnoreCycle}-2, 0-Vulture-2, 0-Scavenger-20, 0-EliteScavenger-4

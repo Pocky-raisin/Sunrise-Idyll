@@ -1,0 +1,19 @@
+Template: CC_SettingsTemplate_Gutter
+DangerType: Blizzard
+RainIntensity: 0
+RumbleIntensity: 0
+WaveSpeed: 0.5
+WaveLength: 1
+WaveAmplitude: 5.605194E-45
+SecondWaveLength: 0.1666667
+SecondWaveAmplitude: 0
+Clouds: 0.8913044
+Grime: 0.3043478
+Palette: 4
+Effects: Fog-0.522512-271-68, Coldness-1-344.8203-147.3333, 
+PlacedObjects: ExitSymbolHidden><2309.392><1362.352><, Mushroom><1259.948><823.7788><0~0~2~3, Mushroom><1281.934><808.6713><0~0~2~3, Mushroom><1297.949><813.7269><0~0~2~3, WaterNut><271.496><1105.698><-252.0992~95.3111~2~3, CustomDecal><796.4479><1101.528><-51~211~329~151~242~-133~-225~-438~0.5434783~0.7282609~1~medusa~0.3376445~1~0.4978087~1~0.3180967~1~0.7484967~1, CustomDecal><488.653><1022.925><-115~216~434~292~429~74~-401~-321~0.5543478~1~1~BadSkin~0.14268~1~0.14268~1~0.14268~1~0.14268~1, ClimbableWire><2656.551><1371.979><295~-463~-78.6795~-221~Black~31, ClimbableWire><2485.173><1312.315><226~22~42.3205~-86~Black~26, ClimbableWire><2077.172><1299.684><408~11~-45.6795~39~Black~65, LanternOnStick><3298.418><1120.818><17~68, LanternOnStick><2934.427><1001.043><-8.889069~-66.33333, LanternOnStick><3602.303><1042.036><-15~-90, LanternOnStick><1652.522><1202.085><-48~-89, LanternOnStick><2906.303><1008.033><40.39922~-77.40001, LanternOnStick><1373.342><1258.159><0.4938354~-59.33331, LanternOnStick><390.8146><1142.189><19~-91, LanternOnStick><645.1995><1163.985><-3~-103, LanternOnStick><1062.174><1253.099><22~-82, LanternOnStick><748.8297><1261.895><29~65, ClimbableRope><760.9496><1130.737><8^-109, ClimbableRope><720.9441><1322.798><0^-137, ClimbableWire><3342.939><1173.686><347~-93~17.32051~-10~Black~18, LanternOnStick><2012.771><1162.059><-26.67957~83.64441, CustomDecal><3652.575><1154.847><46~61~179~61~180~-4~-658~-99~0~1~1~pointyarrows(var)~0.3586957~1~0.173913~1~0.5326087~1~0.2391304~1, 
+AmbientSounds: SPOT><AM_WIN-SubWnd.ogg><659.8386><515.3207><0.7391304><1.03913><2446.839><-29.67932><146.6447><456.6447><0><0.6760871, SPOT><AM_WIN-HowlingWnd.ogg><667.7843><403.447><0.4565217><1.03913><2444.784><182.447><-553.3553><17.64465><0><0.8391306, OMNI><MSC-Subtundra.ogg><845.1331><404.0971><0.662398><0.6659237, OMNI><AM_RAIN-Rumbles.ogg><702.9882><298.8175><1><0.3401169, SPOT><MSC-HeavyCreaking.ogg><871.9937><297.6219><0.262203><1.521994><2439.43><1383.733><-64.703><-133.4887><0><0.3957964, 
+Triggers: Spot<tA>event<tB>MusicEvent<eA>songName<eB>NA_39 - Cracked Earth<eA>vol<eB>0.5500004<eA>prio<eB>0.5<eA>mxThrt<eB>1<eA>loop<eB>0<eA>droneTol<eB>0<eA>rooms<eB>-1<eA>rest<eB>5<eA>fadeIn<eB>0<eA>oneSongPerCycle<eB>0<eA>stopAtDeath<eB>0<eA>stopAtGate<eB>0<tA>multiUse<tB>0<tA>toCycle<tB>-1<tA>fromCycle<tB>0<tA>delay<tB>0<tA>panPos<tB>749.7375<tB>468.4496<tA>fireChance<tB>1<tA>entrance<tB>4<tA>karma<tB>0<tA>slugcats<tB><tA>pos<tB>1494.738<tB>1165.45<tA>handlePos<tB>-306.3553<tB>-324.3553, 
+FadePalette: 21, 0.9891304, 0.9456522, 0.9239131, 0.9565217, 0.9021739
+MorePalette0: 40, 0.3065816, 0.3029726, 0.3391903, 0.3058505, 0.2732424
+MorePalette1: 51, 0.6086956, 0.6086956, 0.6086956, 0.6086956, 0.6630435

@@ -1,0 +1,17 @@
+Template: CC_SettingsTemplate_Gutter
+DangerType: Blizzard
+RainIntensity: 0
+WaveSpeed: 0.5
+WaveLength: 1
+WaveAmplitude: 5.605194E-45
+SecondWaveLength: 0.1666667
+SecondWaveAmplitude: 0
+Grime: 0.6531166
+EffectColorA: 21
+EffectColorB: 21
+PlacedObjects: ExitSymbolHidden><150.8098><923.5591><, DeadVultureGrub><173.4129><496.0699><1~-114~0~10, LanternOnStick><430.6915><705.8077><15~-98, LanternOnStick><671.4034><764.0748><1~-79, LanternOnStick><889.0879><146.3671><69~23, LanternOnStick><373.1556><131.4263><8~-34, LanternOnStick><645.1469><189.4214><-19~-94, LanternOnStick><702.426><421.3448><17~-69, CustomDecal><377.0223><919.6987><-10~196~271~196~271~-13~507~-113~0~1~1~hugeshiny~0.7391304~1~0.4456522~1~0.6956522~1~0.5434783~1, CustomDecal><474.4388><104.6841><7~41~84~83~90~-13~-518~-59~0.3152174~1~1~scavmark~0.5326087~1~0.7282609~1~0.4456522~1~0.8152174~1, CustomDecal><475.4342><102.6721><-6~123~89~122~85~-10~315~-34~0.326087~1~1~roundblack~0.6195652~1~0.2391304~1~0.4021739~1~0.5760869~1, ClimbableWire><82.29565><668.4447><353~-52~-278.6795~-206~Black~35, ClimbableRope><354.2512><917.2001><0^-193, 
+AmbientSounds: OMNI><MSC-Subtundra.ogg><842.4794><387.0242><0.2680034><1, OMNI><MSC-LowGroans.ogg><801.3165><310.6178><0.3434017><0.5510843, SPOT><MSC-MetalVariety.ogg><793.8329><171.8839><0.1172047><1.9><353.5814><646.0955><167.9439><-178.2887><0><0.5117957, SPOT><AM_RAIN-Rumbles.ogg><637.6774><453.3486><0.1578044><0.7912024><596.0203><114.4375><118.3196><166.6002><0><0.1753998, 
+FadePalette: 0, 0.2203973, 0.1449983
+MorePalette0: 6, 0.08119865, 0.06959932
+MorePalette1: 51, 1, 1
+MorePalette2: 40, 0.2595792, 0.2261983

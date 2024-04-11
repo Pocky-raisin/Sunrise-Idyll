@@ -4,6 +4,15 @@ using UnityEngine;
 using SlugBase.Features;
 using static SlugBase.Features.FeatureTypes;
 using RWCustom;
+using MoreSlugcats;
+using System.Runtime.CompilerServices;
+using SlugBase.SaveData;
+using System.Collections.Generic;
+using SunriseIdyll;
+using Menu;
+using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
+using System.Reflection;
 
 namespace SunriseIdyll
 {

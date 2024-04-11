@@ -29,7 +29,7 @@ namespace SunriseIdyll
 
         public static  void deflectSpears(On.Creature.orig_Violence orig, Creature self, BodyChunk source, Vector2? directionAndMomentum, BodyChunk hitChunk, PhysicalObject.Appendage.Pos hitAppendage, Creature.DamageType type, float damage, float stunBonus)
         {
-            if (self is Player player)
+            if (self is Player player && player.room.world.game.IsStorySession)
             {
                 ImperishableHooks.imperishableSaveData.TryGet<int>("minKarma", out int check);
                 if ((player.slugcatStats.name == ChandlerHooks.ChandlerName && player.KarmaCap >= 8) || (player.slugcatStats.name == ImperishableHooks.ImperishableName && check >= 8))
@@ -52,84 +52,104 @@ namespace SunriseIdyll
 
         public static bool noStickSpears(On.Player.orig_SpearStick orig, Player self, Weapon source, float dmg, BodyChunk chunk, PhysicalObject.Appendage.Pos hitAppendage, Vector2 direction)
         {
-            ImperishableHooks.imperishableSaveData.TryGet<int>("minKarma", out int check);
-            if ((self.slugcatStats.name == ChandlerHooks.ChandlerName && self.KarmaCap >= 8) || (self.slugcatStats.name == ImperishableHooks.ImperishableName && check >= 8))
+            if (self.room.world.game.IsStorySession)
             {
-                return false;
+                ImperishableHooks.imperishableSaveData.TryGet<int>("minKarma", out int check);
+                if ((self.slugcatStats.name == ChandlerHooks.ChandlerName && self.KarmaCap >= 8) || (self.slugcatStats.name == ImperishableHooks.ImperishableName && check >= 8))
+                {
+                    return false;
+                }
+                else
+                {
+                    return orig(self, source, dmg, chunk, hitAppendage, direction);
+                }
             }
             else
             {
                 return orig(self, source, dmg, chunk, hitAppendage, direction);
             }
+            
         }
 
         public static void forgeGlowMake(On.PlayerGraphics.orig_Update orig, PlayerGraphics self)
         {
             orig(self);
-            ImperishableHooks.imperishableSaveData.TryGet<int>("minKarma", out int check);
-            if (self.player.slugcatStats.name == ChandlerHooks.ChandlerName && self.player.KarmaCap >= 3)
+            if(self.player.room.world.game.IsStorySession)
             {
-                if (self.lightSource != null)
+    ImperishableHooks.imperishableSaveData.TryGet<int>("minKarma", out int check);
+                if (self.player.slugcatStats.name == ChandlerHooks.ChandlerName && self.player.KarmaCap >= 3)
                 {
-                    self.lightSource.stayAlive = true;
-                    self.lightSource.setPos = new Vector2?(self.player.mainBodyChunk.pos);
+                    if (self.lightSource != null)
+                    {
+                        self.lightSource.stayAlive = true;
+                        self.lightSource.setPos = new Vector2?(self.player.mainBodyChunk.pos);
+                    }
+                    if (self.lightSource == null)
+                    {
+                        self.lightSource = new LightSource(self.player.mainBodyChunk.pos, false, new Color(1f, 0.56078431372f, 0.2431372549f), self.player);
+                        self.lightSource.requireUpKeep = true;
+                        self.lightSource.setRad = new float?(300f);
+                        self.lightSource.setAlpha = new float?(1f);
+                        self.player.room.AddObject(self.lightSource);
+                    }
                 }
-                if (self.lightSource == null)
+                else if (self.player.slugcatStats.name == ImperishableHooks.ImperishableName && check >= 2)
                 {
-                    self.lightSource = new LightSource(self.player.mainBodyChunk.pos, false, new Color(1f, 0.56078431372f, 0.2431372549f), self.player);
-                    self.lightSource.requireUpKeep = true;
-                    self.lightSource.setRad = new float?(300f);
-                    self.lightSource.setAlpha = new float?(1f);
-                    self.player.room.AddObject(self.lightSource);
+                    if (self.lightSource != null)
+                    {
+                        self.lightSource.stayAlive = true;
+                        self.lightSource.setPos = new Vector2?(self.player.mainBodyChunk.pos);
+                    }
+                    if (self.lightSource == null)
+                    {
+                        self.lightSource = new LightSource(self.player.mainBodyChunk.pos, false, new Color(1f, 0.76078431372f, 0.4431372549f), self.player);
+                        self.lightSource.requireUpKeep = true;
+                        self.lightSource.setRad = new float?(500f);
+                        self.lightSource.setAlpha = new float?(1f);
+                        self.player.room.AddObject(self.lightSource);
+                    }
                 }
             }
-            else if (self.player.slugcatStats.name == ImperishableHooks.ImperishableName && check >= 2)
-            {
-                if (self.lightSource != null)
-                {
-                    self.lightSource.stayAlive = true;
-                    self.lightSource.setPos = new Vector2?(self.player.mainBodyChunk.pos);
-                }
-                if (self.lightSource == null)
-                {
-                    self.lightSource = new LightSource(self.player.mainBodyChunk.pos, false, new Color(1f, 0.76078431372f, 0.4431372549f), self.player);
-                    self.lightSource.requireUpKeep = true;
-                    self.lightSource.setRad = new float?(500f);
-                    self.lightSource.setAlpha = new float?(1f);
-                    self.player.room.AddObject(self.lightSource);
-                }
-            }
+            
         }
 
         public static void damageImmune(On.Creature.orig_Violence orig, Creature self, BodyChunk source, Vector2? directionAndMomentum, BodyChunk hitChunk, PhysicalObject.Appendage.Pos hitAppendage, Creature.DamageType type, float damage, float stunBonus)
         {
-            ImperishableHooks.imperishableSaveData.TryGet<int>("minKarma", out int check);
-            if (self is Player player && (type == Creature.DamageType.Explosion || type == WorldThings.Fire) && ((player.slugcatStats.name == ChandlerHooks.ChandlerName && player.KarmaCap >= 4) || (player.slugcatStats.name == ImperishableHooks.ImperishableName && check >= 3)))
+            if (self.room.world.game.IsStorySession)
             {
-                return;
+                ImperishableHooks.imperishableSaveData.TryGet<int>("minKarma", out int check);
+                if (self is Player player && (type == Creature.DamageType.Explosion || type == WorldThings.Fire) && ((player.slugcatStats.name == ChandlerHooks.ChandlerName && player.KarmaCap >= 4) || (player.slugcatStats.name == ImperishableHooks.ImperishableName && check >= 3)))
+                {
+                    return;
+                }
             }
             orig(self, source, directionAndMomentum, hitChunk, hitAppendage, type, damage, stunBonus);
-
         }
 
         public static void immunities(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
         {
             orig(self, abstractCreature, world);
-            ImperishableHooks.imperishableSaveData.TryGet<int>("minKarma", out int check);
-            if ((self.slugcatStats.name == ChandlerHooks.ChandlerName && self.KarmaCap >= 7) || (self.slugcatStats.name == ImperishableHooks.ImperishableName && check >= 4))
+            if(world.game.IsStorySession)
             {
-                self.abstractCreature.HypothermiaImmune = true;
-            }
-            if (self.slugcatStats.name == ChandlerHooks.ChandlerName || (self.slugcatStats.name == ImperishableHooks.ImperishableName && check >= 1))
-            {
-                self.abstractCreature.lavaImmune = true;
+                ImperishableHooks.imperishableSaveData.TryGet<int>("minKarma", out int check);
+                if ((self.slugcatStats.name == ChandlerHooks.ChandlerName && self.KarmaCap >= 7) || (self.slugcatStats.name == ImperishableHooks.ImperishableName && check >= 4))
+                {
+                    self.abstractCreature.HypothermiaImmune = true;
+                }
+                if (self.slugcatStats.name == ChandlerHooks.ChandlerName || (self.slugcatStats.name == ImperishableHooks.ImperishableName && check >= 1))
+                {
+                    self.abstractCreature.lavaImmune = true;
+                }
             }
         }
 
         public static void makeFireSpears(On.Player.orig_GrabUpdate orig, Player self, bool eu)
         {
             orig(self, eu);
-
+            if (!self.room.world.game.IsStorySession)
+            {
+                return;
+            }
             for (int i = 0; i < 2; i++)
             {
                 if (self.grasps[i] != null)
@@ -173,11 +193,14 @@ namespace SunriseIdyll
 
         public static void alwaysSurviveLizards(On.Lizard.orig_Bite orig, Lizard self, BodyChunk chunk)
         {
-            ImperishableHooks.imperishableSaveData.TryGet<int>("minKarma", out int check);
-            if (chunk.owner is Player player && (player.slugcatStats.name == ChandlerHooks.ChandlerName && player.KarmaCap >= 8 || (player.slugcatStats.name == ImperishableHooks.ImperishableName && check >= 8)))
+            if (self.room.world.game.IsStorySession)
             {
-                self.lizardParams.biteDamageChance = 0;
-                self.lizardParams.biteDamage = 0;
+                ImperishableHooks.imperishableSaveData.TryGet<int>("minKarma", out int check);
+                if (chunk.owner is Player player && (player.slugcatStats.name == ChandlerHooks.ChandlerName && player.KarmaCap >= 8 || (player.slugcatStats.name == ImperishableHooks.ImperishableName && check >= 8)))
+                {
+                    self.lizardParams.biteDamageChance = 0;
+                    self.lizardParams.biteDamage = 0;
+                }
             }
             orig(self, chunk);
         }
@@ -185,6 +208,10 @@ namespace SunriseIdyll
         public static void foodStuff(On.Player.orig_ctor orig, Player self, AbstractCreature creature, World world)
         {
             orig(self, creature, world);
+            if (!self.room.world.game.IsStorySession)
+            {
+                return;
+            }
             ImperishableHooks.imperishableSaveData.TryGet<int>("minKarma", out int check);
             if (self.slugcatStats.name == ChandlerHooks.ChandlerName && self.KarmaCap >= 5)
             {

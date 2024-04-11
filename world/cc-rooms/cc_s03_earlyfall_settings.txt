@@ -1,0 +1,11 @@
+Template: CC_SettingsTemplate_Inside
+WaveSpeed: 0.5366043
+WaveLength: 0.9816979
+WaveAmplitude: 0.0001240786
+SecondWaveLength: 0.1666667
+SecondWaveAmplitude: 0
+Grime: 0.173913
+AmbientSounds: OMNI><AM_WIN-MedWind.ogg><766.7727><446.2367><0.3318017><1.271436, OMNI><AM_WIN-SubWnd.ogg><804.8426><317.3657><0.3550017><0.5197661, OMNI><MSC-Subtundra.ogg><622.9594><369.0302><0.3086024><0.759883, OMNI><Deep Weird Wind.wav><566.1433><494.599><0.1752034><1.354956, 
+FadePalette: 8, 0.4565217
+MorePalette0: 40, 0.6321922
+MorePalette1: 51, 0.7075918

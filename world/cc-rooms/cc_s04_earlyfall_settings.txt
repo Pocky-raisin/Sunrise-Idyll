@@ -1,0 +1,12 @@
+DangerType: Blizzard
+RainIntensity: 0
+WaveSpeed: 0.5
+WaveLength: 1
+WaveAmplitude: 8.174116E-26
+SecondWaveLength: 0.1666667
+SecondWaveAmplitude: 0
+Palette: 0
+AmbientSounds: OMNI><MSC-Subtundra.ogg><734.1606><217.8692><0.3586957><1, 
+FadePalette: 15, 0.8369565
+MorePalette0: 40, 0.423913
+MorePalette1: 51, 0.7065217
