@@ -20,18 +20,18 @@ namespace SunriseIdyll
         public static void ApplyHooks()
         {
             
-            //On.DeathPersistentSaveData.ctor += doInitialSaveStuff;
+            On.DeathPersistentSaveData.ctor += doInitialSaveStuff;
             On.SlugcatStats.SpearSpawnModifier += extraSpears;
             On.Creature.HypothermiaUpdate += hypothermiaModify;
             On.SlugcatStats.SpearSpawnExplosiveRandomChance += explosiveSpearsNaturalSpawn;
             On.RainWorld.PostModsInit += doHookPostModsInit;
-            //On.Menu.SlugcatSelectMenu.ctor += checkBeaten;
         }
         public static void doHookPostModsInit(On.RainWorld.orig_PostModsInit orig, RainWorld self) //guarantees that these hooks are called after slugbase's
         {
             orig(self);
-            //On.Menu.SlugcatSelectMenu.SlugcatPageNewGame.ctor += giveUnlockStatus;
-            //On.Menu.SlugcatSelectMenu.SlugcatUnlocked += idyllChecker;
+            On.Menu.SlugcatSelectMenu.SlugcatPageNewGame.ctor += giveUnlockStatus;
+            On.SlugcatStats.SlugcatUnlocked += idyllChecker;
+            On.Menu.SlugcatSelectMenu.ctor += checkBeaten;
         }
 
         public static bool ChandTressWorld(this RainWorldGame game)
@@ -51,7 +51,7 @@ namespace SunriseIdyll
 
         public static DeathPersistentSaveData data1 = new(ImperishableHooks.ImperishableName);
 
-        /*
+        
 
         public static bool idyllScugUnlocked(SlugcatStats.Name i, RainWorld rainWorld) //same effect as idyllChecker, exists solely so i don't have to use orig a ton in giveUnlockStatus
         {
@@ -74,9 +74,9 @@ namespace SunriseIdyll
         public static SlugcatStats.Name ChandWorld = ChandlerHooks.ChandlerName;
         public static SlugcatStats.Name PerishWorld = ImperishableHooks.ImperishableName;
 
-        public static bool idyllChecker(On.Menu.SlugcatSelectMenu.orig_SlugcatUnlocked orig, Menu.SlugcatSelectMenu self, SlugcatStats.Name i) //checks if the slugcat is unlocked
+        public static bool idyllChecker(On.SlugcatStats.orig_SlugcatUnlocked orig, SlugcatStats.Name i, RainWorld rainWorld) //checks if the slugcat is unlocked
         {
-            bool val4 = self.manager.rainWorld.progression.miscProgressionData.beaten_Saint;
+            bool val4 = rainWorld.progression.miscProgressionData.beaten_Saint;
             TrespasserHooks.trespasserSaveData.TryGet<bool>("beatTrespasser", out bool val1);
             ChandlerHooks.chandlerSaveData.TryGet<bool>("beatChandler", out bool val2);
             LampHooks.lampSaveData.TryGet<bool>("beatLamp", out bool val3);
@@ -100,16 +100,16 @@ namespace SunriseIdyll
             {
                 return val4;
             }
-            return orig(self, i);
+            return orig(i, rainWorld);
         }
 
-        public static void giveUnlockStatus(On.Menu.SlugcatSelectMenu.SlugcatPageNewGame.orig_ctor orig, Menu.SlugcatSelectMenu.SlugcatPageNewGame self, Menu.Menu menu, MenuObject owner, int pageIndex, SlugcatStats.Name i) //locks the slugcats if they're not intended to be playable yet
+        public static void giveUnlockStatus(On.Menu.SlugcatSelectMenu.SlugcatPageNewGame.orig_ctor orig, Menu.SlugcatSelectMenu.SlugcatPageNewGame self, Menu.Menu menu, Menu.MenuObject owner, int pageIndex, SlugcatStats.Name i) //locks the slugcats if they're not intended to be playable yet
         {
             orig(self, menu, owner, pageIndex, i);
             string text1 = "";
             string text2 = "";
             bool flag = false;
-            if ( i == TrespasserHooks.TrespasserName)
+            if (i == TrespasserHooks.TrespasserName)
             {
                 flag = true;
                 text1 = "THE TRESPASSER";
@@ -171,10 +171,10 @@ namespace SunriseIdyll
                 {
                     num2 = 30f;
                 }
-                self.difficultyLabel = new MenuLabel(menu, self, text1, new Vector2(-1000f, self.imagePos.y - 249f + num2), new Vector2(200f, 30f), true, null);
+                self.difficultyLabel = new Menu.MenuLabel(menu, self, text1, new Vector2(-1000f, self.imagePos.y - 249f + num2), new Vector2(200f, 30f), true, null);
                 self.difficultyLabel.label.alignment = FLabelAlignment.Center;
                 self.subObjects.Add(self.difficultyLabel);
-                self.infoLabel = new MenuLabel(menu, self, text2, new Vector2(-1000f, self.imagePos.y - 249f - 60f + num2 / 2f), new Vector2(400f, 60f), true, null);
+                self.infoLabel = new Menu.MenuLabel(menu, self, text2, new Vector2(-1000f, self.imagePos.y - 249f - 60f + num2 / 2f), new Vector2(400f, 60f), true, null);
                 self.infoLabel.label.alignment = FLabelAlignment.Center;
                 self.subObjects.Add(self.infoLabel);
                 if (num > 1)
@@ -332,7 +332,7 @@ namespace SunriseIdyll
             orig(self, slugcatName);
         }
 
-        */
+        
 
         //player.slugcatStats.name == LampHooks.LampName <--less efficient for slugcatname checks, but use for storycharacter checks(if not already checking Chandler as well)
         //player.isLampScug() <------inbuilt function for checking if a scug is lamplighter

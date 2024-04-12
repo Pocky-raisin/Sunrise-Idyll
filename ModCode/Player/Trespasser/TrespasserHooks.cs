@@ -9,6 +9,7 @@ using MonoMod.Cil;
 using MonoMod;
 using MoreSlugcats;
 using System.Linq;
+using SlugBase.SaveData;
 
 
 namespace SunriseIdyll
@@ -29,6 +30,8 @@ namespace SunriseIdyll
         }
 
         public static readonly SlugcatStats.Name TrespasserName = new SlugcatStats.Name("IDYLL.GlideScug", false);
+
+        public static SlugBaseSaveData trespasserSaveData = SlugBase.SaveData.SaveDataExtension.GetSlugBaseData(new DeathPersistentSaveData(TrespasserName));
 
         public static void ThrowObject(On.Player.orig_ThrowObject orig, Player self, int g, bool e)
         {

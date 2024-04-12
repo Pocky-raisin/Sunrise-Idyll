@@ -1,3 +1,5 @@
+using SlugBase.SaveData;
+
 namespace SunriseIdyll
 {
     public static class LampHooks
@@ -45,6 +47,7 @@ namespace SunriseIdyll
         }
 
         public static readonly SlugcatStats.Name LampName = new SlugcatStats.Name("IDYLL.LampScug", false);
+        public static SlugBaseSaveData lampSaveData = SlugBase.SaveData.SaveDataExtension.GetSlugBaseData(new DeathPersistentSaveData(LampName));
 
         public static void Update(On.Player.orig_Update orig, Player self, bool e)
         {
