@@ -12,6 +12,7 @@
       "base": "Saint",
       "meat": 0.25
     },
+    "karma_cap": 0,
     "custom_colors": [
       {
         "name": "Body",

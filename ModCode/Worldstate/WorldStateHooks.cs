@@ -310,6 +310,35 @@ namespace SunriseIdyll
                 {
                     TrespasserHooks.trespasserSaveData.Set<bool>("alreadyDidSaveSetup", true);
                     TrespasserHooks.trespasserSaveData.Set<bool>("beatTrespasser", false);
+                    TrespasserHooks.trespasserSaveData.Set<bool>("karmaSpecial", false);
+                    TrespasserHooks.foundTokens.Add("SU", false);
+                    TrespasserHooks.foundTokens.Add("HI", false);
+                    TrespasserHooks.foundTokens.Add("UG", false);
+                    TrespasserHooks.foundTokens.Add("CC", false);
+                    TrespasserHooks.foundTokens.Add("VS", false);
+                    TrespasserHooks.foundTokens.Add("GW", false);
+                    TrespasserHooks.foundTokens.Add("SL", false);
+                    TrespasserHooks.foundTokens.Add("SI", false);
+                    TrespasserHooks.foundTokens.Add("LF", false);
+                    TrespasserHooks.foundTokens.Add("LT", false);
+                    bool flag = true;
+                    for(int i = 0; i < ModManager.InstalledMods.Count; i++)
+                    {
+                        if (ModManager.InstalledMods[i].id == "propane.begoniaCat")
+                        {
+                            flag = false;
+                        }
+                    }
+                    if (flag)
+                    {
+                        TrespasserHooks.foundTokens.Add("CL", false);
+                    }
+                    else
+                    {
+                        TrespasserHooks.foundTokens.Add("RP", false);
+                        TrespasserHooks.foundTokens.Add("JW", false);
+                        TrespasserHooks.foundTokens.Add("CE", false);
+                    }
                 }
             }
             catch (Exception e3)

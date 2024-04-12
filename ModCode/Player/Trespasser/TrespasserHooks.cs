@@ -22,6 +22,9 @@ namespace SunriseIdyll
             On.Player.UpdateBodyMode += UpdateBodyMode;
             On.Player.ThrowObject += ThrowObject;
             On.Player.Update += Update;
+            On.Player.UpdateMSC += checkIfEspecialKarmaSituation;
+            On.Player.Die += resetMaxKarmaTrespasser;
+            On.RegionGate.ctor += trespasserGate;
         }
         
         public static bool IsTrespasser(this Player pl)
@@ -33,13 +36,23 @@ namespace SunriseIdyll
 
         public static SlugBaseSaveData trespasserSaveData = SlugBase.SaveData.SaveDataExtension.GetSlugBaseData(new DeathPersistentSaveData(TrespasserName));
 
-        public static void ThrowObject(On.Player.orig_ThrowObject orig, Player self, int g, bool e)
+        public static Dictionary<string, bool> foundTokens = new Dictionary<string, bool>();
+
+        private static bool runTokenCheck = false;
+        private static bool isTressAccordingToKRMeter = false;
+
+        public static void ThrowObject(On.Player.orig_ThrowObject orig, Player self, int grasp, bool eu)
         {
+            PhysicalObject grabbedObj = self.grasps[grasp].grabbed;
+            orig(self, grasp, eu);
             if (self.IsTrespasser())
             {
-                return;
+                if (grabbedObj is Weapon && grabbedObj is not Rock)
+                {
+                    (grabbedObj as Weapon).doNotTumbleAtLowSpeed = true;
+                }
+                grabbedObj.firstChunk.vel *= 0.2f;
             }
-            orig(self, g, e);
         }
 
         private static void UpdateBodyMode(On.Player.orig_UpdateBodyMode orig, Player self)
@@ -69,6 +82,77 @@ namespace SunriseIdyll
             ILCursor c = new ILCursor(il);
 
         }
+
+        //karma section start
+        private static void checkIfEspecialKarmaSituation(On.Player.orig_UpdateMSC orig, Player self)
+        {
+            trespasserSaveData.TryGet<bool>("karmaSpecial", out bool flag);
+            if (flag && self.IsTrespasser() && runTokenCheck)
+            {
+                self.room.world.game.GetStorySession.saveState.deathPersistentSaveData.karmaCap = 1;
+                self.room.world.game.GetStorySession.saveState.deathPersistentSaveData.karma = 1;
+                runTokenCheck = false;
+            }
+            orig(self);
+        }
+
+        private static void trespasserGate(On.RegionGate.orig_ctor orig, RegionGate self, Room room)
+        {
+            orig(self, room);
+            if(room.world.game.IsStorySession && room.world.game.StoryCharacter == TrespasserName)
+            {
+                self.karmaRequirements[0] = RegionGate.GateRequirement.TwoKarma;
+                self.karmaRequirements[1] = RegionGate.GateRequirement.TwoKarma;
+            }
+        }
+
+        private static void resetMaxKarmaTrespasser(On.Player.orig_Die orig, Player self)
+        {
+            if (!self.KarmaIsReinforced && self.IsTrespasser() && !runTokenCheck)
+            {
+                trespasserSaveData.Set<bool>("karmaSpecial", false);
+                self.room.world.game.GetStorySession.saveState.deathPersistentSaveData.karmaCap = 0;
+                self.room.world.game.GetStorySession.saveState.deathPersistentSaveData.karma = 0;
+                runTokenCheck = true;
+            }
+            orig(self);
+        }
+
+        private static void karmaMeterChecker(On.HUD.KarmaMeter.orig_ctor orig, HUD.KarmaMeter self, HUD.HUD hud, FContainer fContainer, IntVector2 displayKarma, bool showAsReinforced)
+        {
+            if(self.hud.owner is Player pl && pl.IsTrespasser())
+            {
+                isTressAccordingToKRMeter = true;
+            }
+            else
+            {
+                isTressAccordingToKRMeter = false;
+            }
+            orig(self, hud, fContainer, displayKarma, showAsReinforced);
+        }
+
+        private static void upKarma(Player player)
+        {
+            player.room.world.game.GetStorySession.saveState.IncreaseKarmaCapOneStep();
+        }
+
+        private static string falseKarma(On.HUD.KarmaMeter.orig_KarmaSymbolSprite orig, bool small, IntVector2 k)
+        {
+            if (isTressAccordingToKRMeter)
+            {
+                if (runTokenCheck)
+                {
+                    return (small ? "smallKarma" : "karma") + 4.ToString();
+                }
+                else
+                {
+                    return (small ? "smallKarma" : "karma") + 1.ToString();
+                }
+            }
+            return orig(small, k);
+        }
+
+        //karma section end
 
         private static void Update(On.Player.orig_Update orig, Player self, bool e)
         {
