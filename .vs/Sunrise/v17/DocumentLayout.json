@@ -1,0 +1,262 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|c:\\users\\public\\source\\repos\\sunrise-idyll\\player\\lamplighter\\lamphooks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|solutionrelative:player\\lamplighter\\lamphooks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|c:\\users\\public\\source\\repos\\sunrise-idyll\\plugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|solutionrelative:plugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|c:\\users\\public\\source\\repos\\sunrise-idyll\\player\\trespasser\\trespassergraphics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|solutionrelative:player\\trespasser\\trespassergraphics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|c:\\users\\public\\source\\repos\\sunrise-idyll\\worldstate\\worldstatehooks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|solutionrelative:worldstate\\worldstatehooks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|c:\\users\\public\\source\\repos\\sunrise-idyll\\player\\chandler\\chandlerhooks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|solutionrelative:player\\chandler\\chandlerhooks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|c:\\users\\public\\source\\repos\\sunrise-idyll\\player\\all or multiple\\firecatshooks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|solutionrelative:player\\all or multiple\\firecatshooks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|c:\\users\\public\\source\\repos\\sunrise-idyll\\player\\trespasser\\trespasserhooks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|solutionrelative:player\\trespasser\\trespasserhooks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|c:\\users\\public\\source\\repos\\sunrise-idyll\\player\\imperishable\\imperishablehooks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|solutionrelative:player\\imperishable\\imperishablehooks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|c:\\users\\public\\source\\repos\\sunrise-idyll\\worldstate\\worldthings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|solutionrelative:worldstate\\worldthings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|c:\\users\\public\\source\\repos\\sunrise-idyll\\goodrip.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|solutionrelative:goodrip.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|c:\\users\\public\\source\\repos\\sunrise-idyll\\player\\imperishable\\creaturerelationshiphooks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|solutionrelative:player\\imperishable\\creaturerelationshiphooks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|c:\\users\\public\\source\\repos\\sunrise-idyll\\player\\lamplighter\\lampmodule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|solutionrelative:player\\lamplighter\\lampmodule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|c:\\users\\public\\source\\repos\\sunrise-idyll\\player\\trespasser\\trespassermodule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|solutionrelative:player\\trespasser\\trespassermodule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|c:\\users\\public\\source\\repos\\sunrise-idyll\\worldstate\\trespassershelter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|solutionrelative:worldstate\\trespassershelter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|c:\\users\\public\\source\\repos\\sunrise-idyll\\player\\lamplighter\\lampgraphics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3DE1470-8461-479C-9460-8002886FBD6D}|Sunrise.csproj|solutionrelative:player\\lamplighter\\lampgraphics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "WorldThings.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Worldstate\\WorldThings.cs",
+              "RelativeDocumentMoniker": "Worldstate\\WorldThings.cs",
+              "ToolTip": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Worldstate\\WorldThings.cs",
+              "RelativeToolTip": "Worldstate\\WorldThings.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:54:39.143Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LampHooks.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Lamplighter\\LampHooks.cs",
+              "RelativeDocumentMoniker": "Player\\Lamplighter\\LampHooks.cs",
+              "ToolTip": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Lamplighter\\LampHooks.cs",
+              "RelativeToolTip": "Player\\Lamplighter\\LampHooks.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAACAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:54:39.149Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "WorldStateHooks.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Worldstate\\WorldStateHooks.cs",
+              "RelativeDocumentMoniker": "Worldstate\\WorldStateHooks.cs",
+              "ToolTip": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Worldstate\\WorldStateHooks.cs",
+              "RelativeToolTip": "Worldstate\\WorldStateHooks.cs",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAowFgBAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:54:39.144Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "FireCatsHooks.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\All or Multiple\\FireCatsHooks.cs",
+              "RelativeDocumentMoniker": "Player\\All or Multiple\\FireCatsHooks.cs",
+              "ToolTip": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\All or Multiple\\FireCatsHooks.cs",
+              "RelativeToolTip": "Player\\All or Multiple\\FireCatsHooks.cs",
+              "ViewState": "AQIAAHgAAAAAAAAAAAAjwIgAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:54:39.141Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ChandlerHooks.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Chandler\\ChandlerHooks.cs",
+              "RelativeDocumentMoniker": "Player\\Chandler\\ChandlerHooks.cs",
+              "ToolTip": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Chandler\\ChandlerHooks.cs",
+              "RelativeToolTip": "Player\\Chandler\\ChandlerHooks.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:54:39.142Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "CreatureRelationshipHooks.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Imperishable\\CreatureRelationshipHooks.cs",
+              "RelativeDocumentMoniker": "Player\\Imperishable\\CreatureRelationshipHooks.cs",
+              "ToolTip": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Imperishable\\CreatureRelationshipHooks.cs",
+              "RelativeToolTip": "Player\\Imperishable\\CreatureRelationshipHooks.cs",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAwCcAAAA/AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:54:39.144Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ImperishableHooks.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Imperishable\\ImperishableHooks.cs",
+              "RelativeDocumentMoniker": "Player\\Imperishable\\ImperishableHooks.cs",
+              "ToolTip": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Imperishable\\ImperishableHooks.cs",
+              "RelativeToolTip": "Player\\Imperishable\\ImperishableHooks.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAQwEQAAABBAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:54:39.138Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "TrespasserHooks.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Trespasser\\TrespasserHooks.cs",
+              "RelativeDocumentMoniker": "Player\\Trespasser\\TrespasserHooks.cs",
+              "ToolTip": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Trespasser\\TrespasserHooks.cs",
+              "RelativeToolTip": "Player\\Trespasser\\TrespasserHooks.cs",
+              "ViewState": "AQIAAFcAAAAAAAAAAAAjwHYAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:54:39.147Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "TrespasserShelter.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Worldstate\\TrespasserShelter.cs",
+              "RelativeDocumentMoniker": "Worldstate\\TrespasserShelter.cs",
+              "ToolTip": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Worldstate\\TrespasserShelter.cs",
+              "RelativeToolTip": "Worldstate\\TrespasserShelter.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:54:39.145Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "GooDrip.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\GooDrip.cs",
+              "RelativeDocumentMoniker": "GooDrip.cs",
+              "ToolTip": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\GooDrip.cs",
+              "RelativeToolTip": "GooDrip.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:54:39.145Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TrespasserGraphics.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Trespasser\\TrespasserGraphics.cs",
+              "RelativeDocumentMoniker": "Player\\Trespasser\\TrespasserGraphics.cs",
+              "ToolTip": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Trespasser\\TrespasserGraphics.cs",
+              "RelativeToolTip": "Player\\Trespasser\\TrespasserGraphics.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:54:39.146Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "TrespasserModule.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Trespasser\\TrespasserModule.cs",
+              "RelativeDocumentMoniker": "Player\\Trespasser\\TrespasserModule.cs",
+              "ToolTip": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Trespasser\\TrespasserModule.cs",
+              "RelativeToolTip": "Player\\Trespasser\\TrespasserModule.cs",
+              "ViewState": "AQIAAEQAAAAAAAAAAAAIwF8AAABxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:54:39.147Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "LampModule.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Lamplighter\\LampModule.cs",
+              "RelativeDocumentMoniker": "Player\\Lamplighter\\LampModule.cs",
+              "ToolTip": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Lamplighter\\LampModule.cs",
+              "RelativeToolTip": "Player\\Lamplighter\\LampModule.cs",
+              "ViewState": "AQIAACcAAAAAAAAAAAA5wC0AAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:54:39.148Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Plugin.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Plugin.cs",
+              "RelativeDocumentMoniker": "Plugin.cs",
+              "ToolTip": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Plugin.cs",
+              "RelativeToolTip": "Plugin.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:54:39.15Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "LampGraphics.cs",
+              "DocumentMoniker": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Lamplighter\\LampGraphics.cs",
+              "RelativeDocumentMoniker": "Player\\Lamplighter\\LampGraphics.cs",
+              "ToolTip": "C:\\Users\\Public\\source\\repos\\Sunrise-Idyll\\Player\\Lamplighter\\LampGraphics.cs",
+              "RelativeToolTip": "Player\\Lamplighter\\LampGraphics.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:54:39.149Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
