@@ -121,4 +121,21 @@ namespace SunriseIdyll
             }
         }
     }
+
+    public class TresWallMovement
+    {
+        public Player owner;
+        public readonly float BodWidth = 6f;
+        public readonly float MaxSpeed = 1f;
+        public bool Climbing;
+        public IntVector2 ClimbDirection;
+        public TrespasserModule.TrespasserData TresInfo;
+        public float DefaultSpeed = 3f;
+
+        public TresWallMovement(Player player, TrespasserModule.TrespasserData info)
+        {
+            owner = player;
+            TresInfo = info;
+        }
+    }
 }
