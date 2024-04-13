@@ -25,6 +25,9 @@ namespace SunriseIdyll
             On.Player.UpdateMSC += checkIfEspecialKarmaSituation;
             On.Player.Die += resetMaxKarmaTrespasser;
             On.RegionGate.ctor += trespasserGate;
+            //the below two don't work and/or cause exceptions
+            //On.HUD.KarmaMeter.ctor += karmaMeterCWTEnabler;
+            //On.HUD.KarmaMeter.UpdateGraphic += falseUpdateGraphics;
         }
         
         public static bool IsTrespasser(this Player pl)
@@ -37,9 +40,8 @@ namespace SunriseIdyll
         public static SlugBaseSaveData trespasserSaveData = SlugBase.SaveData.SaveDataExtension.GetSlugBaseData(new DeathPersistentSaveData(TrespasserName));
 
         public static Dictionary<string, bool> foundTokens = new Dictionary<string, bool>();
-
-        private static bool runTokenCheck = false;
-        private static bool isTressAccordingToKRMeter = false;
+        public static ConditionalWeakTable<HUD.KarmaMeter, KarmaMeterCWTClass> meterCWT = new();
+        private static RegionGate.GateRequirement nomadGateReq = new("Nomad", false);
 
         public static void ThrowObject(On.Player.orig_ThrowObject orig, Player self, int grasp, bool eu)
         {
@@ -87,11 +89,11 @@ namespace SunriseIdyll
         private static void checkIfEspecialKarmaSituation(On.Player.orig_UpdateMSC orig, Player self)
         {
             trespasserSaveData.TryGet<bool>("karmaSpecial", out bool flag);
-            if (flag && self.IsTrespasser() && runTokenCheck)
+            if (flag && self.IsTrespasser())
             {
                 self.room.world.game.GetStorySession.saveState.deathPersistentSaveData.karmaCap = 1;
                 self.room.world.game.GetStorySession.saveState.deathPersistentSaveData.karma = 1;
-                runTokenCheck = false;
+                (self.playerState as PlayerNPCState).KarmaLevel = 1;
             }
             orig(self);
         }
@@ -99,57 +101,136 @@ namespace SunriseIdyll
         private static void trespasserGate(On.RegionGate.orig_ctor orig, RegionGate self, Room room)
         {
             orig(self, room);
-            if(room.world.game.IsStorySession && room.world.game.StoryCharacter == TrespasserName)
+            if (room.world.game.IsStorySession && room.world.game.StoryCharacter == TrespasserName && !self.unlocked)
             {
                 self.karmaRequirements[0] = RegionGate.GateRequirement.TwoKarma;
                 self.karmaRequirements[1] = RegionGate.GateRequirement.TwoKarma;
+                for(int i = 0; i < 2; i++)
+                {
+                    room.RemoveObject(self.karmaGlyphs[i]);
+                    self.karmaGlyphs[i] = new GateKarmaGlyph(i == 1, self, nomadGateReq);
+                    room.AddObject(self.karmaGlyphs[i]);
+                }
             }
         }
 
         private static void resetMaxKarmaTrespasser(On.Player.orig_Die orig, Player self)
         {
-            if (!self.KarmaIsReinforced && self.IsTrespasser() && !runTokenCheck)
+            if (!self.KarmaIsReinforced && self.IsTrespasser() && self.room.world.game.IsStorySession)
             {
                 trespasserSaveData.Set<bool>("karmaSpecial", false);
                 self.room.world.game.GetStorySession.saveState.deathPersistentSaveData.karmaCap = 0;
                 self.room.world.game.GetStorySession.saveState.deathPersistentSaveData.karma = 0;
-                runTokenCheck = true;
             }
             orig(self);
         }
 
-        private static void karmaMeterChecker(On.HUD.KarmaMeter.orig_ctor orig, HUD.KarmaMeter self, HUD.HUD hud, FContainer fContainer, IntVector2 displayKarma, bool showAsReinforced)
+        private static void karmaMeterCWTEnabler(On.HUD.KarmaMeter.orig_ctor orig, HUD.KarmaMeter self, HUD.HUD hud, FContainer fContainer, IntVector2 displayKarma, bool showAsReinforced) //this one causes the crash it seems
         {
-            if(self.hud.owner is Player pl && pl.IsTrespasser())
+            try
             {
-                isTressAccordingToKRMeter = true;
-            }
-            else
-            {
-                isTressAccordingToKRMeter = false;
-            }
-            orig(self, hud, fContainer, displayKarma, showAsReinforced);
-        }
+                self.displayKarma = displayKarma;
+                self.showAsReinforced = showAsReinforced;
+                displayKarma.x = RWCustom.Custom.IntClamp(displayKarma.x, 0, displayKarma.y);
+                self.pos = new Vector2(Mathf.Max(55.01f, hud.rainWorld.options.SafeScreenOffset.x + 22.51f), Mathf.Max(45.01f, hud.rainWorld.options.SafeScreenOffset.y + 22.51f));
+                self.lastPos = self.pos;
+                self.rad = 22.5f;
+                self.lastRad = self.rad;
+                self.darkFade = new FSprite("Futile_White", true);
+                self.darkFade.shader = hud.rainWorld.Shaders["FlatLight"];
+                self.darkFade.color = new Color(0f, 0f, 0f);
+                fContainer.AddChild(self.darkFade);
 
-        private static void upKarma(Player player)
-        {
-            player.room.world.game.GetStorySession.saveState.IncreaseKarmaCapOneStep();
-        }
-
-        private static string falseKarma(On.HUD.KarmaMeter.orig_KarmaSymbolSprite orig, bool small, IntVector2 k)
-        {
-            if (isTressAccordingToKRMeter)
-            {
-                if (runTokenCheck)
+                if (!meterCWT.TryGetValue(self, out KarmaMeterCWTClass key))
                 {
-                    return (small ? "smallKarma" : "karma") + 4.ToString();
+                    KarmaMeterCWTClass meter = new(self);
+                    if (meter.isTress)
+                    {
+                        if (meter.isNomad)
+                        {
+                            self.karmaSprite = new FSprite("smallKarma2");
+                        }
+                        else
+                        {
+                            self.karmaSprite = new FSprite("smallKarma4");
+                        }
+                        meterCWT.Add(self, meter);
+                    }
+                    else
+                    {
+                        self.karmaSprite = new FSprite(KarmaMeter.KarmaSymbolSprite(true, displayKarma), true);
+                    }
+                }
+                else if (meterCWT.TryGetValue(self, out KarmaMeterCWTClass meter))
+                {
+                    if (meter.isTress)
+                    {
+                        if (meter.isNomad)
+                        {
+                            self.karmaSprite = new FSprite("smallKarma2");
+                        }
+                        else
+                        {
+                            self.karmaSprite = new FSprite("smallKarma4");
+                        }
+                    }
+                    else
+                    {
+                        self.karmaSprite = new FSprite(KarmaMeter.KarmaSymbolSprite(true, displayKarma), true);
+                    }
+
+                }
+                self.karmaSprite.color = new Color(1f, 1f, 1f);
+                fContainer.AddChild(self.karmaSprite);
+                self.glowSprite = new FSprite("Futile_White", true);
+                self.glowSprite.shader = hud.rainWorld.Shaders["FlatLight"];
+                fContainer.AddChild(self.glowSprite);
+                if (ModManager.MSC)
+                {
+                    if (self.hud.owner is Player && (self.hud.owner as Player).SlugCatClass == MoreSlugcatsEnums.SlugcatStatsName.Artificer)
+                    {
+                        self.notSleptWith = !showAsReinforced;
+                        return;
+                    }
+                    self.notSleptWith = false;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                orig(self, hud, fContainer, displayKarma, showAsReinforced);
+            }
+            
+        }
+
+        private static void falseUpdateGraphics(On.HUD.KarmaMeter.orig_UpdateGraphic orig, HUD.KarmaMeter self)
+        {
+            try
+            {
+                if (self.hud.owner.GetOwnerType() == HUD.HUD.OwnerType.Player && meterCWT.TryGetValue(self, out KarmaMeterCWTClass meter) && meter.isTress)
+                {
+                    self.displayKarma.x = (self.hud.owner as Player).Karma;
+                    self.displayKarma.y = 1;
+                    if (meter.isNomad && self.displayKarma.x == 1)
+                    {
+                        self.karmaSprite.element = Futile.atlasManager.GetElementWithName("smallKarma2");
+                    }
+                    else
+                    {
+                        self.karmaSprite.element = Futile.atlasManager.GetElementWithName("smallKarma4");
+                    }
                 }
                 else
                 {
-                    return (small ? "smallKarma" : "karma") + 1.ToString();
+                    orig(self);
                 }
             }
-            return orig(small, k);
+            catch(Exception e)
+            {
+                orig(self);
+                Debug.LogException(e);
+            }
+            
         }
 
         //karma section end
@@ -357,6 +438,17 @@ namespace SunriseIdyll
                     self.lungsExhausted = true;
                 }
             }
+        }
+    }
+
+    public class KarmaMeterCWTClass
+    {
+        public bool isTress;
+        public bool isNomad;
+        public KarmaMeterCWTClass(HUD.KarmaMeter meter)
+        {
+            isTress = meter.hud.owner is Player && (meter.hud.owner as Player).IsTrespasser();
+            isNomad = meter.hud.owner is Player && (meter.hud.owner as Player).Karma >= 1;
         }
     }
 }
