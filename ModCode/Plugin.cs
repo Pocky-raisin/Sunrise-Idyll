@@ -71,7 +71,7 @@ namespace SunriseIdyll
             Futile.atlasManager.LoadAtlas("atlases/TrespasserSprites/TresHead");
             Futile.atlasManager.LoadAtlas("atlases/TrespasserSprites/TresEars");
             Futile.atlasManager.LoadAtlas("atlases/TrespasserSprites/TresFace");
-
+            Futile.atlasManager.LoadAtlas("atlases/gateSymbolNomad");
             Futile.atlasManager.LoadAtlas("atlases/SlimeSprites");
         }
 
