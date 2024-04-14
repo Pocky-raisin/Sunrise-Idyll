@@ -10,6 +10,71 @@ namespace SunriseIdyll
             On.PlayerGraphics.InitiateSprites += PG_Init;
             On.PlayerGraphics.AddToContainer += PG_Add;
             On.PlayerGraphics.DrawSprites += PG_Draw;
+            On.SlugcatHand.EngageInMovement += Hand_Engage;
+        }
+
+        private static bool Hand_Engage(On.SlugcatHand.orig_EngageInMovement orig, SlugcatHand self)
+        {
+            Player player = (self.owner.owner as Player);
+
+            if (player.TryGetTrespasser(out var data) && data.holdingGlide && data.CanGlide && data.Gliding && player.mainBodyChunk.vel.y < 0f && !data.touchingTerrain)
+            {
+                var playerOrientation = player.bodyChunks[0].pos - player.bodyChunks[1].pos;
+
+
+                if(data.GlideSpeed <= 10)
+                {
+                    Vector2 tposePos =
+                                52 *
+                                (self.limbNumber - 0.5f) *
+                                new Vector2(playerOrientation.y, -playerOrientation.x).normalized;
+
+                    tposePos += -1f * playerOrientation.normalized;
+
+                    self.quickness = 1f;
+                    self.huntSpeed = 50f;
+
+                    self.mode = Limb.Mode.HuntAbsolutePosition;
+                    self.absoluteHuntPos = player.bodyChunks[0].pos + tposePos;
+                }
+                else
+                {
+                    if (self.limbNumber == 0)
+                    {
+                        Vector2 tposePos =
+                        52 *
+                        (-0.45f * -player.flipDirection) *
+                        new Vector2(playerOrientation.y, -playerOrientation.x).normalized;
+
+                        tposePos += -1f * playerOrientation.normalized;
+
+                        self.quickness = 1f;
+                        self.huntSpeed = 50f;
+
+                        self.mode = Limb.Mode.HuntAbsolutePosition;
+                        self.absoluteHuntPos = player.bodyChunks[0].pos + tposePos;
+                    }
+                    else
+                    {
+                        Vector2 tposePos =
+                        52 *
+                        (-0.75f * -player.flipDirection) *
+                        new Vector2(playerOrientation.y, -playerOrientation.x).normalized;
+
+                        tposePos += -1f * playerOrientation.normalized;
+
+                        self.quickness = 1f;
+                        self.huntSpeed = 50f;
+
+                        self.mode = Limb.Mode.HuntAbsolutePosition;
+                        self.absoluteHuntPos = player.bodyChunks[0].pos + tposePos;
+                    }
+                }
+
+                return false;
+            }
+
+            return orig(self);
         }
 
         private static void PG_Ctor(On.PlayerGraphics.orig_ctor orig, PlayerGraphics self, PhysicalObject ow)
@@ -17,10 +82,10 @@ namespace SunriseIdyll
             orig(self, ow);//thicker + longer + floatier tail to compensate for texture
             if (!self.player.IsTrespasser()) return;
 
-            self.tail[0] = new TailSegment(self, 10f, 8.5f, null, 0.85f, 0.66f, 1f, true);
-            self.tail[1] = new TailSegment(self, 10.5f, 11.5f, self.tail[0], 0.85f, 0.66f, 0.5f, true);
-            self.tail[2] = new TailSegment(self, 11.5f, 11.5f, self.tail[1], 0.85f, 0.66f, 0.5f, true);
-            self.tail[3] = new TailSegment(self, 12f, 11.66f, self.tail[2], 0.85f, 0.66f, 0.5f, true);
+            self.tail[0] = new TailSegment(self, 12f, 8.5f, null, 0.85f, 0.66f, 1f, true);
+            self.tail[1] = new TailSegment(self, 11f, 11.5f, self.tail[0], 0.85f, 0.66f, 0.5f, true);
+            self.tail[2] = new TailSegment(self, 11f, 11.5f, self.tail[1], 0.85f, 0.66f, 0.5f, true);
+            self.tail[3] = new TailSegment(self, 10f, 11.66f, self.tail[2], 0.85f, 0.66f, 0.5f, true);
 
             var bp = self.bodyParts.ToList();
             bp.RemoveAll(x => x is TailSegment);
@@ -147,7 +212,12 @@ namespace SunriseIdyll
                         wing.MoveVertice(3, sLeaser.sprites[0].GetPosition());
                     }
 
-                    var bottom = new Vector2(Mathf.Lerp(sLeaser.sprites[1].x, sLeaser.sprites[4].x, 0.425f), Mathf.Lerp(sLeaser.sprites[1].y, sLeaser.sprites[4].y, 0.425f));
+                    var bottom = new Vector2(Mathf.Lerp(sLeaser.sprites[1].x, sLeaser.sprites[4].x, 0.75f), Mathf.Lerp(sLeaser.sprites[1].y, sLeaser.sprites[4].y, 0.75f));
+
+                    if (data.CanGlide && data.holdingGlide && data.Gliding)
+                    {
+                        bottom = sLeaser.sprites[4].GetPosition();
+                    }
 
                     wing.MoveVertice(1, bottom);
 

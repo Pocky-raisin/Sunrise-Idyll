@@ -79,12 +79,6 @@ namespace SunriseIdyll
             }
         }
 
-        private static void IL_SlugcatHand_Update(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-
-        }
-
         //karma section start
         private static void checkIfEspecialKarmaSituation(On.Player.orig_UpdateMSC orig, Player self)
         {
@@ -258,7 +252,6 @@ namespace SunriseIdyll
             }
 
             const float normalGravity = 0.9f;
-            const float boostPower = 3;
 
             //Initiate double jump 
             if (data.triggerGlide && self.bodyMode != Player.BodyModeIndex.ZeroG && !data.holdingBigItem)
@@ -266,14 +259,18 @@ namespace SunriseIdyll
                 data.CanInitGlide = false;
                 self.room.PlaySound(SoundID.Slugcat_Normal_Jump, self.mainBodyChunk.pos, 1f, 1f);
 
-                foreach (BodyChunk chunk in self.bodyChunks)
-                {
-                    chunk.vel.y = boostPower;
-                }
                 //init glide
                 data.CanGlide = true;
                 data.Gliding = true;
-                data.GlideSpeed = 0;
+
+                int speed = 0;
+
+                if (self.input[0].x != 0)
+                {
+                    speed = 6;
+                }
+
+                data.GlideSpeed = speed;
             }
 
             //runs when gliding
@@ -282,7 +279,6 @@ namespace SunriseIdyll
                 //glide physics
                 self.slugOnBack.interactionLocked = true;
                 self.eatCounter = 0;
-                self.wantToThrow = 0;
                 if (self.spearOnBack != null)
                 {
                     self.spearOnBack.interactionLocked = true;
@@ -292,62 +288,39 @@ namespace SunriseIdyll
                 self.standing = false;
                 self.WANTTOSTAND = false;
 
-                
+                if (self.graphicsModule as PlayerGraphics != null && self.graphicsModule is PlayerGraphics pg)
+                {
+                    if (self.input[0].y > 0)
+                    {
+                        pg.head.vel.y += 1f;
+                        pg.lookDirection.y += 0.5f;
+                    }
+                    pg.head.vel.x += 1f * self.flipDirection;
+                    pg.lookDirection.x += 0.5f * self.flipDirection;
+                }
 
                 if (self.slugOnBack != null && self.slugOnBack.slugcat != null && self.slugOnBack.HasASlug)
                 {
-                    foreach (BodyChunk chunk in self.slugOnBack.slugcat.bodyChunks)
-                    {
-                        chunk.vel.y = Custom.LerpAndTick(chunk.vel.y, -0.5f, 0.2f, 0.5f);
-                    }
+                    self.slugOnBack.DropSlug();
                 }
-                if (self.input[0].x == 0 || self.input[0].y == -1)
-                {
-                    self.bodyMode = Player.BodyModeIndex.Crawl;
-                }
-                else
-                {
-                    self.animation = Player.AnimationIndex.RocketJump;
-                }
+
+                self.animation = Player.AnimationIndex.RocketJump;
+
                 foreach (BodyChunk chunk in self.bodyChunks)
                 {
-
+                    /*
                     if (self.input[0].x == 0 || self.input[0].y == -1)
                     {
 
                     }
                     else
                     {
-                        chunk.vel.y = Custom.LerpAndTick(chunk.vel.y, -0.5f, 0.2f, 0.5f);
+                        
                     }
                     //Stop velocity when turning
-                    if (self.input[0].y + self.input[0].x != 0)
+                    if (self.input[0].x != 0)
                     {
-                        if (self.flipDirection != data.GlideDirection)
-                        {
-                            self.animation = Player.AnimationIndex.CrawlTurn;
-                            data.GlideSpeed = 0;
-                            chunk.vel.x = 0;
-                            data.GlideDirection = self.flipDirection;
-                        }
-                        else
-                        //Increase speed
-                        {
-                            if (data.GlideSpeed > 50)
-                            {
-                                data.GlideSpeed = 50;
-                            }
-                            data.GlideSpeed++;
-                        }
-                        //Implement speed increase
-                        if (data.CanGlide && Mathf.Abs(chunk.vel.x) < 20)
-                        {
-                            chunk.vel.x = Mathf.Lerp(chunk.vel.x, chunk.vel.x + (data.GlideSpeed / 20 * self.flipDirection), 0.2f);
-                        }
-                        else
-                        {
-                            chunk.vel.x = 20 * self.flipDirection;
-                        }
+
                     }
                     else
                     {
@@ -355,6 +328,55 @@ namespace SunriseIdyll
                         chunk.vel.x = Mathf.Lerp(chunk.vel.x, 0, 0.2f);
                         self.animation = Player.AnimationIndex.None;
                         //implement diving
+                    }
+                    */
+
+
+
+                    if (self.flipDirection != data.GlideDirection)
+                    {
+                        self.animation = Player.AnimationIndex.CrawlTurn;
+                        data.GlideSpeed = 3;
+                        chunk.vel.x = 0;
+                        data.GlideDirection = self.flipDirection;
+                    }
+                    else
+                    //Increase speed
+                    {
+                        if (data.GlideSpeed > 50)
+                        {
+                            data.GlideSpeed = 50;
+                        }
+                        if (data.GlideSpeed < 3)
+                        {
+                            data.GlideSpeed = 3;
+                        }
+                        if (self.input[0].x != 0)
+                        {
+                            data.GlideSpeed++;
+                        }
+                        else data.GlideSpeed-= self.input[0].y == -1? 8 : 2;
+                    }
+
+                    float uhh = 0.8f;
+                    if (self.input[0].y < 0) uhh = 1.4f;
+
+
+                    if (data.GlideSpeed <= 20)
+                    {
+                        float negative = Mathf.InverseLerp(0.5f, uhh, data.GlideSpeed / 20);
+                        chunk.vel.y -= negative;
+                    }
+                    else chunk.vel.y = -0.5f;
+
+                    //Implement speed increase
+                    if (data.CanGlide && Mathf.Abs(chunk.vel.x) < 20)
+                    {
+                        chunk.vel.x = Mathf.Lerp(chunk.vel.x, chunk.vel.x + (data.GlideSpeed / 20 * self.flipDirection), 0.2f);
+                    }
+                    else
+                    {
+                        chunk.vel.x = 20 * self.flipDirection;
                     }
 
                 }
@@ -376,9 +398,9 @@ namespace SunriseIdyll
                 data.GlideCooldown--;
             }
             //Cooldown for how soon gliding can begin after jumping
-            if (data.GlideCooldown < 5 && data.rechargeGlide && self.bodyMode == Player.BodyModeIndex.ZeroG && self.animation == Player.AnimationIndex.ZeroGSwim)
+            if (data.GlideCooldown < 10 && data.rechargeGlide && self.bodyMode == Player.BodyModeIndex.ZeroG && self.animation == Player.AnimationIndex.ZeroGSwim)
             {
-                data.GlideCooldown = 5;
+                data.GlideCooldown = 10;
             }
 
             //Logs

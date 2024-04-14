@@ -9,8 +9,7 @@
     "tunnel_speed": 0.7,
     "throw_skill": 0,
     "diet": {
-      "base": "Saint",
-      "meat": 0.25
+      "base": "White"
     },
     "karma_cap": 0,
     "custom_colors": [
