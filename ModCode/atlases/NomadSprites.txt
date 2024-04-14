@@ -1,0 +1,28 @@
+{"frames": {
+
+"gateSymbolNomad.png":
+{
+	"frame": {"x":0,"y":0,"w":62,"h":149},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":149},
+	"sourceSize": {"w":62,"h":149}
+},
+"NomadKarma.png":
+{
+	"frame": {"x":0,"y":149,"w":63,"h":63},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":63,"h":63},
+	"sourceSize": {"w":63,"h":63}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "NomadSprites.png",
+	"format": "RGBA8888",
+	"size": {"w":63,"h":212},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:e8437c457fea0d871730d3d9262326d6:3c5cc1ad413c1b42ec2026111a7d8957:a2bc3cd802166c74682ff29c1f795da4$"
+}
+}

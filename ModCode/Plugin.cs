@@ -71,7 +71,7 @@ namespace SunriseIdyll
             Futile.atlasManager.LoadAtlas("atlases/TrespasserSprites/TresHead");
             Futile.atlasManager.LoadAtlas("atlases/TrespasserSprites/TresEars");
             Futile.atlasManager.LoadAtlas("atlases/TrespasserSprites/TresFace");
-            Futile.atlasManager.LoadAtlas("atlases/gateSymbolNomad");
+            Futile.atlasManager.LoadAtlas("atlases/NomadSprites");
             Futile.atlasManager.LoadAtlas("atlases/SlimeSprites");
         }
 
@@ -79,4 +79,36 @@ namespace SunriseIdyll
 
     }
 
+    public static class SunriseEnums
+    {
+        public static class SlugName
+        {
+
+        }
+
+        public static class CritDamageType
+        {
+
+        }
+
+        public static class AbstrObjType
+        {
+
+        }
+
+        public static class CritTemplateType
+        {
+
+        }
+
+        public static class SandboxID
+        {
+
+        }
+
+        public static class RegionGateReq
+        {
+            public static RegionGate.GateRequirement Nomad = new("Nomad", true);
+        }
+    }
 }

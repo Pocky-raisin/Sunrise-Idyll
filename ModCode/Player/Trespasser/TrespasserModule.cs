@@ -72,6 +72,8 @@ namespace SunriseIdyll
             public int FakeDeadCounter;
 
             public int earsprite;
+            public bool graphicsinit;
+            public int wings;
 
             public bool holdingGlide
             {

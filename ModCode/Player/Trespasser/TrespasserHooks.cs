@@ -22,9 +22,9 @@ namespace SunriseIdyll
             On.Player.UpdateBodyMode += UpdateBodyMode;
             On.Player.ThrowObject += ThrowObject;
             On.Player.Update += Update;
-            On.Player.UpdateMSC += checkIfEspecialKarmaSituation;
-            On.Player.Die += resetMaxKarmaTrespasser;
-            On.RegionGate.ctor += trespasserGate;
+            //On.Player.UpdateMSC += checkIfEspecialKarmaSituation;
+            //On.Player.Die += resetMaxKarmaTrespasser;
+            //On.RegionGate.ctor += trespasserGate;
             //the below two don't work and/or cause exceptions
             //On.HUD.KarmaMeter.ctor += karmaMeterCWTEnabler;
             //On.HUD.KarmaMeter.UpdateGraphic += falseUpdateGraphics;
@@ -41,7 +41,7 @@ namespace SunriseIdyll
 
         public static Dictionary<string, bool> foundTokens = new Dictionary<string, bool>();
         public static ConditionalWeakTable<HUD.KarmaMeter, KarmaMeterCWTClass> meterCWT = new();
-        private static RegionGate.GateRequirement nomadGateReq = new("Nomad", false);
+
 
         public static void ThrowObject(On.Player.orig_ThrowObject orig, Player self, int grasp, bool eu)
         {
@@ -108,7 +108,7 @@ namespace SunriseIdyll
                 for(int i = 0; i < 2; i++)
                 {
                     room.RemoveObject(self.karmaGlyphs[i]);
-                    self.karmaGlyphs[i] = new GateKarmaGlyph(i == 1, self, nomadGateReq);
+                    self.karmaGlyphs[i] = new GateKarmaGlyph(i == 1, self, SunriseEnums.RegionGateReq.Nomad);
                     room.AddObject(self.karmaGlyphs[i]);
                 }
             }

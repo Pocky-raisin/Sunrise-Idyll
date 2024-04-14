@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace SunriseIdyll
 {
     public static class TrespasserGraphics
@@ -28,6 +30,11 @@ namespace SunriseIdyll
 
         private static void PG_Init(On.PlayerGraphics.orig_InitiateSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
         {
+            if (self.player.TryGetTrespasser(out var trespasser))
+            {
+                trespasser.graphicsinit = false;
+            }
+            
             orig(self, sLeaser, rCam);
 
             if (self.player.TryGetTrespasser(out var data))
@@ -55,13 +62,23 @@ namespace SunriseIdyll
                         tail.UVvertices[i] = uv;
                     }
                 }
-
+                data.graphicsinit = true;
 
                 //actual earsprie code
                 data.earsprite = sLeaser.sprites.Length;
-                System.Array.Resize(ref sLeaser.sprites, sLeaser.sprites.Length + 1);
+                data.wings = sLeaser.sprites.Length + 1;
 
-                sLeaser.sprites[data.earsprite] = new FSprite("Circle20", true);//some random fsprite
+                System.Array.Resize(ref sLeaser.sprites, sLeaser.sprites.Length + 2);
+
+                sLeaser.sprites[data.earsprite] = new FSprite("Circle20", true);
+                TriangleMesh.Triangle[] tris = new TriangleMesh.Triangle[]
+                {
+                    new (0, 1, 2),
+                    new (1, 2, 3)
+                };
+
+                var triangleMesh = new TriangleMesh("Futile_White", tris, false, false);
+                sLeaser.sprites[data.wings] = triangleMesh;
 
                 self.AddToContainer(sLeaser, rCam, null);
             }
@@ -73,7 +90,7 @@ namespace SunriseIdyll
 
             if (self.player.TryGetTrespasser(out var data))
             {
-                if (sLeaser.sprites.Length > data.earsprite)
+                if (data.graphicsinit)
                 {
                     if (newContatiner == null)
                     {
@@ -81,7 +98,12 @@ namespace SunriseIdyll
                     }
 
                     newContatiner.AddChild(sLeaser.sprites[data.earsprite]);
-                    sLeaser.sprites[data.earsprite].MoveBehindOtherNode(sLeaser.sprites[4]);//move it just in front of head
+                    newContatiner.AddChild(sLeaser.sprites[data.wings]);
+                    sLeaser.sprites[data.earsprite].MoveInFrontOfOtherNode(sLeaser.sprites[3]);//move it just in front of head
+
+                    sLeaser.sprites[data.wings].MoveBehindOtherNode(sLeaser.sprites[5]);
+
+
                 }
             }
         }
@@ -103,6 +125,35 @@ namespace SunriseIdyll
             orig(self, sLeaser, rCam, timeStacker, camPos);
             if (self.player.TryGetTrespasser(out var data))
             {
+
+                if (sLeaser.sprites[data.wings] is TriangleMesh wing)
+                {
+
+                    if (sLeaser.sprites[5].isVisible)
+                    {
+                        wing.MoveVertice(0, sLeaser.sprites[5].GetPosition());
+                    }
+                    else
+                    {
+                        wing.MoveVertice(0, sLeaser.sprites[0].GetPosition());
+                    }
+
+                    if (sLeaser.sprites[6].isVisible)
+                    {
+                        wing.MoveVertice(3, sLeaser.sprites[6].GetPosition());
+                    }
+                    else
+                    {
+                        wing.MoveVertice(3, sLeaser.sprites[0].GetPosition());
+                    }
+
+                    var bottom = new Vector2(Mathf.Lerp(sLeaser.sprites[1].x, sLeaser.sprites[4].x, 0.425f), Mathf.Lerp(sLeaser.sprites[1].y, sLeaser.sprites[4].y, 0.425f));
+
+                    wing.MoveVertice(1, bottom);
+
+                    wing.MoveVertice(2, sLeaser.sprites[0].GetPosition());
+
+                }
 
                 void UpdateReplacement(int num, string tofind)
                 {
