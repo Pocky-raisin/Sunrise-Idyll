@@ -12,6 +12,7 @@
       "base": "White"
     },
     "karma_cap": 0,
+    "perma_unlock_gates": true,
     "custom_colors": [
       {
         "name": "Body",
@@ -31,7 +32,7 @@
     ],
 
     "start_room": "SU_S01",
-    "food_min": 5,
+    "food_min": 4,
     "food_max": 6,
     "select_menu_scene": "Select_Prototype",
     "select_menu_scene_ascended": "Ghost_Prototype",

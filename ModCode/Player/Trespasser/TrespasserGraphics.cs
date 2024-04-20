@@ -1,4 +1,7 @@
+using System.Numerics;
 using UnityEngine;
+using static MonoMod.InlineRT.MonoModRule;
+using Vector2 = UnityEngine.Vector2;
 
 namespace SunriseIdyll
 {
@@ -11,40 +14,59 @@ namespace SunriseIdyll
             On.PlayerGraphics.AddToContainer += PG_Add;
             On.PlayerGraphics.DrawSprites += PG_Draw;
             On.SlugcatHand.EngageInMovement += Hand_Engage;
+            On.PlayerGraphics.Update += PlayerGraphics_Update;
+            //IL.PlayerGraphics.DrawSprites += PlayerGraphics_DrawSprites;
+        }
+
+        private static void PlayerGraphics_DrawSprites(ILContext il)
+        {
+            ILCursor cursor = new(il);
+
+            for (int i = 0; i < 2; i++)
+            {
+                cursor.GotoNext(MoveType.After,
+                i => i.MatchLdfld<Player>(nameof(Player.bodyMode)),
+                i => i.MatchLdsfld<Player.BodyModeIndex>(nameof(Player.BodyModeIndex.Crawl)),
+                i => i.MatchCallOrCallvirt(typeof(ExtEnum<Player.BodyModeIndex>).GetMethod("op_Equality")));
+                cursor.Emit(OpCodes.Ldarg_0);
+                cursor.EmitDelegate((PlayerGraphics self) =>
+                {
+                    return self.player.TryGetTrespasser(out var data) && data.Climbing;
+                });
+                cursor.Emit(OpCodes.Or);
+            }
+        }
+
+        private static void PlayerGraphics_Update(On.PlayerGraphics.orig_Update orig, PlayerGraphics self)
+        {
+            orig(self);
+
+            if (self.player.TryGetTrespasser(out var data))
+            {
+                if (data.Climbing && self.player.bodyChunks[0].pos.y < self.player.bodyChunks[1].pos.y)
+                {
+                    self.tail[self.tail.Length - 1].vel.y += 2.15f;
+                }
+            }
         }
 
         private static bool Hand_Engage(On.SlugcatHand.orig_EngageInMovement orig, SlugcatHand self)
         {
             Player player = (self.owner.owner as Player);
 
-            if (player.TryGetTrespasser(out var data) && data.holdingGlide && data.CanGlide && data.Gliding && player.mainBodyChunk.vel.y < 0f && !data.touchingTerrain)
+            if (player.TryGetTrespasser(out var data))
             {
-                var playerOrientation = player.bodyChunks[0].pos - player.bodyChunks[1].pos;
-
-
-                if(data.GlideSpeed <= 10)
+                if (data.holdingGlide && data.CanGlide && data.Gliding && player.mainBodyChunk.vel.y < 0f && !data.touchingTerrain)
                 {
-                    Vector2 tposePos =
-                                52 *
-                                (self.limbNumber - 0.5f) *
-                                new Vector2(playerOrientation.y, -playerOrientation.x).normalized;
+                    var playerOrientation = player.bodyChunks[0].pos - player.bodyChunks[1].pos;
 
-                    tposePos += -1f * playerOrientation.normalized;
 
-                    self.quickness = 1f;
-                    self.huntSpeed = 50f;
-
-                    self.mode = Limb.Mode.HuntAbsolutePosition;
-                    self.absoluteHuntPos = player.bodyChunks[0].pos + tposePos;
-                }
-                else
-                {
-                    if (self.limbNumber == 0)
+                    if (data.GlideSpeed <= 10)
                     {
                         Vector2 tposePos =
-                        52 *
-                        (-0.45f * -player.flipDirection) *
-                        new Vector2(playerOrientation.y, -playerOrientation.x).normalized;
+                                    52 *
+                                    (self.limbNumber - 0.5f) *
+                                    new Vector2(playerOrientation.y, -playerOrientation.x).normalized;
 
                         tposePos += -1f * playerOrientation.normalized;
 
@@ -56,22 +78,65 @@ namespace SunriseIdyll
                     }
                     else
                     {
-                        Vector2 tposePos =
-                        52 *
-                        (-0.75f * -player.flipDirection) *
-                        new Vector2(playerOrientation.y, -playerOrientation.x).normalized;
+                        if (self.limbNumber == 0)
+                        {
+                            Vector2 tposePos =
+                            52 *
+                            (-0.45f * -player.flipDirection) *
+                            new Vector2(playerOrientation.y, -playerOrientation.x).normalized;
 
-                        tposePos += -1f * playerOrientation.normalized;
+                            tposePos += -1f * playerOrientation.normalized;
 
-                        self.quickness = 1f;
-                        self.huntSpeed = 50f;
+                            self.quickness = 1f;
+                            self.huntSpeed = 50f;
 
-                        self.mode = Limb.Mode.HuntAbsolutePosition;
-                        self.absoluteHuntPos = player.bodyChunks[0].pos + tposePos;
+                            self.mode = Limb.Mode.HuntAbsolutePosition;
+                            self.absoluteHuntPos = player.bodyChunks[0].pos + tposePos;
+                        }
+                        else
+                        {
+                            Vector2 tposePos =
+                            52 *
+                            (-0.75f * -player.flipDirection) *
+                            new Vector2(playerOrientation.y, -playerOrientation.x).normalized;
+
+                            tposePos += -1f * playerOrientation.normalized;
+
+                            self.quickness = 1f;
+                            self.huntSpeed = 50f;
+
+                            self.mode = Limb.Mode.HuntAbsolutePosition;
+                            self.absoluteHuntPos = player.bodyChunks[0].pos + tposePos;
+                        }
                     }
+                    return false;
                 }
 
-                return false;
+                else if (data.Climbing)
+                {
+                    self.mode = Limb.Mode.HuntAbsolutePosition;
+                    float walldir;
+
+                    if ((self.owner.owner as Player).bodyChunks[0].pos.y > (self.owner.owner as Player).bodyChunks[1].pos.y)
+                    {
+                        walldir = 1;
+                    }
+                    else walldir = -1;
+
+                    self.huntSpeed = 12f;
+                    self.quickness = 0.7f;
+                    if ((self.limbNumber == 0 || (Mathf.Abs((self.owner as PlayerGraphics).hands[0].pos.y - self.owner.owner.bodyChunks[0].pos.y) < 10f && (self.owner as PlayerGraphics).hands[0].reachedSnapPosition)) && !Custom.DistLess(self.owner.owner.bodyChunks[0].pos, self.absoluteHuntPos, 29f))
+                    {
+                        Vector2 absoluteHuntPos = self.absoluteHuntPos;
+                        self.FindGrip(self.owner.owner.room, self.connection.pos + new Vector2(0f, walldir * 20f),
+                            self.connection.pos + new Vector2(0f, walldir * 20f),
+                            100f, new Vector2(self.owner.owner.room.MiddleOfTile(self.owner.owner.bodyChunks[0].pos).y - 10f, self.owner.owner.bodyChunks[0].pos.y + walldir * 28f), 2, 1, false);//
+                        if (self.absoluteHuntPos != absoluteHuntPos)
+                        {
+                        }
+                    }
+                    return false;
+                }
             }
 
             return orig(self);
@@ -247,24 +312,74 @@ namespace SunriseIdyll
                     }
                 }
 
-                UpdateReplacement(3, "HeadA");//floof head
-                UpdateReplacement(9, "FaceA");//sad face
-                UpdateCustom(3, "HeadA", "EarsA", data.earsprite);//earsprite
 
-                if (data.FakeDead)//play dead graphics changes
+
+                if (data.Climbing)
                 {
-                    sLeaser.sprites[9].element = Futile.atlasManager.GetElementWithName("TresFakeFace");
+                    sLeaser.sprites[3].SetElementByName("HeadA7");
+                    sLeaser.sprites[9].SetElementByName("FaceA4");
 
                     Vector2 vector = Vector2.Lerp(self.drawPositions[0, 1], self.drawPositions[0, 0], timeStacker);
                     Vector2 vector2 = Vector2.Lerp(self.drawPositions[1, 1], self.drawPositions[1, 0], timeStacker);
-                    Vector2 vector3 = Vector2.Lerp(self.head.lastPos, self.head.pos, timeStacker);
-                    float num3 = Custom.AimFromOneVectorToAnother(Vector2.Lerp(vector2, vector, 0.5f), vector3);
 
-                    sLeaser.sprites[9].rotation = num3;
-                    sLeaser.sprites[3].rotation = num3;
-                    sLeaser.sprites[3].element = Futile.atlasManager.GetElementWithName("TresHeadA0");
-                    sLeaser.sprites[data.earsprite].element = Futile.atlasManager.GetElementWithName("TresEarsA0");
+                    if (self.player.bodyChunks[0].vel.x > 0f)// --}
+                    {
+                        sLeaser.sprites[3].scaleX = 1f;
+                        sLeaser.sprites[3].rotation = 0f;
+                        //sLeaser.sprites[9].scaleX = Mathf.Abs(sLeaser.sprites[9].scaleX);
+                        sLeaser.sprites[3].scaleY = 1f;
+                        sLeaser.sprites[9].rotation = -90f;
+                        sLeaser.sprites[4].rotation = -90f;
+
+                        if (self.player.bodyChunks[0].pos.y > self.player.bodyChunks[1].pos.y)//facing up?
+                        {
+                            sLeaser.sprites[9].scaleX = 1f;// Mathf.Abs(Mathf.Sign(vector.x - vector2.x));
+                            sLeaser.sprites[4].scaleX = 1f;
+                            sLeaser.sprites[3].scaleY = 1f;
+                            self.lookDirection.y += 0.0275f;
+                        }
+                        else
+                        {
+                            sLeaser.sprites[9].scaleX = -1f;// Mathf.Abs(Mathf.Sign(vector.x - vector2.x));
+                            sLeaser.sprites[4].scaleX = -1f;
+                            sLeaser.sprites[3].scaleY = -1f;
+                            self.lookDirection.y -= 0.0275f;
+                        }
+
+                    }
+                    else//{---
+                    {
+                        sLeaser.sprites[3].scaleX = -1f;
+                        sLeaser.sprites[3].rotation = 0f;
+                        sLeaser.sprites[3].scaleY = 1f;
+                        sLeaser.sprites[9].rotation = 90f;
+                        sLeaser.sprites[4].rotation = 90f;
+
+                        if (self.player.bodyChunks[0].pos.y > self.player.bodyChunks[1].pos.y)//facing up?
+                        {
+                            sLeaser.sprites[3].scaleY = 1f;
+                            sLeaser.sprites[9].scaleX = -1f;// Mathf.Abs(Mathf.Sign(vector.x - vector2.x));
+                            sLeaser.sprites[4].scaleX = -1f;
+                            self.lookDirection.y += 0.0275f;
+                        }
+                        else
+                        {
+                            sLeaser.sprites[3].scaleY = -1f;
+                            sLeaser.sprites[9].scaleX = 1f;// Mathf.Abs(Mathf.Sign(vector.x - vector2.x));
+                            sLeaser.sprites[4].scaleX = 1f;
+                            self.lookDirection.y -= 0.0275f;
+                        }
+                    }
+                    self.lookDirection.x = 0f;
                 }
+                else
+                {
+                    sLeaser.sprites[3].scaleY = 1f;
+                }
+
+                UpdateReplacement(3, "HeadA");//floof head
+                UpdateReplacement(9, "FaceA");//sad face
+                UpdateCustom(3, "HeadA", "EarsA", data.earsprite);//earsprite
 
                 if (data.Gliding)
                 {

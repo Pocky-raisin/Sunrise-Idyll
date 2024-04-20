@@ -49,6 +49,7 @@ namespace SunriseIdyll
             ChandlerHooks.ApplyHooks();
             ImperishableHooks.ApplyHooks();
             WorldThings.ApplyHooks();
+            TrespasserWorld.ApplyHooks();
             // Put your custom hooks here!
 
             Content.Register(new WarmSlimeFisob());
@@ -109,6 +110,10 @@ namespace SunriseIdyll
         public static class RegionGateReq
         {
             public static RegionGate.GateRequirement Nomad = new("Nomad", true);
+        }
+        public static class BodyModeIndex
+        {
+            public static Player.BodyModeIndex TresClimb = new("TresClimb", true);
         }
     }
 }

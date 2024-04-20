@@ -25,7 +25,27 @@ namespace SunriseIdyll
             On.Creature.HypothermiaUpdate += hypothermiaModify;
             On.SlugcatStats.SpearSpawnExplosiveRandomChance += explosiveSpearsNaturalSpawn;
             On.RainWorld.PostModsInit += doHookPostModsInit;
+            //On.RainCycle.ctor += RainCycle_ctor;
+            //On.RoomRain.Update += RoomRain_Update;
         }
+
+        private static void RoomRain_Update(On.RoomRain.orig_Update orig, RoomRain self, bool eu)
+        {
+            orig(self, eu);
+
+            if (self.room.game != null)
+            {
+                if (self.room.game.ChandTressWorld())
+                {
+                    if (self.intensity < 0.35f) self.intensity = 0.35f;
+                }
+                else if (self.room.game.LampPerishWorld())
+                {
+                    if (self.intensity < 0.5f) self.intensity = 0.5f;
+                }
+            }
+        }
+
         public static void doHookPostModsInit(On.RainWorld.orig_PostModsInit orig, RainWorld self) //guarantees that these hooks are called after slugbase's
         {
             orig(self);
@@ -311,16 +331,17 @@ namespace SunriseIdyll
                     TrespasserHooks.trespasserSaveData.Set<bool>("alreadyDidSaveSetup", true);
                     TrespasserHooks.trespasserSaveData.Set<bool>("beatTrespasser", false);
                     TrespasserHooks.trespasserSaveData.Set<bool>("karmaSpecial", false);
-                    TrespasserHooks.foundTokens.Add("SU", false);
-                    TrespasserHooks.foundTokens.Add("HI", false);
-                    TrespasserHooks.foundTokens.Add("UG", false);
-                    TrespasserHooks.foundTokens.Add("CC", false);
-                    TrespasserHooks.foundTokens.Add("VS", false);
-                    TrespasserHooks.foundTokens.Add("GW", false);
-                    TrespasserHooks.foundTokens.Add("SL", false);
-                    TrespasserHooks.foundTokens.Add("SI", false);
-                    TrespasserHooks.foundTokens.Add("LF", false);
-                    TrespasserHooks.foundTokens.Add("LT", false);
+                    TrespasserHooks.trespasserSaveData.Set<string>("fatalShelter", "");
+                    TrespasserWorld.foundTokens.Add("SU", false);
+                    TrespasserWorld.foundTokens.Add("HI", false);
+                    TrespasserWorld.foundTokens.Add("UG", false);
+                    TrespasserWorld.foundTokens.Add("CC", false);
+                    TrespasserWorld.foundTokens.Add("VS", false);
+                    TrespasserWorld.foundTokens.Add("GW", false);
+                    TrespasserWorld.foundTokens.Add("SL", false);
+                    TrespasserWorld.foundTokens.Add("SI", false);
+                    TrespasserWorld.foundTokens.Add("LF", false);
+                    TrespasserWorld.foundTokens.Add("LT", false);
                     bool flag = true;
                     for(int i = 0; i < ModManager.InstalledMods.Count; i++)
                     {
@@ -331,13 +352,13 @@ namespace SunriseIdyll
                     }
                     if (flag)
                     {
-                        TrespasserHooks.foundTokens.Add("CL", false);
+                        TrespasserWorld.foundTokens.Add("CL", false);
                     }
                     else
                     {
-                        TrespasserHooks.foundTokens.Add("RP", false);
-                        TrespasserHooks.foundTokens.Add("JW", false);
-                        TrespasserHooks.foundTokens.Add("CE", false);
+                        TrespasserWorld.foundTokens.Add("RP", false);
+                        TrespasserWorld.foundTokens.Add("JW", false);
+                        TrespasserWorld.foundTokens.Add("CE", false);
                     }
                 }
             }
@@ -420,7 +441,11 @@ namespace SunriseIdyll
 
         public static void RainCycle_ctor(On.RainCycle.orig_ctor orig, RainCycle self, World world, float minutes)
         {
-            orig(self, world, minutes);
+            if (world.game != null && world.game.SunriseWorld())
+            {
+                minutes += Random.Range(3, 6);
+            }
+                orig(self, world, minutes);
         }
 
     }

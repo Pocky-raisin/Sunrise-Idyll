@@ -60,17 +60,6 @@ namespace SunriseIdyll
             public bool HeavyCarrying;
             public bool CanInitGlide;
 
-            public bool WallClimbing;
-            public bool CeilingClimbing;
-            public int WallClimbDuration;
-            public int WallClimbDir;
-            public int CeilingClimbDir;
-
-            public int NoFakeDeadCounter;
-            public bool FakeDead;
-            public int FakeDeadDelay;
-            public int FakeDeadCounter;
-
             public int earsprite;
             public bool graphicsinit;
             public int wings;
@@ -121,23 +110,15 @@ namespace SunriseIdyll
                     return self != null && GlideCooldown <= 0 && !touchingTerrain && CanInitGlide && self.input[0].jmp && !self.input[1].jmp;
                 }
             }
-        }
-    }
 
-    public class TresWallMovement
-    {
-        public Player owner;
-        public readonly float BodWidth = 6f;
-        public readonly float MaxSpeed = 1f;
-        public bool Climbing;
-        public IntVector2 ClimbDirection;
-        public TrespasserModule.TrespasserData TresInfo;
-        public float DefaultSpeed = 3f;
-
-        public TresWallMovement(Player player, TrespasserModule.TrespasserData info)
-        {
-            owner = player;
-            TresInfo = info;
+            public readonly float BodWidth = 6f;
+            public readonly float MaxSpeed = 1f;
+            public bool Climbing;
+            public IntVector2 ClimbDirection = new(0, 0);
+            public IntVector2 ClimbCollisions = new(0, 0);
+            public TrespasserModule.TrespasserData TresInfo;
+            public float DefaultSpeed = 3f;
+            private Vector2 BodyVel = default(Vector2);
         }
     }
 }

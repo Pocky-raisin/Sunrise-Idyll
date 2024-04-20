@@ -1,17 +1,4 @@
-using System;
-using System.Runtime.CompilerServices;
-using System.Collections.Generic;
-using BepInEx;
-using UnityEngine;
-using SunriseIdyll;
-using RWCustom;
-using MonoMod.Cil;
-using MonoMod;
-using MoreSlugcats;
-using System.Linq;
 using SlugBase.SaveData;
-
-
 namespace SunriseIdyll
 {
     public static class TrespasserHooks
@@ -19,29 +6,145 @@ namespace SunriseIdyll
         public static void ApplyHooks()
         {
             On.Player.MovementUpdate += MovementUpdate;
-            On.Player.UpdateBodyMode += UpdateBodyMode;
             On.Player.ThrowObject += ThrowObject;
-            On.Player.Update += Update;
-            //On.Player.UpdateMSC += checkIfEspecialKarmaSituation;
-            //On.Player.Die += resetMaxKarmaTrespasser;
-            //On.RegionGate.ctor += trespasserGate;
-            //the below two don't work and/or cause exceptions
-            //On.HUD.KarmaMeter.ctor += karmaMeterCWTEnabler;
-            //On.HUD.KarmaMeter.UpdateGraphic += falseUpdateGraphics;
+            //On.Player.TerrainImpact += Player_TerrainImpact;
+            On.Player.UpdateBodyMode += Player_UpdateBodyMode;
+            On.Player.UpdateMSC += Player_UpdateMSC;
         }
-        
-        public static bool IsTrespasser(this Player pl)
+
+        private static void Player_UpdateMSC(On.Player.orig_UpdateMSC orig, Player self)
         {
-            return pl.SlugCatClass.value == "IDYLL.GlideScug";
+            orig(self);
+            if (self.TryGetTrespasser(out var data))
+            {
+                if (data.Climbing)
+                {
+                    self.gravity = 0f;
+                }
+            }
         }
 
-        public static readonly SlugcatStats.Name TrespasserName = new SlugcatStats.Name("IDYLL.GlideScug", false);
+        private static void Player_UpdateBodyMode(On.Player.orig_UpdateBodyMode orig, Player self)
+        {
+            orig(self);
 
-        public static SlugBaseSaveData trespasserSaveData = SlugBase.SaveData.SaveDataExtension.GetSlugBaseData(new DeathPersistentSaveData(TrespasserName));
+            void FlipBodyChunks()
+            {
+                var pos0 = self.bodyChunks[0].pos;
+                var pos1 = self.bodyChunks[1].pos;
 
-        public static Dictionary<string, bool> foundTokens = new Dictionary<string, bool>();
-        public static ConditionalWeakTable<HUD.KarmaMeter, KarmaMeterCWTClass> meterCWT = new();
+                self.bodyChunks[1].pos = pos0;
+                self.bodyChunks[0].pos = pos1;
+            }
 
+            if (self.TryGetTrespasser(out var data))
+            {
+                if (/*self.IsTileSolid(0, self.flipDirection, 0)*/self.bodyChunks[0].ContactPoint.x == self.flipDirection && /*!self.IsTileSolid(1, 0, -1)*/ self.bodyChunks[1].ContactPoint.y > -1 && self.bodyMode != Player.BodyModeIndex.CorridorClimb && self.Submersion < 0.5f)
+                {
+                    self.bodyMode = Player.BodyModeIndex.WallClimb;
+
+                    data.Climbing = true;
+                    data.ClimbDirection = new IntVector2(0, 0);
+
+                    self.bodyChunks[0].vel.x = self.flipDirection * 1.5f;
+                    self.bodyChunks[1].vel.x = self.flipDirection * 1.5f;
+
+                    if (self.input[0].y == 1)
+                    {
+                        data.ClimbDirection.y = 1;
+                        self.bodyChunks[0].vel.y = 2.75f;
+                        self.bodyChunks[1].vel.y = 2.25f;
+
+                        if (self.bodyChunks[0].pos.y < self.bodyChunks[1].pos.y)
+                        {
+                            FlipBodyChunks();
+                        }
+
+                    }
+                    else if (self.input[0].y == -1)
+                    {
+                        data.ClimbDirection.y = -1;
+                        self.bodyChunks[0].vel.y = - 2.75f;
+                        self.bodyChunks[1].vel.y = -2.25f;
+
+                        if (self.bodyChunks[0].pos.y > self.bodyChunks[1].pos.y)
+                        {
+                            FlipBodyChunks();
+                        }
+                    }
+                    else
+                    {
+                        self.bodyChunks[0].vel.y = 0;
+                        self.bodyChunks[1].vel.y = 0;
+                    }
+
+                    self.canJump = Mathf.Max(self.canJump, 5);
+
+                    /*
+                    if (data.ClimbDirection.y == 1)
+                    {
+
+                        self.bodyChunks[1].pos = self.bodyChunks[0].pos - new Vector2(0f, 4.25f);
+                    }
+                    else if(data.ClimbDirection.y == -1)
+                        self.bodyChunks[1].pos = self.bodyChunks[0].pos + new Vector2(0f, 4.25f);
+                    */
+
+                    if (self.input[0].jmp && !self.input[1].jmp)
+                    {
+                        data.Climbing = false;
+                        self.bodyChunks[0].vel = new Vector2(7 * -self.flipDirection, 7 * self.bodyChunks[0].pos.y > self.bodyChunks[1].pos.y? 6f : -6f);
+                        self.bodyChunks[1].vel = self.bodyChunks[1].vel * 0.75f;
+
+                        self.bodyChunks[0].pos += new Vector2(7 * -self.flipDirection, 7 * self.bodyChunks[0].pos.y > self.bodyChunks[1].pos.y ? 6f : -6f);
+                        self.bodyChunks[1].pos += new Vector2(5 * -self.flipDirection, 5 * self.bodyChunks[0].pos.y > self.bodyChunks[1].pos.y ? 4f : -4f);
+                        data.ClimbDirection = new IntVector2(0, 0);
+                    }
+
+                }
+                else
+                {
+                    data.Climbing = false;
+                    data.ClimbDirection = new IntVector2(0, 0);
+                }
+            }
+
+        }
+
+        private static void Player_TerrainImpact(On.Player.orig_TerrainImpact orig, Player self, int chunk, IntVector2 direction, float speed, bool firstContact)
+        {
+            orig(self, chunk, direction, speed, firstContact);
+            if (self.TryGetTrespasser(out var data))
+            {
+                if ((!self.standing && direction.y < 0) || direction.y >= 0)
+                {
+                    data.Climbing = true;
+                    data.ClimbDirection = new IntVector2(0, 0);
+
+                    if (direction.x != 0)
+                    {
+                        data.ClimbDirection.y = 1;
+                    }
+
+                    self.bodyChunks[0].vel = Vector2.zero;
+                    self.bodyChunks[1].vel = Vector2.zero;
+
+                    if (self.input[0].y == 1)
+                    {
+                        data.ClimbDirection.y = 1;
+                        self.bodyChunks[0].pos.y += 5f;
+                    }
+                    else if (self.input[0].y == -1)
+                    {
+                        data.ClimbDirection.y = -1;
+                        self.bodyChunks[0].pos.y -= 5f;
+                    }
+
+                    self.canJump = Mathf.Max(self.canJump, 5);
+                    self.bodyChunks[1].pos = self.bodyChunks[0].pos - new Vector2(0f, 2.5f * data.ClimbDirection.y);
+                }
+            }
+        }
 
         public static void ThrowObject(On.Player.orig_ThrowObject orig, Player self, int grasp, bool eu)
         {
@@ -57,190 +160,9 @@ namespace SunriseIdyll
             }
         }
 
-        private static void UpdateBodyMode(On.Player.orig_UpdateBodyMode orig, Player self)
-        {
-            orig(self);
+        #region WorldMechanics
 
-            //trying to prepare wallclimbing
-
-            bool isTresspasser = self.TryGetTrespasser(out var data);
-
-            if (isTresspasser)
-            {
-                if (self.bodyMode == Player.BodyModeIndex.WallClimb)
-                {
-                    data.WallClimbing = true;
-
-                    if (self.input[0].jmp && data.WallClimbing)
-                    {
-                        data.WallClimbing = false;
-                    }
-                }
-            }
-        }
-
-        //karma section start
-        private static void checkIfEspecialKarmaSituation(On.Player.orig_UpdateMSC orig, Player self)
-        {
-            trespasserSaveData.TryGet<bool>("karmaSpecial", out bool flag);
-            if (flag && self.IsTrespasser())
-            {
-                self.room.world.game.GetStorySession.saveState.deathPersistentSaveData.karmaCap = 1;
-                self.room.world.game.GetStorySession.saveState.deathPersistentSaveData.karma = 1;
-                (self.playerState as PlayerNPCState).KarmaLevel = 1;
-            }
-            orig(self);
-        }
-
-        private static void trespasserGate(On.RegionGate.orig_ctor orig, RegionGate self, Room room)
-        {
-            orig(self, room);
-            if (room.world.game.IsStorySession && room.world.game.StoryCharacter == TrespasserName && !self.unlocked)
-            {
-                self.karmaRequirements[0] = RegionGate.GateRequirement.TwoKarma;
-                self.karmaRequirements[1] = RegionGate.GateRequirement.TwoKarma;
-                for(int i = 0; i < 2; i++)
-                {
-                    room.RemoveObject(self.karmaGlyphs[i]);
-                    self.karmaGlyphs[i] = new GateKarmaGlyph(i == 1, self, SunriseEnums.RegionGateReq.Nomad);
-                    room.AddObject(self.karmaGlyphs[i]);
-                }
-            }
-        }
-
-        private static void resetMaxKarmaTrespasser(On.Player.orig_Die orig, Player self)
-        {
-            if (!self.KarmaIsReinforced && self.IsTrespasser() && self.room.world.game.IsStorySession)
-            {
-                trespasserSaveData.Set<bool>("karmaSpecial", false);
-                self.room.world.game.GetStorySession.saveState.deathPersistentSaveData.karmaCap = 0;
-                self.room.world.game.GetStorySession.saveState.deathPersistentSaveData.karma = 0;
-            }
-            orig(self);
-        }
-
-        private static void karmaMeterCWTEnabler(On.HUD.KarmaMeter.orig_ctor orig, HUD.KarmaMeter self, HUD.HUD hud, FContainer fContainer, IntVector2 displayKarma, bool showAsReinforced) //this one causes the crash it seems
-        {
-            try
-            {
-                self.displayKarma = displayKarma;
-                self.showAsReinforced = showAsReinforced;
-                displayKarma.x = RWCustom.Custom.IntClamp(displayKarma.x, 0, displayKarma.y);
-                self.pos = new Vector2(Mathf.Max(55.01f, hud.rainWorld.options.SafeScreenOffset.x + 22.51f), Mathf.Max(45.01f, hud.rainWorld.options.SafeScreenOffset.y + 22.51f));
-                self.lastPos = self.pos;
-                self.rad = 22.5f;
-                self.lastRad = self.rad;
-                self.darkFade = new FSprite("Futile_White", true);
-                self.darkFade.shader = hud.rainWorld.Shaders["FlatLight"];
-                self.darkFade.color = new Color(0f, 0f, 0f);
-                fContainer.AddChild(self.darkFade);
-
-                if (!meterCWT.TryGetValue(self, out KarmaMeterCWTClass key))
-                {
-                    KarmaMeterCWTClass meter = new(self);
-                    if (meter.isTress)
-                    {
-                        if (meter.isNomad)
-                        {
-                            self.karmaSprite = new FSprite("smallKarma2");
-                        }
-                        else
-                        {
-                            self.karmaSprite = new FSprite("smallKarma4");
-                        }
-                        meterCWT.Add(self, meter);
-                    }
-                    else
-                    {
-                        self.karmaSprite = new FSprite(KarmaMeter.KarmaSymbolSprite(true, displayKarma), true);
-                    }
-                }
-                else if (meterCWT.TryGetValue(self, out KarmaMeterCWTClass meter))
-                {
-                    if (meter.isTress)
-                    {
-                        if (meter.isNomad)
-                        {
-                            self.karmaSprite = new FSprite("smallKarma2");
-                        }
-                        else
-                        {
-                            self.karmaSprite = new FSprite("smallKarma4");
-                        }
-                    }
-                    else
-                    {
-                        self.karmaSprite = new FSprite(KarmaMeter.KarmaSymbolSprite(true, displayKarma), true);
-                    }
-
-                }
-                self.karmaSprite.color = new Color(1f, 1f, 1f);
-                fContainer.AddChild(self.karmaSprite);
-                self.glowSprite = new FSprite("Futile_White", true);
-                self.glowSprite.shader = hud.rainWorld.Shaders["FlatLight"];
-                fContainer.AddChild(self.glowSprite);
-                if (ModManager.MSC)
-                {
-                    if (self.hud.owner is Player && (self.hud.owner as Player).SlugCatClass == MoreSlugcatsEnums.SlugcatStatsName.Artificer)
-                    {
-                        self.notSleptWith = !showAsReinforced;
-                        return;
-                    }
-                    self.notSleptWith = false;
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-                orig(self, hud, fContainer, displayKarma, showAsReinforced);
-            }
-            
-        }
-
-        private static void falseUpdateGraphics(On.HUD.KarmaMeter.orig_UpdateGraphic orig, HUD.KarmaMeter self)
-        {
-            try
-            {
-                if (self.hud.owner.GetOwnerType() == HUD.HUD.OwnerType.Player && meterCWT.TryGetValue(self, out KarmaMeterCWTClass meter) && meter.isTress)
-                {
-                    self.displayKarma.x = (self.hud.owner as Player).Karma;
-                    self.displayKarma.y = 1;
-                    if (meter.isNomad && self.displayKarma.x == 1)
-                    {
-                        self.karmaSprite.element = Futile.atlasManager.GetElementWithName("smallKarma2");
-                    }
-                    else
-                    {
-                        self.karmaSprite.element = Futile.atlasManager.GetElementWithName("smallKarma4");
-                    }
-                }
-                else
-                {
-                    orig(self);
-                }
-            }
-            catch(Exception e)
-            {
-                orig(self);
-                Debug.LogException(e);
-            }
-            
-        }
-
-        //karma section end
-
-        private static void Update(On.Player.orig_Update orig, Player self, bool e)
-        {
-            orig(self, e);
-
-            if (self.TryGetTrespasser(out var data))
-            {
-                if (!self.Consious || self.lungsExhausted || self.dead || self.exhausted || self.room == null)
-                {
-                    data.NoFakeDeadCounter = 80;
-                }
-            }
-        }
+        #endregion
 
         private static void MovementUpdate(On.Player.orig_MovementUpdate orig, Player self, bool eu)
         {
@@ -254,7 +176,7 @@ namespace SunriseIdyll
             const float normalGravity = 0.9f;
 
             //Initiate double jump 
-            if (data.triggerGlide && self.bodyMode != Player.BodyModeIndex.ZeroG && !data.holdingBigItem)
+            if (data.triggerGlide && self.bodyMode != Player.BodyModeIndex.ZeroG && !data.holdingBigItem && !self.input[0].pckp)
             {
                 data.CanInitGlide = false;
                 self.room.PlaySound(SoundID.Slugcat_Normal_Jump, self.mainBodyChunk.pos, 1f, 1f);
@@ -277,24 +199,28 @@ namespace SunriseIdyll
             if (data.holdingGlide && data.CanGlide && data.Gliding && self.mainBodyChunk.vel.y < 0f && !data.touchingTerrain)
             {
                 //glide physics
-                self.slugOnBack.interactionLocked = true;
-                self.eatCounter = 0;
+                if (self.slugOnBack != null)
+                {
+                    self.slugOnBack.interactionLocked = true;
+                }
                 if (self.spearOnBack != null)
                 {
                     self.spearOnBack.interactionLocked = true;
                 }
+                self.eatCounter = 0;
                 self.swallowAndRegurgitateCounter = 0;
                 self.noGrabCounter = 5;
                 self.standing = false;
                 self.WANTTOSTAND = false;
 
+                if (self.input[0].y > 0)
+                {
+                    self.input[0].y = 0;
+                    self.input[0].x = self.flipDirection;
+                }
+
                 if (self.graphicsModule as PlayerGraphics != null && self.graphicsModule is PlayerGraphics pg)
                 {
-                    if (self.input[0].y > 0)
-                    {
-                        pg.head.vel.y += 1f;
-                        pg.lookDirection.y += 0.5f;
-                    }
                     pg.head.vel.x += 1f * self.flipDirection;
                     pg.lookDirection.x += 0.5f * self.flipDirection;
                 }
@@ -308,30 +234,6 @@ namespace SunriseIdyll
 
                 foreach (BodyChunk chunk in self.bodyChunks)
                 {
-                    /*
-                    if (self.input[0].x == 0 || self.input[0].y == -1)
-                    {
-
-                    }
-                    else
-                    {
-                        
-                    }
-                    //Stop velocity when turning
-                    if (self.input[0].x != 0)
-                    {
-
-                    }
-                    else
-                    {
-                        //Slow down if not moving forwards
-                        chunk.vel.x = Mathf.Lerp(chunk.vel.x, 0, 0.2f);
-                        self.animation = Player.AnimationIndex.None;
-                        //implement diving
-                    }
-                    */
-
-
 
                     if (self.flipDirection != data.GlideDirection)
                     {
@@ -362,9 +264,9 @@ namespace SunriseIdyll
                     if (self.input[0].y < 0) uhh = 1.4f;
 
 
-                    if (data.GlideSpeed <= 20)
+                    if (data.GlideSpeed <= 30)
                     {
-                        float negative = Mathf.InverseLerp(0.5f, uhh, data.GlideSpeed / 20);
+                        float negative = Mathf.InverseLerp(0.5f, uhh, data.GlideSpeed / 30);
                         chunk.vel.y -= negative;
                     }
                     else chunk.vel.y = -0.5f;
@@ -402,65 +304,17 @@ namespace SunriseIdyll
             {
                 data.GlideCooldown = 10;
             }
-
-            //Logs
-            //Debug.Log("Glide Cooldown" + data.glideCooldown);
             orig(self, eu);
-
-
-            if (data.NoFakeDeadCounter > 0) data.NoFakeDeadCounter--;
-
-            if (!self.input[0].AnyDirectionalInput && self.input[0].thrw && data.NoFakeDeadCounter <= 0 && (!self.standing || self.bodyMode == Player.BodyModeIndex.CorridorClimb) && self.bodyChunks[0].ContactPoint.y < 0)
-            {
-                data.FakeDeadDelay++;
-                self.Blink(5);
-
-                if (data.FakeDeadDelay > 40)
-                {
-                    data.FakeDead = true;
-                }
-            }
-            else
-            {
-                data.FakeDead = false;
-                data.FakeDeadDelay = 0;
-            }
-
-            if (data.FakeDead)
-            {
-                data.FakeDeadCounter++;
-                self.animation = Player.AnimationIndex.None;
-                self.bodyMode = Player.BodyModeIndex.Stunned;
-                self.LoseAllGrasps();
-                self.noGrabCounter = 5;
-                self.swallowAndRegurgitateCounter = 0;
-                self.standing = false;
-                self.feetStuckPos = null;
-
-                //creature AI modification
-
-                var AIlist = self.room.updateList.OfType<Creature>().Select(x => x.abstractCreature.abstractAI?.RealAI).Where(x => x is not null);
-
-                foreach (var AI in AIlist)
-                {
-                    AI.discomfortTracker?.tracker?.ForgetCreature(self.abstractCreature);
-                    AI.threatTracker?.RemoveThreatCreature(self.abstractCreature);
-                    AI.preyTracker?.ForgetPrey(self.abstractCreature);
-                    AI.agressionTracker?.ForgetCreature(self.abstractCreature);
-                }
-
-                if (data.FakeDeadCounter > 300)
-                {
-                    data.FakeDead = false;
-                    data.NoFakeDeadCounter = 180;
-                    data.FakeDeadDelay = 0;
-                    data.FakeDeadCounter = 0;
-                    self.airInLungs = 0f;
-
-                    self.lungsExhausted = true;
-                }
-            }
         }
+
+        public static bool IsTrespasser(this Player pl)
+        {
+            return pl.SlugCatClass.value == "IDYLL.GlideScug";
+        }
+
+        public static readonly SlugcatStats.Name TrespasserName = new SlugcatStats.Name("IDYLL.GlideScug", false);
+
+        public static SlugBaseSaveData trespasserSaveData = SlugBase.SaveData.SaveDataExtension.GetSlugBaseData(new DeathPersistentSaveData(TrespasserName));
     }
 
     public class KarmaMeterCWTClass
