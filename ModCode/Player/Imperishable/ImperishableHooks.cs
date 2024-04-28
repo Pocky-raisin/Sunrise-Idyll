@@ -29,18 +29,22 @@ namespace SunriseIdyll
             return pl.SlugCatClass == ImperishableName;
         }
 
+        public static bool isImperishableWorld(this UpdatableAndDeletable obj)
+        {
+            return obj.room.world.game.session is StoryGameSession && (obj.room.world.game.session as StoryGameSession).saveStateNumber == ImperishableName;
+        }
+
         public static void dBreakerMinKarma(On.Player.orig_Update orig, Player self, bool eu)
         {
             orig(self, eu);
-            if (!self.room.game.IsStorySession)
+            if (!self.isImperishableWorld())
             {
                 return;
             }
-            imperishableSaveData.TryGet<int>("minKarma", out int minKarma);
-            imperishableSaveData.TryGet<int>("maxKarma", out int maxKarma);
-            if (self.slugcatStats.name == ImperishableName)
+            if (self.isPerish())
             {
-
+                imperishableSaveData.TryGet<int>("minKarma", out int minKarma);
+                imperishableSaveData.TryGet<int>("maxKarma", out int maxKarma);
                 if (minKarma <= 6)
                 {
                     maxKarma = minKarma + 2;
@@ -66,9 +70,9 @@ namespace SunriseIdyll
             }
         }
 
-        public static void decreaseMinKarmaOneStep(Player player)
+        public static void decreaseMinKarmaOneStep(Player self)
         {
-            if (player.slugcatStats.name == ImperishableName)
+            if (self.isPerish())
             {
                 imperishableSaveData.TryGet<int>("minKarma", out int minKarma);
                 minKarma--;
@@ -78,29 +82,31 @@ namespace SunriseIdyll
 
         public static void dBreakerMinKarmaOnDeath(On.Player.orig_Die orig, Player self)
         {
-            if (self.room.game.IsStorySession)
+            if (self.isImperishableWorld() && self.isPerish())
             {
-                if (self.slugcatStats.name == ImperishableName)
+                imperishableSaveData.TryGet<int>("minKarma", out int minKarma);
+                if (self.Karma == minKarma)
                 {
-                    imperishableSaveData.TryGet<int>("minKarma", out int minKarma);
-                    if (self.Karma == minKarma)
-                    {
-                        (self.room.game.session as StoryGameSession).saveState.deathPersistentSaveData.reinforcedKarma = true;
-                    }
+                    (self.room.game.session as StoryGameSession).saveState.deathPersistentSaveData.reinforcedKarma = true;
                 }
+                
             }
             orig(self);
         }
 
         public static void explodeJumpImperishable(On.Player.orig_Update orig, Player self, bool eu)
         {
+            int check = 0;
             orig(self, eu);
-            if (!self.room.game.IsStorySession)
+            if (!self.isImperishableWorld())
             {
                 return;
             }
-            imperishableSaveData.TryGet<int>("minKarma", out int check);
-            if(self.slugcatStats.name == ImperishableName && check >= 9)
+            if (self.isPerish())
+            {
+                imperishableSaveData.TryGet<int>("minKarma", out check);
+            }
+            if(check >= 9)
             {
                 if (self.Consious || self.dead)
                 {
@@ -261,40 +267,21 @@ namespace SunriseIdyll
 
         public static void damageGrabber(On.Player.orig_Update orig, Player self, bool eu)
         {
-            if (self.room.game.IsStorySession)
+            int check = 0;
+            if (self.isImperishableWorld())
             {
-                imperishableSaveData.TryGet<int>("minKarma", out int check);
+                if (self.isPerish())
+                {
+                    imperishableSaveData.TryGet<int>("minKarma", out check);
+                }
                 Creature grabber;
                 if (self.grabbedBy.Count > 0 && self.slugcatStats.name == ImperishableName && check >= 7)
                 {
-
-
                     for (int i = self.grabbedBy.Count - 1; i >= 0; i--)
                     {
                         grabber = self.grabbedBy[i].grabber;
-                        PhysicalObject.Appendage app = new PhysicalObject.Appendage(grabber, 999, grabber.bodyChunks.Length);
-                        PhysicalObject.Appendage.Pos pos = new PhysicalObject.Appendage.Pos(app, 0, 0.5f);
-                        try
-                        {
-                            if (grabber is Vulture || grabber is TentaclePlant || grabber is Inspector || grabber is PoleMimic || grabber is DaddyLongLegs)
-                            {
-                                grabber.Violence(self.mainBodyChunk, new Vector2(0, 0), null, null, WorldThings.Fire, 0.33f, 1f);
-                            }
-                            else if (grabber is Lizard liz)
-                            {
-                                grabber.Violence(self.mainBodyChunk, new Vector2(0, 0), grabber.mainBodyChunk, pos, WorldThings.Fire, 5f, 1f); //nullifies the effect of head shields
-                            }
-                            else
-                            {
-                                grabber.Violence(self.mainBodyChunk, new Vector2(0, 0), grabber.mainBodyChunk, pos, WorldThings.Fire, 0.33f, 1f);
-                            }
-                            grabber.Stun(80);
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.Log("G" + e);
-                        }
-                        self.cantBeGrabbedCounter += 30;
+                        grabber.takeFireDamage(0.5f, 0, self.firstChunk);
+                        self.cantBeGrabbedCounter += 40;
                         grabber.LoseAllGrasps();
 
                     }

@@ -206,5 +206,61 @@ namespace SunriseIdyll
             {
             }
         }
+
+        public class HarpoonSpear : Weapon, IDrawable
+        {
+            public HarpoonSpearAbstract Abstr { get; set; }
+
+            public float prop;
+            public float lastProp;
+            public float propSpeed;
+            public float plop;
+            public float lastPlop;
+            public int stuckBodyPart;
+            public bool InStorage;
+            public int damageTicks;
+            public int damageCount;
+            public Creature.DamageType damageType = WorldThings.Fire;
+
+            public HarpoonSpear(HarpoonSpearAbstract abstr, Vector2 pos, Vector2 vel, World world, int damageTicks) : base(abstr, world)
+            {
+                base.bodyChunks = new BodyChunk[1];
+                base.bodyChunks[0] = new BodyChunk(this, 0, new Vector2(0f, 0f), 6f, 0.2f);
+                this.bodyChunkConnections = new PhysicalObject.BodyChunkConnection[0];
+                base.airFriction = 0.999f;
+                base.gravity = 1.7f;
+                this.bounce = 0.4f;
+                this.surfaceFriction = 0.4f;
+                this.collisionLayer = 2;
+                base.waterFriction = 0.98f;
+                base.buoyancy = 0.4f;
+                this.stuckBodyPart = -1;
+                this.damageTicks = 40;
+                this.damageCount = 3;
+
+                Abstr = abstr;
+
+                bodyChunks[0].lastPos = bodyChunks[0].pos;
+                bodyChunks[0].vel = vel;
+            }
+
+            public override void Update(bool eu)
+            {
+                base.Update(eu);
+                if(this.stuckBodyPart >= 0)
+                {
+                    if(this.damageTicks == 0 && this.damageCount > 0)
+                    {
+                        this.damageCount--;
+                        this.damageTicks = 40; 
+                        //creature.takeFireDamage(0.5f, 0.1f, this.firstChunk);
+                    }
+                    else if(this.damageTicks > 0)
+                    {
+                        this.damageTicks--;
+                    }
+                }
+            }
+        }
     }
 }

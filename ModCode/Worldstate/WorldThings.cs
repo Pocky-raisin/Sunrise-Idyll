@@ -18,7 +18,8 @@ namespace SunriseIdyll
         public static void ApplyHooks()
         {
             On.Spear.HitSomething += SpearsFireDamage;
-            On.Creature.Violence += CreatureFireResist;
+            On.Spear.Update += doDamageOverTime;
+            On.Creature.Violence += creatureFireDamageCheck;
             /*
             BindingFlags flags =
             BindingFlags.Public |
@@ -34,6 +35,43 @@ namespace SunriseIdyll
             
         }
         public static Creature.DamageType Fire = new Creature.DamageType("Fire", true); //new damage type
+        public static Dictionary<Spear, int> FireSpearDamageTracker = new Dictionary<Spear, int>();
+
+        public static void addSpearToDict(On.Spear.orig_ctor orig, Spear self, AbstractPhysicalObject obj, World world)
+        {
+            orig(self, obj, world);
+            if (self.bugSpear)
+            {
+                FireSpearDamageTracker.Add(self, 40);
+            }
+        }
+
+        public static void doDamageOverTime(On.Spear.orig_Update orig, Spear self,  bool eu)
+        {
+            orig(self, eu);
+            
+            if (self.bugSpear && self.stuckInChunk != null)
+            {
+                if(self.stuckInChunk.owner is Creature)
+                {
+                    if (FireSpearDamageTracker.TryGetValue(self, out int timer) && timer == 0f)
+                    {
+                        (self.stuckInChunk.owner as Creature).takeFireDamage(0.1f, 0f, self.bodyChunks[0]);
+                        self.abstractSpear.hue -= 0.1f;
+                        if (self.abstractSpear.hue < 0.1f && self.abstractSpear.hue > 0f)
+                        {
+                            self.abstractSpear.hue = 0f;
+                        }
+                        FireSpearDamageTracker[self] = 40;
+                    }
+                    else
+                    {
+                        FireSpearDamageTracker[self]--;
+                    }
+                    
+                }
+            }
+        }
 
         public static bool SpearsFireDamage(On.Spear.orig_HitSomething orig, Spear self, SharedPhysics.CollisionResult result, bool eu) //makes bug spears do fire damage
         {
@@ -86,53 +124,126 @@ namespace SunriseIdyll
             
         }
 
-        public static void CreatureFireResist(On.Creature.orig_Violence orig, Creature self, BodyChunk source, UnityEngine.Vector2? directionAndMomentum, BodyChunk hitChunk, PhysicalObject.Appendage.Pos hitAppendage, Creature.DamageType type, float damage, float stunBonus) //sets the fire resistance for all creatures
+        public static void creatureFireDamageCheck(On.Creature.orig_Violence orig, Creature self, BodyChunk source, UnityEngine.Vector2? directionAndMomentum, BodyChunk hitChunk, PhysicalObject.Appendage.Pos hitAppendage, Creature.DamageType type, float damage, float stunBonus) //sets the fire resistance for all creatures
         {
-            if(type == Fire && self.abstractPhysicalObject.world.game.SunriseWorld())
+            if(type == Fire)
             {
-                //if-elif-else below determines how much damage is dealt
-                if (self.abstractCreature.lavaImmune || (self is EggBug && (self as EggBug).FireBug)) //affects creatures that don't take damage from acid water
+                if (!(source.owner is Spear))
                 {
-                    damage *= 0f;
+                    self.takeFireDamage(damage, stunBonus, source);
+                    return;
                 }
-                else if (self.abstractCreature.Winterized || self is Centipede) //affects creatures that are cold-adapted
+                damage = self.fireSpearDamageMultiplier(damage);
+                stunBonus *= 2;
+                if(self is MirosBird || (self is Vulture && (self as Vulture).IsMiros))
                 {
-                    damage *= 6f;
-                }
-                else if(self is BigSpider) //affects spiders
-                {
-                    (self as BigSpider).spewBabies = true; //makes it so the game thinks the spider has already laid its brood, in case the spider is a mother spider
-                    damage *= 3.6f;
-                }
-                else if(self is DropBug || (self is EggBug&& !(self as EggBug).FireBug) || self is NeedleWorm || self is Snail || self is Cicada || self is Fly) //affects all varieties of insects
-                {
-                    damage *= 3.6f;
-                }
-                else if((self is Vulture || self is VultureGrub) && !(self as Vulture).IsMiros) //affects non-miros vultures
-                {
-                    damage *= 2.7f;
-                }
-                else if(self is MirosBird || (self is Vulture && (self as Vulture).IsMiros)) //affects miros vultures and birds
-                {
-                    self.room.PlaySound(MoreSlugcatsEnums.MSCSoundID.Volt_Shock, self.firstChunk.pos, 2f, UnityEngine.Random.Range(0.8f, 1.2f)); //plays the volt_shock sound at double volume on hit 
-                    damage *= 9f;
-                    stunBonus *= 2f;
-                    if(hitAppendage != null && hitAppendage.appendage.appIndex > 0 && self is Vulture vul && vul.IsMiros)
-                    {
-                        damage *= 10f;
-                    }
-                }
-                else //affects all un-listed creatures
-                {
-                    damage *= 3f;
+                    stunBonus *= 3;
                 }
             }
             orig(self, source, directionAndMomentum, hitChunk, hitAppendage, type, damage, stunBonus); //calls orig with the newly updated damage value
         }
 
-        public static void uh()
+        public static float fireSpearDamageMultiplier(this Creature self, float damage)
         {
+            if (self.abstractCreature.lavaImmune || (self is EggBug && (self as EggBug).FireBug)) //affects creatures that don't take damage from acid water
+            {
+                damage *= 0f;
+            }
+            else if (self.abstractCreature.Winterized || self is Centipede) //affects creatures that are cold-adapted
+            {
+                damage *= 6f;
+            }
+            else if (self is BigSpider) //affects spiders
+            {
+                (self as BigSpider).spewBabies = true; //makes it so the game thinks the spider has already laid its brood, in case the spider is a mother spider
+                damage *= 3.6f;
+            }
+            else if (self is DropBug || (self is EggBug && !(self as EggBug).FireBug) || self is NeedleWorm || self is Snail || self is Cicada || self is Fly || self is Spider) //affects all varieties of insects
+            {
+                damage *= 3.6f;
+            }
+            else if ((self is Vulture || self is VultureGrub) && !(self as Vulture).IsMiros) //affects non-miros vultures
+            {
+                damage *= 2.7f;
+            }
+            else if (self is MirosBird || (self is Vulture && (self as Vulture).IsMiros)) //affects miros vultures and birds
+            {
+                self.room.PlaySound(MoreSlugcatsEnums.MSCSoundID.Volt_Shock, self.firstChunk.pos, 2f, UnityEngine.Random.Range(0.8f, 1.2f)); //plays the volt_shock sound at double volume on hit 
+                damage *= 9f;
+            }
+            else //affects all un-listed creatures
+            {
+                damage *= 3f;
+            }
+            return damage;
+        }
 
+        public static void takeFireDamage(this Creature self, float damage, float stunBonus, BodyChunk source)
+        {
+            if (source != null && source.owner is Creature)
+            {
+                self.SetKillTag((source.owner as Creature).abstractCreature);
+            }
+            if (self.abstractCreature.lavaImmune || (self is EggBug && (self as EggBug).FireBug)) //affects creatures that don't take damage from acid water
+            {
+                damage *= 0f;
+            }
+            else if (self.abstractCreature.Winterized || self is Centipede) //affects creatures that are cold-adapted
+            {
+                damage *= 6f;
+            }
+            else if (self is BigSpider) //affects spiders
+            {
+                (self as BigSpider).spewBabies = true; //makes it so the game thinks the spider has already laid its brood, in case the spider is a mother spider
+                damage *= 3.6f;
+            }
+            else if (self is DropBug || (self is EggBug && !(self as EggBug).FireBug) || self is NeedleWorm || self is Snail || self is Cicada || self is Fly || self is Spider) //affects all varieties of insects
+            {
+                damage *= 3.6f;
+            }
+            else if ((self is Vulture || self is VultureGrub) && !(self as Vulture).IsMiros) //affects non-miros vultures
+            {
+                damage *= 2.7f;
+            }
+            else if (self is MirosBird || (self is Vulture && (self as Vulture).IsMiros)) //affects miros vultures and birds
+            {
+                self.room.PlaySound(MoreSlugcatsEnums.MSCSoundID.Volt_Shock, self.firstChunk.pos, 2f, UnityEngine.Random.Range(0.8f, 1.2f)); //plays the volt_shock sound at double volume on hit 
+                damage *= 9f;
+                stunBonus *= 2f;
+            }
+            else //affects all un-listed creatures
+            {
+                damage *= 3f;
+            }
+            damage /= self.Template.baseDamageResistance;
+            float stun = (damage * 30f + stunBonus) / self.Template.baseStunResistance;
+            if (self.State is HealthState)
+            {
+                stun *= 1.5f + Mathf.InverseLerp(0.5f, 0f, (self.State as HealthState).health) * UnityEngine.Random.value;
+            }
+            if (self.room != null && self.room.game.IsArenaSession && self.room.world.game.GetArenaGameSession.chMeta != null && self.room.world.game.GetArenaGameSession.chMeta.resistMultiplier > 0f && !(self is Player))
+            {
+                damage /= self.room.world.game.GetArenaGameSession.chMeta.resistMultiplier;
+            }
+            if (self.room != null && self.room.game.IsArenaSession && self.room.world.game.GetArenaGameSession.chMeta != null && self.room.world.game.GetArenaGameSession.chMeta.invincibleCreatures && !(self is Player))
+            {
+                damage = 0f;
+            }
+            self.stunDamageType = Fire;
+            self.Stun((int)stun);
+            self.stunDamageType = Creature.DamageType.Water;
+            if(self.State is HealthState)
+            {
+                (self.State as HealthState).health -= damage;
+                if (self.Template.quickDeath && (UnityEngine.Random.value < -(self.State as HealthState).health || (self.State as HealthState).health < -1f || ((self.State as HealthState).health < 0f && UnityEngine.Random.value < 0.33f)))
+                {
+                    self.Die();
+                }
+            }
+            if (damage >= self.Template.instantDeathDamageLimit)
+            {
+                self.Die();
+            }
         }
     }
 }

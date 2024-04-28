@@ -332,16 +332,21 @@ namespace SunriseIdyll
                     TrespasserHooks.trespasserSaveData.Set<bool>("beatTrespasser", false);
                     TrespasserHooks.trespasserSaveData.Set<bool>("karmaSpecial", false);
                     TrespasserHooks.trespasserSaveData.Set<string>("fatalShelter", "");
-                    TrespasserWorld.foundTokens.Add("SU", false);
-                    TrespasserWorld.foundTokens.Add("HI", false);
-                    TrespasserWorld.foundTokens.Add("UG", false);
-                    TrespasserWorld.foundTokens.Add("CC", false);
-                    TrespasserWorld.foundTokens.Add("VS", false);
-                    TrespasserWorld.foundTokens.Add("GW", false);
-                    TrespasserWorld.foundTokens.Add("SL", false);
-                    TrespasserWorld.foundTokens.Add("SI", false);
-                    TrespasserWorld.foundTokens.Add("LF", false);
-                    TrespasserWorld.foundTokens.Add("LT", false);
+                    TrespasserWorld.foundTokens.Add("SU_HI", false);
+                    TrespasserWorld.foundTokens.Add("LF_SU", false);
+                    TrespasserWorld.foundTokens.Add("SU_UG", false);
+                    TrespasserWorld.foundTokens.Add("HI_CC", false);
+                    TrespasserWorld.foundTokens.Add("HI_GW", false);
+                    TrespasserWorld.foundTokens.Add("HI_VS", false);
+                    TrespasserWorld.foundTokens.Add("UG_CC", false);
+                    TrespasserWorld.foundTokens.Add("UG_GW", false);
+                    TrespasserWorld.foundTokens.Add("CC_SI", false);
+                    TrespasserWorld.foundTokens.Add("GW_SL", false);
+                    TrespasserWorld.foundTokens.Add("SI_VS", false);
+                    TrespasserWorld.foundTokens.Add("SL_VS", false);
+                    TrespasserWorld.foundTokens.Add("SI_LF", false);
+                    TrespasserWorld.foundTokens.Add("SL_LT", false);
+                    TrespasserWorld.foundTokens.Add("CL_LT", false);
                     bool flag = true;
                     for(int i = 0; i < ModManager.InstalledMods.Count; i++)
                     {
@@ -352,13 +357,19 @@ namespace SunriseIdyll
                     }
                     if (flag)
                     {
-                        TrespasserWorld.foundTokens.Add("CL", false);
+                        TrespasserWorld.foundTokens.Add("HI_CL", false);
+                        TrespasserWorld.foundTokens.Add("GW_CL", false);
+                        TrespasserWorld.foundTokens.Add("SL_CL", false);
                     }
                     else
                     {
-                        TrespasserWorld.foundTokens.Add("RP", false);
-                        TrespasserWorld.foundTokens.Add("JW", false);
-                        TrespasserWorld.foundTokens.Add("CE", false);
+                        TrespasserWorld.foundTokens.Add("HI_RP", false);
+                        TrespasserWorld.foundTokens.Add("SL_RP", false);
+                        TrespasserWorld.foundTokens.Add("VS_JW", false);
+                        TrespasserWorld.foundTokens.Add("RP_JW", false);
+                        TrespasserWorld.foundTokens.Add("JW_CE", false);
+                        TrespasserWorld.foundTokens.Add("GW_CE", false);
+                        TrespasserWorld.foundTokens.Add("RP_CE", false);
                     }
                 }
             }
@@ -381,13 +392,6 @@ namespace SunriseIdyll
             }
             orig(self, slugcatName);
         }
-
-        
-
-        //player.slugcatStats.name == LampHooks.LampName <--less efficient for slugcatname checks, but use for storycharacter checks(if not already checking Chandler as well)
-        //player.isLampScug() <------inbuilt function for checking if a scug is lamplighter
-        //player.TryGetLamp(out var data) <-----functions as both a slugcat check and returns data
-        //btw this goes for Trespasser as well
 
         public static float extraSpears(On.SlugcatStats.orig_SpearSpawnModifier orig, SlugcatStats.Name index, float originalChance)
         {

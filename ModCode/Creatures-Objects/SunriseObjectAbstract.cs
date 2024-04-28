@@ -27,5 +27,13 @@ namespace SunriseIdyll
                 if (Lifetime > MaxLifetime) Lifetime = MaxLifetime;
             }
         }
+
+        public class HarpoonSpearAbstract : AbstractPhysicalObject
+        {
+            public HarpoonSpearAbstract(World world, WorldCoordinate pos, EntityID ID, Color col) : base(world, null, null, pos, ID)
+            {
+
+            }
+        }
     }
 }

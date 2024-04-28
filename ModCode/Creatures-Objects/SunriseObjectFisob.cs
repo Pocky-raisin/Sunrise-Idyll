@@ -30,5 +30,29 @@ namespace SunriseIdyll
                 return new WarmSlimeAbstract(world, entitySaveData.Pos, entitySaveData.ID, Custom.hexToColor("EB5803"));
             }
         }
+
+        /*public class HarpoonSpearFisob : Fisob
+        {
+            public static readonly AbstractPhysicalObject.AbstractObjectType HarpoonSpear = new("HarpoonSpear", true);
+            public static readonly MultiplayerUnlocks.SandboxUnlockID UnlockHarpoonSpear = new("UnlockHarpoonSpear", true);
+
+            public HarpoonSpearFisob() : base(HarpoonSpear)
+            {
+                Icon = new SimpleIcon("Symbol_HarpoonSpear", Custom.hexToColor("010101"));
+                SandboxPerformanceCost = new(linear: 0.1f, exponential: 0f);
+                RegisterUnlock(UnlockHarpoonSpear, parent: MultiplayerUnlocks.SandboxUnlockID.Slugcat);
+            }
+
+            public static readonly HarpoonSpearProperties properties = new();
+            public override ItemProperties Properties(PhysicalObject forObject)
+            {
+                return properties;
+            }
+
+            public override AbstractPhysicalObject Parse(World world, EntitySaveData entitySaveData, SandboxUnlock unlock)
+            {
+                return new HarpoonSpearAbstract(world, entitySaveData.Pos, entitySaveData.ID, Custom.hexToColor("010101"));
+            }
+        }*/
     }
 }
